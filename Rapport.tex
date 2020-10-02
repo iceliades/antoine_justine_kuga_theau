@@ -1,0 +1,72 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage{graphicx}
+\usepackage[francais]{layout}
+\usepackage[hidelinks]{hyperref}
+
+
+\DeclareGraphicsExtensions{.png}
+
+
+\title{Projet Zorglub}
+\author{Charlet Justine Descatoire Theau \\ Montmaur Antoine  Sathiakumar Kuga}
+
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\tableofcontents
+	
+	\chapter{Environnement de développement}
+	\section{Introduction}
+	Le Projet Logiciel Transverse (PLT) est un projet de 120h destiné à la conception d'un jeu vidéo de type tour par tour, avec un réseau multi joueur en ligne. Il fait intervenir la plupart des cours dispensés en Informatique et Systèmes à l'ENSEA : génie logiciel, algorithmique, programmation parallèle et web services. \\
+	\indent Au cours de ce projet, nous allons faire de la conception UML, réaliser un moteur d'affichage, créer une IA basique, puis l'améliorer, et enfin développer ce jeu en multijoueur, de façon à pouvoir jouer en ligne.
+	
+	\section{Présentation du jeu}
+	
+	\subsection{Archétype du jeu}
+	L'objectif de notre projet est la réalisation d'un jeu vidéo de type tactical RPG (T-RPG), en tour par tour, basé sur le jeu Donjon de Naheulbeuk. 
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width = 0.4\columnwidth]{image_latex/donjon.png}
+		\caption{Logo de Donjon de Naheulbeuk}
+	\end{figure}
+	
+	
+	
+	\subsection{Règles du jeu}
+	Chaque joueur doit choisir une équipe de 3 personnages parmi les suivants : Pirate, Elfe, Troll, Indien, Nain, Bandit et chevalier. \\
+	
+	
+	\indent A chaque personnage est associé des attributs principaux et secondaires. La répartition des points pour chaque attribut principal se fait par achat de point: 
+
+	\begin{verbatim}
+
+	8 < Force < 15 
+	8 < Adresse < 15 
+	8 < Endurance < 15
+	8 < Courage < 15
+	8 < Intelligence < 15
+	8 < Mouvement < 15
+	
+	\end{verbatim}
+	
+	Tout les attributs principaux sont à 8 par défaut et le joueur dispose de 27 points pour améliorer les capacités de son choix, chaque capacité n'excédant pas 15.
+	
+	\subsection{Outils pour la réalisation du jeu}
+	Ce projet est développé en langage C++, très adapté pour les jeux vidéos.
+	sfml
+	linux
+	
+	
+	\subsection{Diagramme}
+	
+	
+\end{document}
+
+
+ 
