@@ -81,7 +81,7 @@
 	
 	
 	\subsection{Les personnages et leurs maps}
-	Nous avons crées nos propres personnages et nos propres règles.\\
+	Nous avons créé nos propres personnages et nos propres règles.\\
 	Chaque joueur doit choisir une équipe de 3 personnages parmi les suivants : Elfe, Indien, Nain, Bandit, Chevalier, Troll et Pirate.  \\
 
 	\indent Le jeu comporte 7 maps représentant les 7 thèmes associés aux personnages : 
@@ -178,11 +178,11 @@
 	. \\ 
 	Tous les attributs principaux sont à 8 par défaut et le joueur dispose de 27 points pour améliorer les capacités de son choix, chaque capacité n'excédant pas 15. Si un attribut dépasse 13, il faut alors 2 pts pour passer à 14, puis à 15. \\
 	
-	Les points attribués aux attributs secondaires sont calculés automatiquement en fonction des attributs primaires de la manière suivantes : \\ \\
+	Les points attribués aux attributs secondaires sont calculés automatiquement en fonction des attributs primaires de la manière suivante : \\
 	
 	\begin{tabular}{|c|c|}
 		\hline
-		\multicolumn{2}{|c|}{Attributs secondaires} \\
+		\multicolumn{2}{|c|}{\textbf{Attributs secondaires}} \\
 		\hline
 		Points De Vie & 3 * Endurance + 2 * Force \\
 		\hline
@@ -196,24 +196,30 @@
 		\hline
 	\end{tabular}
 	
-	.\\ \\ 
+	.\\ 
 	
 	
-	Il est aussi possible d'utiliser les compétences des personnages, établies comme suit : \\ \\
-	\begin{tabular}{|c|c|c|}
+	Il est aussi possible d'utiliser les compétences des personnages, établies comme suit : \\ 
+
+	\begin{tabular}{|c|c|c|} 
+		
 		\hline
 		\textbf{Corps-à-corps} & \textbf{A distance} & \textbf{Magie} \\
 		\hline
-		- 2 pt d'actions (ts ls 3 tours) & Bebonds (2) &Téléportation (1) \\
+		- 2 pt d'actions (ts ls 3 tours) & Rebonds (ts ls 2 tours) &Téléportation (1) \\
+		\textit{Le joueur 2 ne joue pas} & \textit{L'attaque rebondit 2 fois} &  \\
 		\hline
 		Pas de mouvement (2)& Pluie de projectiles (2) & Désarmement (2) \\
+		& \textit{Joueur 2 essuie 3 attaques} & \\
 		\hline
 	\end{tabular}
-	. \\ \\
+	. \\
+	
+	Chaque compétence vaut 1 point d'action et ne dure qu'un tour. Ces compétences ont un temps de rechargement exprimé en nombre de tours (voir tableau ci-dessus). \\ \\
 	\textbf{Bonus thématique}\\
-	De plus, si un personnage joue dans la map de même thème (ex : Elfe dans la jungle), alors le personnage se voit attribuer un bonus de 5 point de vie. \\ \\
+	De plus, si un personnage joue dans la map de même thème (ex : Elfe dans la jungle), alors le personnage se voit attribuer un bonus de 5 points de vie. \\ \\
 	\textbf{Bonus Taxon} \\ 
-	De même, chaque personnage a un bonus lié à son origine,selon le tableau ci-dessous: \\ \\
+	De même, chaque personnage a un bonus lié à son origine, selon le tableau ci-dessous: \\ \\
 	
 	
 	\begin{tabular}{|c|c|}
@@ -235,16 +241,16 @@
 		Pirate & +1 au choix dans un attribut primaire (car c'est un voleur)\\
 		\hline
 	\end{tabular}
-	.\\ \\
+
 	
 	
 	
 	
 	
 	\subsection{Le tour par tour} 
-	A chaque tour, le joueur dispose de 2 points d'action. Pour chaque point il peut soit se déplacer, soit attaquer, soit utiliser une compétence.\\ \\
+	A chaque tour, le joueur dispose de 2 points d'action. Pour chaque point, il peut soit se déplacer, soit attaquer, soit utiliser une compétence. Pour chaque tour, il n'est pas possible de réaliser une attaque et une compétence. \\ \\ \\
 	\textbf{\underline{Les attaques}}\\ \\
-	Trois types d'attaques sont disponibles: le corps-à-corps, attaque à distance, ou attaque magique.\\ \\ \\ Pour chaque arme, une portée minimale et maximale est donnée dans le tableau si dessous : \\ 
+	Trois types d'attaques sont disponibles: le corps-à-corps, attaque à distance, ou attaque magique.\\ \\ \\ Pour chaque arme, une portée minimale et maximale est donnée dans le tableau ci dessous : \\ \\ \\
 	
 	
 	
@@ -257,13 +263,13 @@
 		\hline
 		& \multicolumn{2}{|c|}{\textbf{Portée}} & & \multicolumn{2}{|c|}{\textbf{Portée}} & & \multicolumn{2}{|c|}{\textbf{Portée}} \\
 		\hline
-		\textbf{Arme} & Min & \textbf{Max} & \textbf{Arme}& Min & Max & \textbf{Arme}& Min & Max\\
+		\textbf{Arme} & Min & Max & \textbf{Arme}& Min & Max & \textbf{Arme}& Min & Max\\
 		\hline 
 		Epée & 1 & 2 & Arc & 2 & 8 & Baguette & 3 & 4,5 \\
 		\hline
 		Hache & 1 & 1,5 & Arbalette & 2 & 7 & Bâton & 3 & 4\\
 		\hline
-		Lance & 1 & 2,5 & Fronde & 2 & 6,5 &  Bracelet & 3 & 5 \\
+		Lance & 1 & 2,5 & Fronde & 2 & 6,5 &  Bracelets & 3 & 5 \\
 		\hline
 
 	\end{tabular}
@@ -290,15 +296,44 @@
 	.\\ \\
 	\textbf{Les déplacements}\\
 	
-	Chaque personnage peut se déplacer de 5 cases verticales et/ou horizontales, avec un bonus de 1 ou 2 cases s'il choisit de maxer l'attribut secondaire "Mouvement".
+	Chaque personnage peut se déplacer de 5 unités de distance: selon la verticale et/ou horizontale pour une valeur de 1 unité par case, et en diagonale pour une valeur de 1,5 unité de distance par case. Le joueur peut également avoir un bonus de 1 ou 2 unité de distance s'il choisit de maxer l'attribut secondaire "Mouvement".\\ Exemple:
+	\begin{figure*}[h]
+		\centering
+		\begin{subfigure}[b]{0.4\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{image_latex/hv.png}
+			\caption{4 cases de distance} 
+		\end{subfigure}
+		\begin{subfigure}[b]{0.4\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{image_latex/diag.png}
+			\caption{3,5 cases (1,5+2)}
+		\end{subfigure}
+	\end{figure*}
 	
-
+	\newpage
+	
 	\section{Diagramme}
+	\subsection{Diagramme d'états}
 	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 1.34\columnwidth, angle = 90]{image_latex/diaetat.png}
+		
+	\end{figure}
+	\newpage
 	\subsection{Diagramme de classes}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 1.42\columnwidth, angle = 90]{image_latex/diaclasse.png}
+		
+	\end{figure}
 
-	\subsection{Diagramme de séquence}
-	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 1.8\columnwidth, angle = 90]{image_latex/diaclasse2.png}
+		
+	\end{figure}
 	
 \end{document}
 
