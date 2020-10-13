@@ -23,11 +23,11 @@ There are none yet
 Nothing to see here move along.
 
 ## Authors
-..+[Antoine]()
+⋅⋅+[Antoine]()
 
-..+[Justine]()
+⋅⋅+[Justine]()
 
-..+[Kuga](https://github.com/Kuga23/)
+⋅⋅+[Kuga](https://github.com/Kuga23/)
 
-..+[Theau](https://github.com/iceliades/)
+⋅⋅+[Theau](https://github.com/iceliades/)
 
