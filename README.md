@@ -16,10 +16,15 @@ sudo apt-get install libsfml -dev
 
 ## Build Instructions
 ```bash
-//There are none yet
+There are none yet
 ```
 ## Report
 
-##Authors
 
+
+##Authors
+Antoine()
+Justine()
+Kuga(https://github.com/Kuga23/)
+Theau(https://github.com/iceliades/)
 
