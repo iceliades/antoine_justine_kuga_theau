@@ -16,7 +16,7 @@ sudo apt-get install libsfml -dev
 
 ## Build Instructions
 ```bash
-\*There are none yet*\
+//There are none yet
 ```
 ## Report
 
