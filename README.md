@@ -22,9 +22,9 @@ There are none yet
 
 
 
-##Authors
-Antoine()
-Justine()
-Kuga(https://github.com/Kuga23/)
-Theau(https://github.com/iceliades/)
+## Authors
+[Antoine]()
+[Justine]()
+[Kuga](https://github.com/Kuga23/)
+[Theau(https://github.com/iceliades/)
 
