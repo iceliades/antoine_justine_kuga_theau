@@ -12,6 +12,7 @@ In order to get the game running  you will need smfl libraries.
 
 ```bash
 sudo apt-get install libsfml -dev
+sudo apt-get install libboost-all-dev
 ```
 
 ## Build Instructions
