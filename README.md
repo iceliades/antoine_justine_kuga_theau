@@ -23,11 +23,9 @@ There are none yet
 Nothing to see here move along.
 
 ## Authors
-⋅⋅* [Antoine](www.linkedin.com/in/antoine-montmaur-918936175)
 
-⋅⋅* [Justine](www.linkedin.com/in/justine-charlet-0512 )
-
-⋅⋅* [Kuga](https://github.com/Kuga23/)
-
-⋅⋅* [Theau](https://github.com/iceliades/)
+* [Antoine](www.linkedin.com/in/antoine-montmaur-918936175)
+* [Justine](www.linkedin.com/in/justine-charlet-0512 )
+* [Kuga](https://github.com/Kuga23/)
+* [Theau](https://github.com/iceliades/)
 
