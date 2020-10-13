@@ -10,14 +10,14 @@ The recommended environment to use and install this project is a linux distribut
 ### Depedencies to install
 In order to get the game running  you will need smfl libraries.
 
-'''bash
+```bash
 sudo apt-get install libsfml -dev
-'''
+```
 
 ## Build Instructions
-'''bash
+```bash
 sdhgsdkjfghsdfkjgh
-'''
+```
 ## Report
 
 ##Authors
