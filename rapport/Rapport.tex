@@ -7,45 +7,27 @@
 \usepackage[francais]{layout}
 \usepackage[hidelinks]{hyperref}
 \usepackage{subcaption}
-
 \DeclareGraphicsExtensions{.png}
+\usepackage{lscape}
 
-%%%%%%
-
-
-
-%%%%%%
 
 \begin{document}
 
-
 	\begin{figure}
-		\includegraphics[width = 0.2 \textwidth]{image_latex/logo.png}
+		\includegraphics[width = 0.2\textwidth]{Logo_ENSEA.svg.png}
 	\end{figure}
 
 	
 	\title{\textbf{Projet Zorglub}}
-	\author{\hline \\ Charlet Justine, Descatoire Theau \\ Montmaur Antoine,  Sathiakumar Kuga \\ \\ \hline \\  \includegraphics[width = 0.7 \textwidth]{image_latex/logo_zorglub.png} }
-	
-	
-	\date{\textbf{ 6 Octobre 2020}}
+	\author{\hline \\ Charlet Justine, Descatoire Théau \\ Montmaur Antoine,  Sathiakumar Kuga \\ \\ \hline \\  \includegraphics[width = 0.6 \textwidth]{logo_zorglub.png} }
+	\date{\textbf{6 Octobre 2020}}
 
 	
-	
-	
-	
+
 	
 	
 	\maketitle
 	\tableofcontents
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	\chapter{Environnement de développement}
@@ -71,7 +53,7 @@
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width = 0.5\columnwidth]{image_latex/donjon.png}
+		\includegraphics[width = 0.5\columnwidth]{donjon.png}
 		\caption{Logo de Donjon de Naheulbeuk}
 	\end{figure}
 	
@@ -104,41 +86,41 @@
 		\centering
 		\begin{subfigure}[b]{0.2\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/elfe.png}
+			\includegraphics[width=\textwidth]{elfe.png}
 			\caption{Elfe} 
 		\end{subfigure}
 		\begin{subfigure}[b]{0.2\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/indien.png}
+			\includegraphics[width=\textwidth]{indien.png}
 			\caption{Indien}
 		\end{subfigure}
 		\begin{subfigure}[b]{0.2\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/nain.png}
+			\includegraphics[width=\textwidth]{nain.png}
 			\caption{Nain}
 		\end{subfigure}
 		
 		
 		\begin{subfigure}[b]{0.2\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/bandit.png}
+			\includegraphics[width=\textwidth]{bandit.png}
 			\caption{Bandit} 
 		\end{subfigure}
 		\begin{subfigure}[b]{0.2\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/chevalier.png}
+			\includegraphics[width=\textwidth]{chevalier.png}
 			\caption{Chevalier}
 		\end{subfigure}
 		\begin{subfigure}[b]{0.2\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/troll.png}
+			\includegraphics[width=\textwidth]{troll.png}
 			\caption{Troll}
 		\end{subfigure}
 		
 		
 		\begin{subfigure}[b]{0.2\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/pirate.png}
+			\includegraphics[width=\textwidth]{pirate.png}
 			\caption{Pirate}
 		\end{subfigure}
 
@@ -207,10 +189,10 @@
 		\textbf{Corps-à-corps} & \textbf{A distance} & \textbf{Magie} \\
 		\hline
 		- 2 pt d'actions (ts ls 3 tours) & Rebonds (ts ls 2 tours) &Téléportation (1) \\
-		\textit{Le joueur 2 ne joue pas} & \textit{L'attaque rebondit 2 fois} &  \\
+		\textit{Le joueur adv ne joue pas} & \textit{L'attaque rebondit 2 fois} &  \\
 		\hline
 		Pas de mouvement (2)& Pluie de projectiles (2) & Désarmement (2) \\
-		& \textit{Joueur 2 essuie 3 attaques} & \\
+		& \textit{Joueur adv essuie 3 attaques} & \\
 		\hline
 	\end{tabular}
 	. \\
@@ -286,7 +268,7 @@
 			Lance & 12\\
 			Arc & 6\\
 			Arbalette & 7 \\
-			Fronde & 8 \\
+			Fronde & 8 \\
 			Baguette & 10 \\
 			Bâton & 11 \\
 			Bracelet & 9 \\
@@ -301,38 +283,143 @@
 		\centering
 		\begin{subfigure}[b]{0.4\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/hv.png}
+			\includegraphics[width=\textwidth]{hv.png}
 			\caption{4 cases de distance} 
 		\end{subfigure}
 		\begin{subfigure}[b]{0.4\linewidth}
 			\centering
-			\includegraphics[width=\textwidth]{image_latex/diag.png}
+			\includegraphics[width=\textwidth]{diag.png}
 			\caption{3,5 cases (1,5+2)}
 		\end{subfigure}
 	\end{figure*}
 	
 	\newpage
-	
-	\section{Diagramme}
-	\subsection{Diagramme d'états}
+	\section{Textures}
 	
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width = 1.34\columnwidth, angle = 90]{image_latex/diaetat.png}
-		
+		\includegraphics[width = 0.6\columnwidth]{texture_perso.png}
+		\caption{Texture des personnages}
 	\end{figure}
-	\newpage
-	\subsection{Diagramme de classes}
+	
 	\begin{figure}[h!]
 		\centering
-		\includegraphics[width = 1.42\columnwidth, angle = 90]{image_latex/diaclasse.png}
-		
+		\includegraphics[width = 1\columnwidth]{texture_text.png}
+		\caption{Texture de la police}
 	\end{figure}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.35\columnwidth]{texture_fond.png}
+		\caption{Texture du fond}
+	\end{figure}
+	
+	
+	
+	
+	
+	\chapter{Description et conception des états}
+	
+	
+	
+	
+	\section{Diagramme d'états}
+	Un état du jeu est formée par une map et un ensemble de personnage. Tous les éléments (map et personnages) sont représentés par des carrés composants la map. Ces carrés possèdent : \\
+— Une coordonnée (x,y) \\
+— Un identifiant \\ 
+	
+	\textbf{Les élements} \\
+	
+	Les map sont au nombre de 7, rectangulaires et de tailles identiques. \\ \\
+	\indent \textit{Le fond} \\
+	Il y a toutes sortes de texture qui s'adaptent aux décors voulu; texture de forêt dense pour la jungle, de l'herbe pour les plaines, des rochers pour les montagnes, des arbres pour la forêt, des pierres pour le château fort, de la terre pour la grotte, et des planche de bois pour le sol du bateau.\\
+	
+	\indent \textit{Les personnages} \\ Les différents personnages n'intéragissent pas avec la texture de fond. \\
+	
+	\indent \textit{Les décors} \\ Par ailleurs, des décors seront apposé sur cette texture de fond (comme des tonneaux, des trons d'arbres ou des rochers imposants. Ces décors seront infranchissable par les personnages et bloqueront la portée de leur arme.
+	
 
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[width = 1.8\columnwidth, angle = 90]{image_latex/diaclasse2.png}
-		
-	\end{figure}
+
+
+	\begin{landscape}
+    	\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width = 1.1\columnwidth]{state.png}
+    		\caption{Diagramme d'état du jeu}
+    	\end{figure}
+	\end{landscape}
 	
+	
+	
+	\section{Diagramme de classes}
+	
+	
+	Le diagramme des classes est représenté ci-dessous. Voici les classes qui le compose: \\ \\ \\ 
+    \textbf{Character} \\ \\ 
+    Chaque personnage (Character) est joué par un joueur (Player), d'ou le lien de composition entre le deux. \\ \\
+    \textbf{Player} \\ \\ 
+    Dans la classe Player, on retrouve le constructeur, et destructeur, ainsi que les setters et les accesseurs pour fixer ou obtenir l'état du joueur. \\ \\
+    \textbf{Species} \\ \\
+    La classe espèce (Species), qui recense les différents personnage est une interface, qui permet de représenter le polymorphisme. La relation entre Species et toutes les classes (en vertes) est une relation d'héritage. \\ \\
+    \textbf{Effect} \\ \\
+    Lorsqu'un personnage subit une attaque, celui-ci passe dans un état qui peut être étourdit, brulé... Cet état est représenté dans la classe Efect.
+    
+    
+    
+    
+    
+    
+    
+	
+    
+    
+    \begin{landscape}
+        \begin{figure}[h!]
+    		\centering
+    		\includegraphics[width = 1\columnwidth]{diaclasse2.png}
+    		\caption{1ère partie du diagramme de classe, relative aux personnages}
+    	\end{figure}
+    \end{landscape}
+    	
+    	
+    Dans le second diagramme, les armes (classes en vertes) héritent toutes de la classe Weapon, qui fait office d'interface. Des fonctions de bases ou par défault sont définies dans la classe mère, puis redéfinies ou non dans les classes filles.
+    \begin{landscape}
+    	\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width = 1\columnwidth]{diaclasse.png}
+    		\caption{2ème partie du diagramme de classe, relative aux armes des personnages}
+    	\end{figure}
+    \end{landscape}
+	
+    \begin{landscape}
+    	\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width = 1\columnwidth]{engine.png}
+    		\caption{Diagramme engine}
+    	\end{figure}
+    \end{landscape}
+
+
+
+
+
+
+	\chapter{Rendu : Stratégie et Conception}
+	\begin{landscape}
+    	\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width = 1\columnwidth]{render.png}
+    		\caption{Diagramme de rendu du jeu}
+    	\end{figure}
+    \end{landscape}
+	
+	
+	
+	
+
+
+
+
+\bibliographystyle{plain}
+\bibliography{references}
 \end{document}
