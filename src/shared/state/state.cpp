@@ -29,7 +29,7 @@ namespace state{
         int x = 6;
         e.setTileCode(x);
         BOOST_CHECK_EQUAL(e.getTileCode(),x);
-        BOOST_CHECK_EQUAL(e.getName(),);
+        BOOST_CHECK_EQUAL(e.getName(),"ok");
     };
 
 };
