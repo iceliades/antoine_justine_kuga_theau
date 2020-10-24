@@ -1,9 +1,11 @@
 //
 // Created by theau on 24/10/2020.
 //
+    #include <boost/test/unit_test.hpp>
 #include <string>
-#include "../../src/shared/state/   Element.h"
-#include <boost/test/unit_test.hpp>
+#include "../../src/shared/state.h"
+#include "../../src/shared/state/Element.h"
+
 
 namespace state{
 
