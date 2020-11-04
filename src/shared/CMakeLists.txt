@@ -15,6 +15,7 @@ add_dependencies(${lib_shared_target} generate-headers)
 target_include_directories(${lib_shared_target} PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
   )
+set_target_properties(shared_static PROPERTIES LINKER_LANGUAGE CXX)
 
 # vim: set sw=2 sts=2 et:
 

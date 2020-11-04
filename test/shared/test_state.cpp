@@ -13,7 +13,7 @@ namespace state{
         this->tileCode = x;
     };
 
-    int Element::getTileCode(){
+    static int Element::getTileCode(){
         return this->tileCode;
     };
 
