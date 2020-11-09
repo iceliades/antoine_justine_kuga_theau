@@ -1,4 +1,3 @@
-
 set(lib_shared_target shared_static)
 
 # Generate header files from dia UML files
