@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <unistd.h>
 // Les lignes suivantes ne servent qu'à vérifier que la compilation avec SFML fonctionne
 #include <SFML/Graphics.hpp>
 
@@ -10,7 +10,8 @@ void testSFML() {
 // Fin test SFML
 
 #include <state.h>
-#include "../../test/shared/test_shared_state.h"
+#include <stdio.h>
+#include <string.h>
 
 using namespace std;
 using namespace state;
@@ -20,9 +21,14 @@ int main(int argc,char* argv[])
     //Exemple exemple;
     //exemple.setX(53);
     if(argc>1) {
-        if (string(argv[1]) == "hello")cout << "Bonjour le monde!" << endl;
-        else if (string(argv[1]) == "state") {
-            state::test_shared_state();
+        if (strcmp(argv[1],"hello") == 0){
+            cout<<"----------------------Test 'Hello World'-------------------------\n"<<endl;
+            cout << "Bonjour le monde!\n" << endl;
+
+            cout<<"----------------------Fin du test 'Hello World'-------------------------\n"<<endl;
+        }
+        else if (strcmp(argv[1],"state") == 0) {
+            ;
         }
 
     }
