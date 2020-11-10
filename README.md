@@ -8,7 +8,7 @@ This project's aim is to make a video game in C++ as a final assignment for all 
 The recommended environment to use and install this project is a linux distribution of your choosing. Preferably Ubuntu 16.04 and upwards.
 
 ### Depedencies to install
-In order to get the game running  you will need smfl and boost libraries.
+In order to get the game running  you will need smfl libraries.
 
 ```bash
 sudo apt-get install libsfml -dev
@@ -19,16 +19,9 @@ sudo apt-get install libboost-all-dev
 ```bash
 There are none yet
 ```
-## Hello World
-```bash
-./bin/client hello
-```
-
 ## Test
-
-```bash
-cd /build/test/shared/
-./test_shared_test
+```
+cd ./build/test/shared
 ```
 
 ## Report
