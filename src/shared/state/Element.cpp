@@ -2,11 +2,12 @@
 
 namespace state {
 
+    
     Element::Element() {
 
          name = "Nom";
          position = Position();
-         tileCode = 1;
+         tileCode = 2;
     }
 
     Element::~Element() {
