@@ -17,13 +17,11 @@ namespace state{
         BOOST_AUTO_TEST_CASE(TestState)
         {
             Element e;
-            int x = 6;
+            int x =1;
+
             e.setTileCode(x);
-            e.setName("ok");
+            e.setName("Name");
             BOOST_CHECK_EQUAL(e.getTileCode(), 1);
-
-
-            BOOST_CHECK_EQUAL(e.getTileCode(), x);
-            BOOST_CHECK_EQUAL(e.getName(), "ok");
+            BOOST_CHECK_EQUAL(e.getName(), "Name");
         };
 };
