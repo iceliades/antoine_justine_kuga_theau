@@ -25,6 +25,14 @@ namespace state {
     }
 
 //------------------------------------------------- Setters ------------------------------------------------------------
+    void Stats::setStats(int agility, int arcane, int courage, int intelligence, int stamina, int strength) {
+        Agility = agility;
+        Arcane = arcane;
+        Courage = courage;
+        Intelligence = intelligence;
+        Stamina = stamina;
+        Strength = strength;
+    }
     void Stats::setAgility(int agility) {
         Agility = agility;
     }
