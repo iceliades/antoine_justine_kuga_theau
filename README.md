@@ -17,7 +17,9 @@ sudo apt-get install libboost-all-dev
 
 ## Build Instructions
 ```bash
-There are none yet
+mkdir build
+cd build
+cmake .. && make
 ```
 ## Test
 ```
