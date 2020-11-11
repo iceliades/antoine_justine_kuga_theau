@@ -5,7 +5,6 @@
 #include <string>
 #include "../../src/shared/state.h"
 //#include "../../src/shared/state/Element.h"
-//#include "../../src/shared/state/Character.h"
 
 
 namespace state{
@@ -13,14 +12,13 @@ namespace state{
         BOOST_AUTO_TEST_CASE(TestStaticAssert)
         {
             BOOST_CHECK(1);
-        };
+        }
 
         BOOST_AUTO_TEST_CASE(TestState)
         {
             {
                 Element e;
                 int x =1;
-
                 e.setTileCode(x);
                 e.setName("Name");
                 BOOST_CHECK_EQUAL(e.getTileCode(), 1);
@@ -88,6 +86,38 @@ namespace state{
 
 
             }
+
+       
+//------------------------------------------------------ Stats ---------------------------------------------------------
+// Does the basic constructor do its job ?
+            {
+            Stats stats;
+            BOOST_CHECK_EQUAL(stats.getAgility(),8);
+            BOOST_CHECK_EQUAL(stats.getArcane(),8);
+            BOOST_CHECK_EQUAL(stats.getCourage(),8);
+            BOOST_CHECK_EQUAL(stats.getStamina(),8);
+            BOOST_CHECK_EQUAL(stats.getStrength(),8);
+
+
+
+//Do the getters do their job ?
+            int fiveteen = 15;
+            stats.setAgility(fiveteen);
+            stats.setArcane(fiveteen);
+            stats.setCourage(fiveteen);
+            stats.setIntelligence(fiveteen);
+            stats.setStamina(fiveteen);
+            stats.setStrength(fiveteen);
+
+            BOOST_CHECK_EQUAL(stats.getAgility(),15);
+            BOOST_CHECK_EQUAL(stats.getArcane(),15);
+            BOOST_CHECK_EQUAL(stats.getCourage(),15);
+            BOOST_CHECK_EQUAL(stats.getStamina(),15);
+            BOOST_CHECK_EQUAL(stats.getStrength(),15);
+
+          
+            }
+
 
 
         }
