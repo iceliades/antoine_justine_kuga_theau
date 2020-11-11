@@ -55,7 +55,7 @@ namespace state{
             BOOST_CHECK_EQUAL(stats2.getStamina(),15);
             BOOST_CHECK_EQUAL(stats2.getStrength(),15);
 
-            stats.setStats(fiveteen,fiveteen,fiveteen,fiveteen,fiveteen,fiveteen)
+            stats.setStats(fiveteen,fiveteen,fiveteen,fiveteen,fiveteen,fiveteen);
             
             BOOST_CHECK_EQUAL(stats2.getAgility(),15);
             BOOST_CHECK_EQUAL(stats2.getArcane(),15);
