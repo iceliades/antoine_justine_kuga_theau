@@ -10,9 +10,9 @@ using namespace std;
 using namespace state;
 
 
-Character::Character(CharacterTypeID id, std::string name, int x, int y, int tileCode){
+Character::Character(CharacterTypeID id, std::string name, int x, int y, int char_tileCode){
 
-    this->tileCode=tileCode;
+    this->tileCode=char_tileCode;
     TypeID=id;
     Name= name;
     Status= AVAILABLE;
@@ -47,10 +47,10 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int til
     }
     
 }
-
 Character::~Character(){
-   // delete charWeap;
+    //delete charWeap;
 }
+
 
 // Getters
 CharacterTypeID Character::getTypeID() {return TypeID;}
@@ -73,7 +73,9 @@ Weapon* Character::getCharWeap (){
     return charWeap;
 }
 */
-
+bool Character::isMapCell(){
+    return false;
+}
 
 // Setters
 void Character::setHealth ( int Stamina,  int Strength){

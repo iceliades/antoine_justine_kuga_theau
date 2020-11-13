@@ -15,14 +15,10 @@ namespace state{
         }
 
         BOOST_AUTO_TEST_CASE(TestState)
-        {
+        {   
+            //Cursor
             {
-                Element e;
-                int x =1;
-                e.setTileCode(x);
-                e.setName("Name");
-                BOOST_CHECK_EQUAL(e.getTileCode(), 1);
-                BOOST_CHECK_EQUAL(e.getName(), "Name");
+                
             }
 
             {
