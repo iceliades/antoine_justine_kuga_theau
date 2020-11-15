@@ -3,12 +3,21 @@
 
 namespace state {
     Stats::Stats() {
-        int Agility     = 8;
-        int Arcane     = 8;
-        int Courage     = 8;
-        int Intelligence     = 8;
-        int Stamina     = 8;
-        int Strength     = 8;
+        Agility = 8;
+        Arcane  = 8;
+        Courage = 8;
+        Intelligence = 8;
+        Stamina = 8;
+        Strength = 8;
+    }
+
+    Stats::Stats(int Agility, int Arcane, int Courage, int Intelligence, int Stamina, int Strength){
+        this->Agility=Agility;
+        this->Arcane=Arcane;
+        this->Courage=Courage;
+        this->Intelligence=Intelligence;
+        this->Stamina=Stamina;
+        this->Strength=Strength;
     }
     Stats::~Stats() {
 

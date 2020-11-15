@@ -1,10 +1,5 @@
-#include "Character.h"
 #include "Cursor.h"
-#include <fstream>
 #include <iostream>
-#include <sstream>
-#include <memory>
-#include <vector>
 
 using namespace std;
 using namespace state;
@@ -12,8 +7,31 @@ using namespace state;
 
 Cursor::Cursor(int x, int y, int p_tileCode)
 {
-    
+    lastPosition.setX(x);
+    lastPosition.setY(y);
+    position.setX(x);
+    position.setY(y);
+    tileCode=p_tileCode;
+    visible=false;
+
 }
 bool Cursor::isMapCell(){
     return false;
+
+}
+
+void Cursor::move(Position& destination){
+    lastPosition=position;
+    position= destination;
+}
+bool Cursor::getVisible(){
+    return visible;
+}
+
+void Cursor::setVisible(bool visibility){
+    visible=visibility;
+}
+
+Position& Cursor::getLastPosition(){
+    return lastPosition; // return a ref
 }

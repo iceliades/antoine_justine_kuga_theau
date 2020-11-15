@@ -4,33 +4,30 @@ namespace state {
 
     
     Element::Element() {
-
-         name = "Nom";
-         position = Position();
-         tileCode = 2;
+        name = "Element";         
     }
 
     Element::~Element() {
-
     }
 
-    void Element::setTileCode(int x){
-        this->tileCode = x;
-    };
-
-    int Element::getTileCode(){
-        int x = tileCode;
-        return x;
-    };
-
-    void Element::setName(const std::string &name) {
-        this->name = name;
+    
+    int Element::getTileCode(){ return tileCode;}
+    std::string Element::getName() { return name;}
+    Position& Element::getPosition(){
+        // return ref
+        return position;
     }
 
-    std::string Element::getName() {
-        return name;
-    }
 
+    void Element::setName(const std::string &name) { this->name = name;}
+    void Element::setTileCode(int p_tileCode){  tileCode=p_tileCode;}
+    void Element::setPosition(const Position& position){
+        this->position= position;
+    }
+    
+    bool Element::equals(Element &other){
+        return (typeid(other).name()==name && position.equals(other.getPosition()));
+    }
     
 
 }

@@ -16,9 +16,11 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
     TypeID=id;
     Name= name;
     Status= AVAILABLE;
+    position.setX(x);
+    position.setY(y);
     //charWeap= new Weapon(SWORD);
     Movement = 5;
-
+  
     if (id==CROOK){
         Health=100;
         Precision=2; 
@@ -62,11 +64,9 @@ float Character::getDodge (){return Dodge;}
 float Character::getPrecision (){return Precision;}
 
 /*Effect& Character::getEffect (){
-    Effect &refEff = effect;
     return refEff;
 }
 Stats& Character::getStats (){
-    Stats &refStats = stats;
     return refStats;
 }
 Weapon* Character::getCharWeap (){
