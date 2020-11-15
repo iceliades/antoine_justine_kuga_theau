@@ -1,12 +1,12 @@
 #include <string>
-/*#include "../render.h"
+#include "../render.h"
 
 using namespace render;
 
 // Constructor
 
-TileSet::TileSet(TileSetID newID){
-    id = newID;
+TileSet::TileSet(TileSetID ID){
+    id = ID;
     
     switch(id){
         case MAPTILESET:
@@ -17,7 +17,7 @@ TileSet::TileSet(TileSetID newID){
         case CHARTILESET:
             cellWidth=32;
             cellHeight=32;
-            imageFile="rsc/Images/cursor_32.png";
+            resFile="rsc/Images/cursor_32.png";
             break;
         default:
             break;
@@ -34,5 +34,5 @@ int const TileSet::getCellWidth(){
 
 int const TileSet::getCellHeight(){
     return cellHeight;
-}*/
+}
 
