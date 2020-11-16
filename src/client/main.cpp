@@ -11,10 +11,13 @@ void testSFML() {
 // Fin test SFML
 
 #include <state.h>
-
+#include <render.h>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace state;
+using namespace render;
 
 int main(int argc,char* argv[])
 {
@@ -27,7 +30,31 @@ int main(int argc,char* argv[])
         else if (string(argv[1]) == "state") {
             cout << "Veillez utiliser les commandes make unittest et make code-coverage depuis le dossier build" << endl;
     
+        }else if (string(argv[1]) == "render")
+        {
+            State state;
+            state.initPlayers();
+            state.initMapCell();
+            
+            sf::RenderWindow window(sf::VideoMode(1950, 900), "Zorglub");
+            StateLayer stateLayer (state,window);
+            
+            stateLayer.initTextureArea(state);
+            while (window.isOpen()){
+                sf::Event event;
+                 while (window.pollEvent(event)){
+                    if (event.type == sf::Event::Closed){
+                    window.close();
+                    }
+                }
+                stateLayer.draw(window);
+                usleep(50000);
+            
+                
+            }
+
         }
+        
 
     }
     return 0;

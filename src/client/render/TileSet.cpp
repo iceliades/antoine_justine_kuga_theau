@@ -12,18 +12,18 @@ TileSet::TileSet(TileSetID ID){
         case MAPTILESET:
             cellWidth=32;
             cellHeight=32;
-            //imageFile="rsc/Images/characters_tileset_32.png";
+            resFile="res/textures/map_tileset.png";
             break;
         case CHARTILESET:
             cellWidth=32;
             cellHeight=32;
-            resFile="rsc/Images/cursor_32.png";
+            resFile="res/textures/characters_tileset_32.png";
             break;
         default:
             break;
     }
 
-    //textureTileSet.loadFromFile(imageFile);
+    textureTileSet.loadFromFile(resFile);
 }
 
 // Getters
@@ -36,3 +36,10 @@ int const TileSet::getCellHeight(){
     return cellHeight;
 }
 
+TileSetID TileSet::getTileSetID(){
+    return id;
+}
+
+sf::Texture& TileSet::getTexture(){
+    return textureTileSet;
+}

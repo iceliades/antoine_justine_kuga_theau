@@ -16,6 +16,8 @@ Player::Player(int id, std::string name){
     Name= name;
 }   
 
+Player::~Player(){}
+
 // getters and setters
 int Player::getId(){ return Id;}
 std::string Player::getName(){return Name;}

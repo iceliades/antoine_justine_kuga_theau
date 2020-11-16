@@ -12,8 +12,8 @@ Observable::~Observable(){}
 void Observable::registerObserver(Observer* observer){
     observers.push_back(observer);
 }
-void const Observable::notifyObservers (const StateEvent& e, State& state){
+void const Observable::notifyObservers (const StateEvent& stateEvent, State& state){
     for (auto observer: observers){
-        observer->stateChanged(e,state);
+        observer->stateChanged(stateEvent,state);
     }
 }
