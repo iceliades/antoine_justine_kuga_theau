@@ -32,15 +32,20 @@ void State::initPlayers(){
 
   void State::initMapCell(){
 
-    std::ifstream file("res/Images/map.csv",ios::in);
+    int nbWidthTile= 26;
+    int nbHeightTile=24;
+
+    std::ifstream file("res/textures/map.csv",ios::in);
     std::string content, line, tile_code;
-    int map_tile_code[50*25]; // width*height
+    int map_tile_code[nbWidthTile*nbHeightTile]; // width*height
 
         // Read the file by storing all the data into one string -> content
+
     if (file){
-        while (getline(file,line)){
+        while (std::getline(file,line)){
             line = line + ",";
             content = content + line;
+ 
         }
         file.close();
     }
@@ -52,20 +57,20 @@ void State::initPlayers(){
         map_tile_code[i] = (int) std::stoi(tile_code);
         i++;
     }
+    
 
     int k=0;
-    for (int i=0; i<25;i++){
+    for (int i=0; i<nbHeightTile;i++){
         std::vector<std::unique_ptr<MapCell>> mapLine;
-        for(int j=0;j<50;j++){
-            int var=map_tile_code[k];
+        for(int j=0;j<nbWidthTile;j++){
             
-            if(var<9){ // In the map tileset only the first nine tiles are not obstacles
-                std::unique_ptr<MapCell> ptr_space (new SpaceMapTiles(Sand,j,i,var));
+            if(map_tile_code[k]<9){ // In the map tileset only the first nine tiles are not obstacles
+                std::unique_ptr<MapCell> ptr_space (new SpaceMapTiles(Sand,j,i,map_tile_code[k]));
                 mapLine.push_back(move(ptr_space)); 
 
             }else{
 
-                std::unique_ptr<MapCell> ptr_obstacle(new ObstacleMapTiles(Rock,j,i,var));
+                std::unique_ptr<MapCell> ptr_obstacle(new ObstacleMapTiles(Rock,j,i,map_tile_code[k]));
                 mapLine.push_back(move(ptr_obstacle));
             }
             k++;

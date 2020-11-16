@@ -3,7 +3,7 @@
 
 using namespace state;
 
-StateEvent::StateEvent(StateEventID e) : stateEventID(e){}
+StateEvent::StateEvent(StateEventID eventID) : stateEventID(eventID){}
 
 void StateEvent::setStateEvent(StateEventID newID)
 {

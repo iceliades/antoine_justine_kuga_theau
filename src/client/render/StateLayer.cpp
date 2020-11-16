@@ -11,9 +11,13 @@ using namespace state;
 
 StateLayer::StateLayer(state::State& myState, sf::RenderWindow& window):window(window),currentState(myState){
    
+    
+
    TileSet tileSetMap(MAPTILESET);
    unique_ptr<TileSet>ptr_mapTileset(new TileSet(tileSetMap));
    tileSets.push_back(move(ptr_mapTileset));
+   screenWidth=myState.getMap()[0].size()*tileSetMap.getCellWidth();
+   screenHeight=myState.getMap().size()*tileSetMap.getCellHeight();
 
 
 }
@@ -22,7 +26,7 @@ StateLayer::~StateLayer(){};
 
 void StateLayer::initTextureArea(state::State& myState){
     TextureArea map;
-    map.loadTextures(myState,tileSets[0]->getTexture(),sf::Vector2u(tileSets[0]->getCellWidth(), tileSets[0]->getCellHeight()),0,0);
+    map.loadTextures(myState,*tileSets[0],myState.getMap()[0].size(),myState.getMap().size());
     unique_ptr<TextureArea> ptr_map(new TextureArea(map));
      if(textureAreas.size()!=0){
 		while(textureAreas.size()!=0){

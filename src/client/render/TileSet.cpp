@@ -17,7 +17,7 @@ TileSet::TileSet(TileSetID ID){
         case CHARTILESET:
             cellWidth=32;
             cellHeight=32;
-            resFile="res/textures/characters_tileset_32.png";
+            //resFile="res/textures/characters_tileset_32.png";
             break;
         default:
             break;

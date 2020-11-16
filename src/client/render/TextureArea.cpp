@@ -6,11 +6,18 @@ using namespace render;
 using namespace state;
 using namespace std;
 
-bool TextureArea::loadTextures(state::State& curState,sf::Texture& textureTileSet, sf::Vector2u tileSize, int width, int height){
-    texture= textureTileSet;
+bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTileSet,int width, int height){
+    
+    texture= textureTileSet.getTexture();
+    int cellWidth= textureTileSet.getCellWidth();
+    int cellHeight= textureTileSet.getCellHeight();
+    
+    
     quads.setPrimitiveType(sf::Quads);
-    quads.resize(1950*900*4); // Screen display for now
+    quads.resize(width*height*4); // Screen display for now
     int vertexArrayIndex=0;
+      // a enlever
+
 
     std::vector<std::vector<std::unique_ptr<MapCell>>> &map= curState.getMap();
 
@@ -21,19 +28,19 @@ bool TextureArea::loadTextures(state::State& curState,sf::Texture& textureTileSe
 
             int tileNumber = map[i][j]->getTileCode();
 
-            int tx= tileNumber%(320/ 32);
-            int ty= tileNumber/(320/ 32 );
+            int tx= tileNumber%(texture.getSize().x/ cellWidth);
+            int ty= tileNumber/(texture.getSize().x/ cellHeight );
             sf::Vertex* quad = &quads[vertexArrayIndex*4];
             vertexArrayIndex++;
-            quad[0].position = sf::Vector2f(j*32, i*32);
-            quad[1].position = sf::Vector2f((j+1)*32, i*32);
-	        quad[2].position = sf::Vector2f((j+1)*32, (i+1)*32);
-	        quad[3].position = sf::Vector2f(j*32, (i+1)*32);
+            quad[0].position = sf::Vector2f(j*cellWidth, i*cellHeight);
+            quad[1].position = sf::Vector2f((j+1)*cellWidth, i*cellHeight);
+	        quad[2].position = sf::Vector2f((j+1)*cellWidth, (i+1)*cellHeight);
+	        quad[3].position = sf::Vector2f(j*cellWidth, (i+1)*cellHeight);
             
-            quad[0].texCoords = sf::Vector2f(tx * 32, ty * 32);
-			quad[1].texCoords = sf::Vector2f((tx + 1) * 32, ty * 32);
-			quad[2].texCoords = sf::Vector2f((tx + 1) * 32, (ty + 1) * 32);
-			quad[3].texCoords = sf::Vector2f(tx * 32, (ty + 1) * 32);
+            quad[0].texCoords = sf::Vector2f(tx * cellWidth, ty * cellHeight);
+			quad[1].texCoords = sf::Vector2f((tx + 1) * cellWidth, ty * cellHeight);
+			quad[2].texCoords = sf::Vector2f((tx + 1) * cellWidth, (ty + 1) * cellHeight);
+			quad[3].texCoords = sf::Vector2f(tx * cellWidth, (ty + 1) * cellHeight);
 
         }
     }

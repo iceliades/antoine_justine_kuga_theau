@@ -36,8 +36,9 @@ int main(int argc,char* argv[])
             state.initPlayers();
             state.initMapCell();
             
-            sf::RenderWindow window(sf::VideoMode(1950, 900), "Zorglub");
+            sf::RenderWindow window(sf::VideoMode(32*26,32*24), "Zorglub");
             StateLayer stateLayer (state,window);
+            
             
             stateLayer.initTextureArea(state);
             while (window.isOpen()){
