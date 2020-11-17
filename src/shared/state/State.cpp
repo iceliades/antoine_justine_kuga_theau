@@ -17,12 +17,10 @@ State::~State(){}
 
 //getters
 void State::initPlayers(){
+    // for now 2 Players
     unique_ptr<Player> ptrPlayer1(new Player(1));
-    unique_ptr<Character> ptrCrook(new Character(CROOK,"crook",10,10,24));
-    ptrPlayer1->getListCharacters().push_back(move(ptrCrook));
-
+    unique_ptr<Player> ptrPlayer2(new Player(1));
     listPlayers.push_back(move(ptrPlayer1));
-
 
 }
 
@@ -78,7 +76,66 @@ void State::initPlayers(){
         map.push_back(move(mapLine));
     }
 
+}
+
+void State::initCharacters(){
+   
+    //init Player 1 Characters
+    unique_ptr<Character> ptrCrook(new Character(CROOK,"CROOK",,10,24));
+    unique_ptr<Character> ptrKnight(new Character(KNIGHT,"KNIGHT",10,10,24));
+    unique_ptr<Character> ptrDwarf(new Character(DWARF,"DWARF",10,10,24));
+    listPlayers[0]->getListCharacters().push_back(move(ptrCrook));
+    listPlayers[0]->getListCharacters().push_back(move(ptrKnight));
+    listPlayers[0]->getListCharacters().push_back(move(ptrDwarf));
+
+    //init Player 2 Characters
+    unique_ptr<Character> ptrCrook(new Character(CROOK,"CROOK",10,10,24));
+    unique_ptr<Character> ptrKnight(new Character(KNIGHT,"KNIGHT",10,10,24));
+    unique_ptr<Character> ptrDwarf(new Character(DWARF,"DWARF",10,10,24));
+    listPlayers[1]->getListCharacters().push_back(move(ptrCrook));
+    listPlayers[1]->getListCharacters().push_back(move(ptrKnight));
+    listPlayers[1]->getListCharacters().push_back(move(ptrDwarf));
+
+/*
+    // set Index for Characets for each Players
+    for(int j=0; j<listPlayers.size();j++){
+        for (int i=0; i<listPlayers[0]->getListCharacters().size();i++)
+            listPlayers[j]->getListCharacters()[i]->setIndex(i);   
+    }
+*/
+}
+
+void State::deletePlayer(Player& player){
+    for(unsigned int i=0; i<listPlayers.size(); i++){
+        if(listPlayers[i]->getId() == player.getId() ){
+            listPlayers.erase(listPlayers.begin() + i);
+        }
+    }
+}
 
 
+// A character has been selected
+bool State::ifStelected(){
+    for(unsigned int i=0;i<listPlayers.size();i++){
+        for(unsigned int j=0;j<listPlayers[i]->getListCharacters().size();j++){
+            if(listPlayers[i]->getListCharacters()[j]->getStatus() == SELECTED)
+                return true;
+        }
+    }
+    return false;
+}
 
-  }
+// getters and setters
+bool State::getEndGame(){ return endGame;}
+int State::getRound(){ return round;}
+int State::getCurPlayerID(){ return curPlayerID;}
+int State::getNbOfPlayers(){ return nbOfPlayers;}
+Cursor& State::getCursor(){ return cursor;}
+CurActionID State::getCurAction(){return curAction;}
+
+void State::setRound(int newRound){ round= newRound;}
+void State::setEndGame(bool res){ endGame=res;}
+void State::setCurPlayerID(int newPlayer){curPlayerID=newPlayer;}
+void State::setCurAction(CurActionID newAction){curAction=newAction;}
+
+
