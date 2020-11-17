@@ -3,36 +3,28 @@
 
 namespace state {
     Stats::Stats() {
-        int Agility     = 8;
-        int Arcane     = 8;
-        int Courage     = 8;
-        int Intelligence     = 8;
-        int Stamina     = 8;
-        int Strength     = 8;
-    }
-    Stats::Stats(int agility, int arcane, int courage, int intelligence, int stamina, int strength) {
-        Agility = agility;
-        Arcane = arcane;
-        Courage = courage;
-        Intelligence = intelligence;
-        Stamina = stamina;
-        Strength = strength;
-
+        Agility = 8;
+        Arcane  = 8;
+        Courage = 8;
+        Intelligence = 8;
+        Stamina = 8;
+        Strength = 8;
     }
 
+    Stats::Stats(int Agility, int Arcane, int Courage, int Intelligence, int Stamina, int Strength){
+        this->Agility=Agility;
+        this->Arcane=Arcane;
+        this->Courage=Courage;
+        this->Intelligence=Intelligence;
+        this->Stamina=Stamina;
+        this->Strength=Strength;
+    }
     Stats::~Stats() {
 
     }
 
 //------------------------------------------------- Setters ------------------------------------------------------------
-    void Stats::setStats(int agility, int arcane, int courage, int intelligence, int stamina, int strength) {
-        Agility = agility;
-        Arcane = arcane;
-        Courage = courage;
-        Intelligence = intelligence;
-        Stamina = stamina;
-        Strength = strength;
-    }
+
     void Stats::setAgility(int agility) {
         Agility = agility;
     }
@@ -55,22 +47,22 @@ namespace state {
 
 //------------------------------------------------- Getters ------------------------------------------------------------
 
-    int Stats::getAgility() const {
+    int Stats::getAgility()  {
         return Agility;
     }
-    int Stats::getArcane() const {
+    int Stats::getArcane()  {
         return Arcane;
     }
-    int Stats::getCourage() const {
+    int Stats::getCourage()  {
         return Courage;
     }
-    int Stats::getIntelligence() const {
+    int Stats::getIntelligence()  {
         return Intelligence;
     }
-    int Stats::getStamina() const {
+    int Stats::getStamina()  {
         return Stamina;
     }
-    int Stats::getStrength() const {
+    int Stats::getStrength()  {
         return Strength;
     }
 
