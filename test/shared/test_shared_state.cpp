@@ -94,10 +94,18 @@ namespace state{
             BOOST_CHECK_EQUAL(stats.getStamina(),8);
             BOOST_CHECK_EQUAL(stats.getStrength(),8);
 
+            Stats stats2(15,15,15,15,15,15);
+            BOOST_CHECK_EQUAL(stats2.getAgility(),15);
+            BOOST_CHECK_EQUAL(stats2.getArcane(),15);
+            BOOST_CHECK_EQUAL(stats2.getCourage(),15);
+            BOOST_CHECK_EQUAL(stats2.getStamina(),15);
+            BOOST_CHECK_EQUAL(stats2.getStrength(),15);
 
+                 
 
 //Do the getters do their job ?
             int fiveteen = 15;
+            
             stats.setAgility(fiveteen);
             stats.setArcane(fiveteen);
             stats.setCourage(fiveteen);
@@ -111,9 +119,10 @@ namespace state{
             BOOST_CHECK_EQUAL(stats.getStamina(),15);
             BOOST_CHECK_EQUAL(stats.getStrength(),15);
 
-          
-            }
 
+        }
+
+          
 
 
         }
