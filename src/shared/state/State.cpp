@@ -81,28 +81,40 @@ void State::initPlayers(){
 void State::initCharacters(){
    
     //init Player 1 Characters
-    unique_ptr<Character> ptrCrook(new Character(CROOK,"CROOK",,10,24));
-    unique_ptr<Character> ptrKnight(new Character(KNIGHT,"KNIGHT",10,10,24));
-    unique_ptr<Character> ptrDwarf(new Character(DWARF,"DWARF",10,10,24));
-    listPlayers[0]->getListCharacters().push_back(move(ptrCrook));
-    listPlayers[0]->getListCharacters().push_back(move(ptrKnight));
-    listPlayers[0]->getListCharacters().push_back(move(ptrDwarf));
+    unique_ptr<Character> ptrCrook1(new Character(CROOK,"CROOK",3,11,24));
+    unique_ptr<Character> ptrKnight1(new Character(KNIGHT,"KNIGHT",3,13,24));
+    unique_ptr<Character> ptrDwarf1(new Character(DWARF,"DWARF",3,15,24));
+    listPlayers[0]->getListCharacters().push_back(move(ptrCrook1));
+    listPlayers[0]->getListCharacters().push_back(move(ptrKnight1));
+    listPlayers[0]->getListCharacters().push_back(move(ptrDwarf1));
 
     //init Player 2 Characters
-    unique_ptr<Character> ptrCrook(new Character(CROOK,"CROOK",10,10,24));
-    unique_ptr<Character> ptrKnight(new Character(KNIGHT,"KNIGHT",10,10,24));
-    unique_ptr<Character> ptrDwarf(new Character(DWARF,"DWARF",10,10,24));
-    listPlayers[1]->getListCharacters().push_back(move(ptrCrook));
-    listPlayers[1]->getListCharacters().push_back(move(ptrKnight));
-    listPlayers[1]->getListCharacters().push_back(move(ptrDwarf));
+    unique_ptr<Character> ptrCrook2(new Character(CROOK,"CROOK",24,11,24));
+    unique_ptr<Character> ptrKnight2(new Character(KNIGHT,"KNIGHT",24,13,24));
+    unique_ptr<Character> ptrDwarf2(new Character(DWARF,"DWARF",24,15,24));
+    listPlayers[1]->getListCharacters().push_back(move(ptrCrook2));
+    listPlayers[1]->getListCharacters().push_back(move(ptrKnight2));
+    listPlayers[1]->getListCharacters().push_back(move(ptrDwarf2));
 
-/*
+
     // set Index for Characets for each Players
-    for(int j=0; j<listPlayers.size();j++){
-        for (int i=0; i<listPlayers[0]->getListCharacters().size();i++)
-            listPlayers[j]->getListCharacters()[i]->setIndex(i);   
+    for(int i=0; i<listPlayers.size();i++){
+        for (int j=0; j<listPlayers[0]->getListCharacters().size();j++){
+            Stats charStats= listPlayers[i]->getListCharacters()[j]->getStats();       
+            
+            // Not a very clean code 
+            // Init can take parameters for 
+            listPlayers[i]->getListCharacters()[j]->setIndex(j);
+            listPlayers[i]->getListCharacters()[j]->setHealth(charStats.getStamina(),charStats.getStrength());
+
+
+        
+            
+
+        }
+             
     }
-*/
+
 }
 
 void State::deletePlayer(Player& player){
