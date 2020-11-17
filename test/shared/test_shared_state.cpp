@@ -20,18 +20,35 @@ namespace state{
             {
                 
             }
-
+//--------------------------------------------------- Characters -------------------------------------------------------
             {
-                // Character
+// Does the basic constructor do its job ?
                 Character Crook(CROOK, "crook", 10, 10, 1);
-                //BOOST_CHECK_EQUAL(Crook.getPosition().getY(), 10);
-                //BOOST_CHECK_EQUAL(Crook.getPosition().getX(), 10);
+                BOOST_CHECK_EQUAL(Crook.getTileCode(), 1);
+                BOOST_CHECK_EQUAL(Crook.getPosition().getY(), 10);
+                BOOST_CHECK_EQUAL(Crook.getPosition().getX(), 10);
                 BOOST_CHECK_EQUAL(Crook.getTypeID(), CROOK);
                 BOOST_CHECK_EQUAL(Crook.getName(), "crook");
                 BOOST_CHECK_EQUAL(Crook.getMovement(), 5);
-                BOOST_CHECK_EQUAL(Crook.getHealth(),100);
+                BOOST_CHECK_EQUAL(Crook.getMovementLeft(), 5);
+                BOOST_CHECK_EQUAL(Crook.getHealth(),30);
+                BOOST_CHECK_EQUAL(Crook.getPrecision(), 0.7);
+                BOOST_CHECK_EQUAL(Crook.getDodge(), 0.1);
+                BOOST_CHECK_EQUAL(Crook.getStatus(), AVAILABLE);
+                BOOST_CHECK_EQUAL(Crook.getDirection(), DOWN);
+                BOOST_CHECK_EQUAL(Crook.getPlayerID(), 0);
+                BOOST_CHECK_EQUAL(Crook.isMapCell(), false);
 
-                //BOOST_CHECK_EQUAL(Crook.isMapCell(), false);
+//Do the setters do their job ?
+
+                Crook.setCharWeap(Weapon* hache(AXE));
+                BOOST_CHECK_EQUAL(Crook.getCharWeap(),hache);
+
+                Crook.setDodge(15,15);
+                BOOST_CHECK_EQUAL(Crook.getDodge(),30/60);
+
+                Crook.setEffect(false,true,false);
+                BOOST_CHECK_EQUAL(Crook.getEffect().getStunned(), true);
 
                 Crook.setStatus(CharacterStatusID::SELECTED);
                 BOOST_CHECK_NE(Crook.getStatus(), CharacterStatusID::AVAILABLE);
@@ -39,24 +56,30 @@ namespace state{
                 Crook.setHealth(10,10);
                 BOOST_CHECK_EQUAL(Crook.getHealth(),3*10+2*10) ;
 
+                Crook.setIndex(1);
+                BOOST_CHECK_EQUAL(Crook.getIndex(),1);
+
+                Crook.setName("newCrook");Crook.setMovement(5);
+                BOOST_CHECK_EQUAL(Crook.getName(),"newCrook");BOOST_CHECK_EQUAL(Crook.getMovement(),5);
+
+                Crook.setMovement(6);
+                BOOST_CHECK_EQUAL(Crook.getMovement(),6);
+
+                Crook.setMovement(5);
                 Crook.setMovementBonus(13,13);
                 BOOST_CHECK_EQUAL(Crook.getMovement(),7) ;
 
-                Crook.setDodge(15,15);
-                BOOST_CHECK_EQUAL(Crook.getDodge(),30/60);
-                
+
                 Crook.setPrecision(15,15,15,15);
                 BOOST_CHECK_EQUAL(Crook.getPrecision(),1);
 
-                
+
                 //Position p{10, 10};
                 //Crook.setPosition(p);
                 //BOOST_CHECK_EQUAL(Crook.getPosition().equals(p), true);
-                
-                
-                Crook.setName("newCrook");Crook.setMovement(5);
-                BOOST_CHECK_EQUAL(Crook.getName(),"newCrook");BOOST_CHECK_EQUAL(Crook.getMovement(),5);
-                
+
+
+
                 Character knigth(KNIGHT, "crook", 10, 10, 1);
                 BOOST_CHECK_EQUAL(knigth.getHealth(),80);
                 //Crook.setEffect(false,true,false);
@@ -103,7 +126,7 @@ namespace state{
 
                  
 
-//Do the getters do their job ?
+//Do the setters do their job ?
             int fiveteen = 15;
             
             stats.setAgility(fiveteen);
