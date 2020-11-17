@@ -13,6 +13,7 @@ Effect::~Effect() {
 
 }
 
+//------------------------------------------------- Setters ------------------------------------------------------------
 void Effect::setImmobilised(bool i) {
     Immobilised = i;
 }
@@ -25,12 +26,13 @@ void Effect::setStunned(bool s) {
     Stunned = s;
 }
 
+//------------------------------------------------- Getters ------------------------------------------------------------
 bool Effect::getImmobilised() {
     return Immobilised;
 }
 
 bool Effect::getDisarmed() {
-    return Disarmed
+    return Disarmed;
 }
 
 bool Effect::getStunned() {
