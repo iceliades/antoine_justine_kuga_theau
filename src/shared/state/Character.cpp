@@ -10,44 +10,44 @@ using namespace std;
 using namespace state;
 
 
-Character::Character(CharacterTypeID id, std::string name, int x, int y, int char_tileCode){
+Character::Character(CharacterTypeID id, std::string name, int x, int y, int char_tileCode) {
 
-    this->tileCode=char_tileCode;
-    TypeID=id;
-    Name= name;
-    Status= AVAILABLE;
+    this->tileCode = char_tileCode;
+    TypeID = id;
+    Name = name;
+    Status = AVAILABLE;
     position.setX(x);
     position.setY(y);
     //charWeap= new Weapon(SWORD);
     Movement = 5;
-  
-    if (id==CROOK){
-        Health=100;
-        Precision=2; 
+
+    switch (id) {
+
+
+        case ( CROOK) :
+        Health = 100;
+        Precision = 2;
         Dodge = 0;
-       // stats.setAgility(stats.getAgility()+1);// Taxon bonus
-       
-    }else if (id==KNIGHT)
-    {
-        Health=80;
-        Precision=3; 
+        // stats.setAgility(stats.getAgility()+1);// Taxon bonus
+        break;
+        case ( KNIGHT) :
+        Health = 80;
+        Precision = 3;
         Dodge = 0;
-      //  stats.setAgility(stats.getAgility()+1);
-        
-    }else if (id==ELF){
+        //  stats.setAgility(stats.getAgility()+1);
+        break;
+        case ( ELF) :
+        break;
+        case ( NATIVE) :
+        break;
+        case ( DWARF) :
+        break;
+        case ( PIRATE) :
+        break;
+        case ( TROLL) :
+        break;
 
-    }else if (id==NATIVE){
-
-    }else if (id==DWARF){
-
-    }else if (id==PIRATE)
-    {
-        /* code */
-    }else if (id==TROLL)
-    {
-        /* code */
-    }
-    
+}
 }
 Character::~Character(){
     //delete charWeap;
@@ -63,7 +63,7 @@ int Character::getHealth (){return Health;}
 float Character::getDodge (){return Dodge;}
 float Character::getPrecision (){return Precision;}
 
-/*Effect& Character::getEffect (){
+Effect& Character::getEffect (){
     return refEff;
 }
 Stats& Character::getStats (){
@@ -72,7 +72,7 @@ Stats& Character::getStats (){
 Weapon* Character::getCharWeap (){
     return charWeap;
 }
-*/
+
 bool Character::isMapCell(){
     return false;
 }

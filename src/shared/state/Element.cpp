@@ -1,4 +1,5 @@
 #include "Element.h"
+#include <typeinfo>
 
 namespace state {
 
