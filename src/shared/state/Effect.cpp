@@ -32,7 +32,7 @@ bool Effect::getImmobilised() {
 }
 
 bool Effect::getDisarmed() {
-    return Disarmed
+    return Disarmed;
 }
 
 bool Effect::getStunned() {
