@@ -22,8 +22,6 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
     Movement = 5;
 
     switch (id) {
-
-
         case ( CROOK) :
         Health = 100;
         Precision = 2;
@@ -53,33 +51,9 @@ Character::~Character(){
     //delete charWeap;
 }
 
-
-// Getters
-CharacterTypeID Character::getTypeID() {return TypeID;}
-std::string   Character::getName (){return Name;}
-CharacterStatusID Character::getStatus (){return Status;};
-int Character::getMovement (){return Movement;}
-int Character::getHealth (){return Health;}
-float Character::getDodge (){return Dodge;}
-float Character::getPrecision (){return Precision;}
-
-Effect& Character::getEffect (){
-    return refEff;
-}
-Stats& Character::getStats (){
-    return refStats;
-}
-Weapon* Character::getCharWeap (){
-    return charWeap;
-}
-
-bool Character::isMapCell(){
-    return false;
-}
-
-// Setters
+//------------------------------------------------- Setters ------------------------------------------------------------
 void Character::setHealth ( int Stamina,  int Strength){
-    
+
     Health= 3*Stamina + 2*Strength;
 }
 
@@ -126,5 +100,31 @@ void Character::setStatus(CharacterStatusID Status){
 void Character::setMovement(int Movement){
     this->Movement=Movement;
 }
+
+//------------------------------------------------- Getters ------------------------------------------------------------
+CharacterTypeID Character::getTypeID() {return TypeID;}
+std::string   Character::getName (){return Name;}
+CharacterStatusID Character::getStatus (){return Status;};
+int Character::getMovement (){return Movement;}
+int Character::getHealth (){return Health;}
+float Character::getDodge (){return Dodge;}
+float Character::getPrecision (){return Precision;}
+
+Effect& Character::getEffect (){
+    return refEff;
+}
+Stats& Character::getStats (){
+    return refStats;
+}
+Weapon* Character::getCharWeap (){
+    return charWeap;
+}
+
+//----------------------------------------------------- Misc -----------------------------------------------------------
+bool Character::isMapCell(){
+    return false;
+}
+
+
 
 
