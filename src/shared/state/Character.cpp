@@ -108,6 +108,11 @@ void Character::setName(const std::string& Name){
 void Character::setMovement(int Movement){
     this->Movement=Movement;
 }
+void Character::setMovementLeft(int movement){
+    this->MovementLeft=movement;
+
+}
+
 
 void Character::setMovementBonus (int Courage, int Stamina){
     Movement= int(5+ Courage/12 + Stamina/12);
@@ -155,6 +160,9 @@ CharacterStatusID Character::getStatus (){
 int Character::getMovement (){
     return Movement;
 }
+int Character::getMovementLeft(){
+    return MovementLeft;
+}
 
 int Character::getHealth (){
     return Health;
@@ -196,14 +204,35 @@ std::vector<Position> Character::allowedMove(State& state){
 
     for (int y=0; y<=MovementLeft;y++){
         for (int x=y-MovementLeft; x<=MovementLeft-y;x++){
-            Position pos(position.getX()+x,position.getY()+y);
+            Position pos(this->position.getX()+x,this->position.getY()+y);
             allowedPos.push_back(pos);
             if (y !=0){
-                Position posMirror(position.getX()+x,position.getY()-y);
-                allowedPos.push_back(pos);
+                Position posMirror(this->position.getX()+x,this->position.getY()-y);
+                allowedPos.push_back(posMirror);
             }
         }
     }
+
+    for (unsigned int indexPos=0; indexPos<allowedPos.size();indexPos++){
+        if (allowedPos[indexPos].getX()<0 || allowedPos[indexPos].getY()<0
+        || allowedPos[indexPos].getX()>state.getMap()[0].size()
+        || allowedPos[indexPos].getY()>state.getMap().size())
+            allowedPos.erase(allowedPos.begin()+indexPos);
+
+        for (auto &line: state.getMap()){
+            if( line[0]->getPosition().getY() != allowedPos[indexPos].getY())
+                continue;
+            for (auto &mapCell: line){
+                if (mapCell->getPosition().getX() != allowedPos[indexPos].getX())
+                    continue;
+                if (mapCell->getPosition().equals(allowedPos[indexPos])
+                &&(mapCell->isSpace()==false || mapCell->isOccupied(state) !=-1) )
+                    allowedPos.erase(allowedPos.begin()+indexPos);
+
+            }
+        }         
+    }
+
     return allowedPos;
 }
 

@@ -82,6 +82,8 @@ void State::initCharacters(){
     unique_ptr<Character> ptrCrook1(new Character(CROOK,"CROOK1",2,10,0));
     unique_ptr<Character> ptrKnight1(new Character(KNIGHT,"KNIGHT1",2,12,28));
     unique_ptr<Character> ptrDwarf1(new Character(DWARF,"DWARF1",2,14,56));
+    // testing for render
+    ptrCrook1->setStatus(SELECTED);
     listPlayers[0]->getListCharacters().push_back(move(ptrCrook1));
     listPlayers[0]->getListCharacters().push_back(move(ptrKnight1));
     listPlayers[0]->getListCharacters().push_back(move(ptrDwarf1));
@@ -97,7 +99,7 @@ void State::initCharacters(){
 
    // set Index for Characets for each Players
     for(unsigned int i=0; i<listPlayers.size();i++){
-        for (unsigned int j=0; j<listPlayers[0]->getListCharacters().size();j++){
+        for (unsigned int j=0; j<listPlayers[i]->getListCharacters().size();j++){
             //Stats charStats= listPlayers[i]->getListCharacters()[j]->getStats();       
             
             // Not a very clean code 
