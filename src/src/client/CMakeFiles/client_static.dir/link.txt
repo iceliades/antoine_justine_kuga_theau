@@ -1,0 +1,2 @@
+/usr/bin/ar qc libclient_static.a  CMakeFiles/client_static.dir/client/Exemple.cpp.o CMakeFiles/client_static.dir/render/StateLayer.cpp.o CMakeFiles/client_static.dir/render/TextureArea.cpp.o CMakeFiles/client_static.dir/render/TileSet.cpp.o
+/usr/bin/ranlib libclient_static.a
