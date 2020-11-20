@@ -34,6 +34,7 @@ int main(int argc,char* argv[])
         {
             State state;
             state.initPlayers();
+            state.initCharacters();
             state.initMapCell();
             
             sf::RenderWindow window(sf::VideoMode(32*26,32*24), "Zorglub");

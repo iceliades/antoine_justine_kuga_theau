@@ -10,7 +10,7 @@ namespace state {
     }
 
     Position::Position(int x, int y){
-        this->x= x;
+        this->x=x;
         this->y=y;
     }
 
@@ -22,7 +22,7 @@ namespace state {
     int Position::getY(){ return y;}
 
     void Position::setX(int x){ this->x=x; }
-    void Position::setY(int y){ this->y=x;}
+    void Position::setY(int y){ this->y=y;}
 
     // If 2 elements are in the same position
     bool Position::equals( Position& position){

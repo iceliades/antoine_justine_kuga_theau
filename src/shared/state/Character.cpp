@@ -26,7 +26,7 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
     MovementLeft= 5;
     PlayerID = 0;//Player->getListCharacters().size;
     direction = DOWN;
-    Health = 30;
+    Health = 100;
     Dodge = 0.1;
     Precision = 0.7;
 
@@ -47,7 +47,7 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
             stats.setStamina(stats.getStamina()+1);
         break;
         case (PIRATE) :
-            std::default_random_engine generator;
+            /*std::default_random_engine generator;
             std::uniform_int_distribution<int> distribution(1,6);
             int dice_roll = distribution(generator);
             // Pirate and Gambling, name a better duo
@@ -64,7 +64,7 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
                     stats.setStamina(stats.getStamina()+1);
                 case(6):
                     stats.setStrength(stats.getStrength()+1);
-            }
+            }*/
 
         break;
         case (TROLL) :
