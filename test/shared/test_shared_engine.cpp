@@ -42,5 +42,5 @@ using namespace std;
         
 BOOST_AUTO_TEST_CASE(TestEngineNamespace)
         {
-			
+			Character Crook(CROOK, "crook", 10, 10, 1);
 		}
