@@ -135,6 +135,10 @@ void Character::setTypeID(CharacterTypeID TypeID){
     cout << "What are you doing ?!\n";
 }
 
+void Character::setPlayerID(int PlayerID){
+    this->PlayerID=PlayerID;
+}
+
 //------------------------------------------------- Getters ------------------------------------------------------------
 CharacterTypeID Character::getTypeID() {
     return TypeID;
@@ -190,6 +194,42 @@ void Character::move(State &state, Direction direction) {
     // maybe handled by engine un-coded because conflicts may arise
 }
 
+std::vector<Position> Character::allowedMove(State& state){
+    
+    std::vector<Position> allowedPos;
 
+    for (int y=0; y<=MovementLeft;y++){
+        for (int x=y-MovementLeft; x<=MovementLeft-y;x++){
+            Position pos(position.getX()+x,position.getY()+y);
+            allowedPos.push_back(pos);
+            if (y !=0){
+                Position posMirror(position.getX()+x,position.getY()-y);
+                allowedPos.push_back(pos);
+            }
+                
+
+        }
+
+    }
+
+    return allowedPos;
+}
+
+
+
+std::vector<int> Character::allowedAttack(State &state){
+    /*vector<int> posibleIndexes;
+    for(unsigned int i = 0; i < state.getCharacters().size(); i++){
+        Character& charac = *state.getCharacters()[i];
+        if(charac.getPlayerOwner() != playerOwner && charac.getStatus() != DEATH){
+            // check distances
+            int maxDistance = characterAttackDistance + 1;
+            if(position.distance(charac.getPosition()) <= maxDistance){
+                posibleIndexes.push_back(i);
+            }
+        }
+    }
+    return posibleIndexes;*/
+}
 
 
