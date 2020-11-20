@@ -3,6 +3,14 @@
 ## Getting Started
 
 This project's aim is to make a video game in C++ as a final assignment for all software class of "Informatique et Systèmes", a 3rd year specialisation in ENSEA.
+
+## Zorglub Game Rules
+
+Zorglub Game Rules
+This game is a 1 vs 1 game. Each player has a team which contains between 3 and 6 characters. Each character has attributes (which he can choose), skills (calculated automatically thanks to the attributes) and a weapon (close combat, distant combat, magic power).
+On each turn, the player has 2 action points (movement or attack).
+The object of the game is to be the last to survive.
+
 ### Environment
 
 The recommended environment to use and install this project is a linux distribution of your choosing. Preferably Ubuntu 16.04 and upwards.
