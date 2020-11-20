@@ -7,17 +7,49 @@ This project's aim is to make a video game in C++ as a final assignment for all 
 
 The recommended environment to use and install this project is a linux distribution of your choosing. Preferably Ubuntu 16.04 and upwards.
 
+
 ### Depedencies to install
-In order to get the game running  you will need smfl libraries.
+In order to get the game running  you will need to install some package on your Linux environment; in a terminal:
+Git 
+```bash
+sudo apt install git
+```
+Dia is the software used to create UML diagrams
+
+```bash
+sudo apt-get install dia
+```
+cmake and g++ are used to compile C++ code
+
+```bash
+sudo apt install cmake
+sudo apt install g++
+```
+
+lcov and lcov are used to check the code coverage
+```bash
+sudo apt install lcov
+sudo apt install gcovr
+```
+
+smfl libraries for the render
 
 ```bash
 sudo apt-get install libsfml -dev
 sudo apt-get install libboost-all-dev
 ```
 
-## Build Instructions
+
+
+## Build instructions
+Then, in order to use our project, you have to clone it, this way:
+
 ```bash
-There are none yet
+git clone https://github.com/iceliades/antoine_justine_kuga_theau
+cd antoine_justine_kuga_teau
+mkdir build
+cmake ..
+make
 ```
 ## Test
 ```
