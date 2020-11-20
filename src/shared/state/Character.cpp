@@ -26,49 +26,49 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
     MovementLeft= 5;
     PlayerID = 0;//Player->getListCharacters().size;
     direction = DOWN;
+    Health = 30;
+    Dodge = 0.1;
+    Precision = 0.7;
 
     switch (id) {
         case (CROOK) :
-            Health = 100;
-            Precision = 2.0;
-            Dodge = 0.0;
-            //  stats.setIntelligence(stats.getIntelligence()+1);
+            stats.setIntelligence(stats.getIntelligence()+1);
         break;
         case (KNIGHT) :
-            Health = 80;
-            Precision = 3.0;
-            Dodge = 0.0;
-            //  stats.setCourage(stats.getCourage()+1);
+            stats.setCourage(stats.getCourage()+1);
         break;
         case (ELF) :
-            Health = 80;
-            Precision = 3.0;
-            Dodge = 0.0;
-            //  stats.setAgility(stats.getAgility()+1);
+            stats.setAgility(stats.getAgility()+1);
         break;
         case (NATIVE) :
-            Health = 80;
-            Precision = 3.0;
-            Dodge = 0.0;
-            //  stats.setArcane(stats.getArcane()+1);
+            stats.setArcane(stats.getArcane()+1);
         break;
         case (DWARF) :
-            Health = 80;
-            Precision = 3.0;
-            Dodge = 0.0;
-            //  stats.setStamina(stats.getStamina()+1);
+            stats.setStamina(stats.getStamina()+1);
         break;
         case (PIRATE) :
-            Health = 80;
-            Precision = 3.0;
-            Dodge = 0.0;
-            //  ANNOYING WE NEED A WAY TO GET THE PLAYER'S CHOICE
+            std::default_random_engine generator;
+            std::uniform_int_distribution<int> distribution(1,6);
+            int dice_roll = distribution(generator);
+            // Pirate and Gambling, name a better duo
+            switch(dice_roll){
+                case(1):
+                    stats.setAgility(stats.getAgility()+1);
+                case(2):
+                    stats.setArcane(stats.getArcane()+1);
+                case(3):
+                    stats.setCourage(stats.getCourage()+1);
+                case(4):
+                    stats.setIntelligence(stats.getIntelligence()+1);
+                case(5):
+                    stats.setStamina(stats.getStamina()+1);
+                case(6):
+                    stats.setStrength(stats.getStrength()+1);
+            }
+
         break;
         case (TROLL) :
-            Health = 80;
-            Precision = 3.0;
-            Dodge = 0.0;
-            //  stats.setStrength(stats.getStrength()+1);
+            stats.setStrength(stats.getStrength()+1);
         break;
 
 }
@@ -78,20 +78,13 @@ Character::~Character(){
 }
 
 //------------------------------------------------- Setters ------------------------------------------------------------
-void Character::setHealth ( int Stamina,  int Strength){
-    Health= 3*Stamina + 2*Strength;
-}
 
-void Character::setMovementBonus (int Courage, int Stamina){
-    Movement= int(5+ Courage/12 + Stamina/12);
+void Character::setCharWeap (Weapon* w){
+    charWeap=w;
 }
 
 void Character::setDodge (int Agility, int Intelligence){
     Dodge= (Agility+Intelligence)/60;
-}
-
-void Character::setPrecision ( int Agility, int Intelligence, int Strength, int Arcane){
-    Precision= (Agility+Intelligence+Strength+Arcane)/60;
 }
 
 void Character::setEffect (bool Immobilised,bool Stunned,bool Disarmed){
@@ -100,10 +93,30 @@ void Character::setEffect (bool Immobilised,bool Stunned,bool Disarmed){
     effect.setDisarmed(Disarmed);
 }
 
-void Character::setCharWeap (Weapon* w){
-    charWeap=w;
+void Character::setHealth ( int Stamina,  int Strength){
+    Health= 3*Stamina + 2*Strength;
 }
 
+void Character::setIndex(int Index) {
+    this->Index=Index;
+}
+
+void Character::setName(const std::string& Name){
+    this->Name=Name;
+}
+
+void Character::setMovement(int Movement){
+    this->Movement=Movement;
+}
+
+void Character::setMovementBonus (int Courage, int Stamina){
+    Movement= int(5+ Courage/12 + Stamina/12);
+}
+
+
+void Character::setPrecision ( int Agility, int Intelligence, int Strength, int Arcane){
+    Precision= (Agility+Intelligence+Strength+Arcane)/60;
+}
 void Character::setStats (int Agility, int Arcane, int Courage, int Intelligence, int Stamina, int Strength){
     stats.setAgility(Agility);
     stats.setArcane(Arcane);
@@ -113,19 +126,13 @@ void Character::setStats (int Agility, int Arcane, int Courage, int Intelligence
     stats.setStrength(Strength);
 }
 
+void Character::setStatus(CharacterStatusID Status){
+    this->Status=Status;
+}
 
 void Character::setTypeID(CharacterTypeID TypeID){
     // TypeID can't change
     cout << "What are you doing ?!\n";
-}
-void Character::setName(const std::string& Name){
-    this->Name=Name;
-}
-void Character::setStatus(CharacterStatusID Status){
-    this->Status=Status;
-}
-void Character::setMovement(int Movement){
-    this->Movement=Movement;
 }
 
 //------------------------------------------------- Getters ------------------------------------------------------------
@@ -167,9 +174,20 @@ Weapon* Character::getCharWeap (){
     return charWeap;
 }
 
+int Character::getIndex() const {
+    return Index;
+}
+
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){
     return false;
+}
+
+void Character::attack(Character &target) {
+    // maybe handled by engine un-coded because conflicts may arise
+}
+void Character::move(State &state, Direction direction) {
+    // maybe handled by engine un-coded because conflicts may arise
 }
 
 
