@@ -21,7 +21,7 @@
  * 
  */
 
-#include "state.h"
+#/*include "engine.h"
 #include <fstream>
 #include <sstream>
 #include <memory>
@@ -29,12 +29,11 @@
 #include <iostream>
 
 using namespace std;
-using namespace state;
+using namespace engine;
 
-class Engine
+Engine::Engine()
 {
-	private :
-	
-	State currState;
 	
 }
+
+*/
