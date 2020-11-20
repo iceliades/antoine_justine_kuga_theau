@@ -21,7 +21,6 @@
  * 
  */
 
-
 #include "state.h"
 #include <fstream>
 #include <sstream>
@@ -33,3 +32,9 @@ using namespace std;
 using namespace state;
 
 class Engine
+{
+	private :
+	
+	State currState;
+	
+}
