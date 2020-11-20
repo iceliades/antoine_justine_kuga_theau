@@ -6,7 +6,7 @@
 using namespace std;
 using namespace state;
 
-State::State():cursor(10,10,2){ // call a specific constructor
+State::State():cursor(10,10,3){ // call a specific constructor
     round=1;
     endGame=false;
     curPlayerID=1;

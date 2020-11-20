@@ -182,16 +182,12 @@ int Character::getIndex() const {
     return Index;
 }
 
+int Character::getPlayerID(){
+    return this->PlayerID;
+}
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){
     return false;
-}
-
-void Character::attack(Character &target) {
-    // maybe handled by engine un-coded because conflicts may arise
-}
-void Character::move(State &state, Direction direction) {
-    // maybe handled by engine un-coded because conflicts may arise
 }
 
 std::vector<Position> Character::allowedMove(State& state){
@@ -206,30 +202,50 @@ std::vector<Position> Character::allowedMove(State& state){
                 Position posMirror(position.getX()+x,position.getY()-y);
                 allowedPos.push_back(pos);
             }
-                
-
         }
-
     }
-
     return allowedPos;
 }
 
 
 
-std::vector<int> Character::allowedAttack(State &state){
-    /*vector<int> posibleIndexes;
-    for(unsigned int i = 0; i < state.getCharacters().size(); i++){
-        Character& charac = *state.getCharacters()[i];
-        if(charac.getPlayerOwner() != playerOwner && charac.getStatus() != DEATH){
-            // check distances
-            int maxDistance = characterAttackDistance + 1;
-            if(position.distance(charac.getPosition()) <= maxDistance){
-                posibleIndexes.push_back(i);
+std::vector<Position> Character::allowedAttackPos(State &state){
+   vector<Position> allowedAttackPos;
+   int maxRange= this->charWeap->getMaxRange();
+   for (int y=0; y<=maxRange;y++){
+        for (int x=y-maxRange; x<=maxRange-y;x++){
+            if (y==0 && x==0) // exclude character Position
+                continue;
+            Position pos(position.getX()+x,position.getY()+y);
+            allowedAttackPos.push_back(pos);
+            if (y !=0){
+                Position posMirror(position.getX()+x,position.getY()-y);
+                allowedAttackPos.push_back(pos);
             }
         }
     }
-    return posibleIndexes;*/
+    return allowedAttackPos;
 }
+
+std::vector<int> Character::allowedAttackTarget (State& state){
+    
+    vector<int> posibleCharIndexes;
+    std::vector<Position> charallowedAttackPos=allowedAttackPos(state); 
+    
+    for (unsigned int i=0; i< state.getListPlayers().size();i++){
+        for (unsigned int j=0; j< state.getListCharacters(i).size();j++){
+            Character& charac = *state.getListCharacters(i)[j];
+            if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
+                for (unsigned int pos=0; pos<charallowedAttackPos.size(); pos++){
+                    if(charallowedAttackPos[pos].equals(charac.getPosition())){
+                        posibleCharIndexes.push_back(j);
+                    }
+                }
+            }
+        }
+    }
+    return posibleCharIndexes;
+}
+
 
 
