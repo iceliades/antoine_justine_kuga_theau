@@ -5,6 +5,7 @@
 using namespace render;
 using namespace state;
 using namespace std;
+using namespace sf;
 
 bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTileSet,int width, int height){
     
@@ -41,6 +42,74 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
 			quad[1].texCoords = sf::Vector2f((tx + 1) * cellWidth, ty * cellHeight);
 			quad[2].texCoords = sf::Vector2f((tx + 1) * cellWidth, (ty + 1) * cellHeight);
 			quad[3].texCoords = sf::Vector2f(tx * cellWidth, (ty + 1) * cellHeight);
+
+            if (curState.getCurAction() == MOVING){
+                for (auto &charac : curState.getListCharacters(0)){
+                    if (charac->getStatus() == SELECTED && charac->getMovementLeft() > 0){
+                        
+                        int tilePosX = curState.getMap()[i][j]->getPosition().getX();
+                        int tilePosY = curState.getMap()[i][j]->getPosition().getY();
+                        for (auto &allowedPos : charac->allowedMove(curState)){
+                            if( allowedPos.getX()== tilePosX && allowedPos.getY()==tilePosY){
+                                Color c = Color(30, 144, 255);
+                                quad[0].color = c;
+                                quad[1].color = c;
+                                quad[2].color = c;
+                                quad[3].color = c;
+
+                            }
+
+                        }
+
+                    }
+                }
+                // for now need to change by for players
+                for (auto &charac : curState.getListCharacters(1)){
+                    if (charac->getStatus() == SELECTED && charac->getMovementLeft() > 0){
+                        
+                        int tilePosX = curState.getMap()[i][j]->getPosition().getX();
+                        int tilePosY = curState.getMap()[i][j]->getPosition().getY();
+                        for (auto &allowedPos : charac->allowedMove(curState)){
+                            if( allowedPos.getX()== tilePosX && allowedPos.getY()==tilePosY){
+                                Color c = Color(30, 144, 255);
+                                quad[0].color = c;
+                                quad[1].color = c;
+                                quad[2].color = c;
+                                quad[3].color = c;
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
+            
+            /*if (curState.getCurAction() == ATTACKING){
+                for (auto &charac : curState.getListCharacters(j)){
+                    if (charac->getStatus() == SELECTED && charac->getMovementLeft() > 0){
+                        
+                        int tilePosX = curState.getMap()[i][j]->getPosition().getX();
+                        int tilePosY = curState.getMap()[i][j]->getPosition().getY();
+                        for (auto &allowedPos : charac->allowedMove(curState)){
+                            if( allowedPos.getX()== tilePosX && allowedPos.getY()==tilePosY){
+                                Color c = sf::Color::Cyan;
+                                quad[0].color = c;
+                                quad[1].color = c;
+                                quad[2].color = c;
+                                quad[3].color = c;
+
+                            }
+
+                        }
+
+                    }
+                }
+            }*/
+
+
+
+
 
         }
     }
@@ -112,7 +181,7 @@ bool TextureArea::loadCharacters(state::State& curState, render::TileSet& textur
                 quad[0].color = color;
                 quad[1].color = color;
                 quad[2].color = color;
-                quad[3].color = color;*/
+                quad[3].color = color;*/             
 
 
             }
@@ -122,4 +191,39 @@ bool TextureArea::loadCharacters(state::State& curState, render::TileSet& textur
 
     return true;
 
+}
+
+
+bool TextureArea::loadCursor(state::State &state,render::TileSet& textureTIleset )
+{
+    // on redimensionne le tableau de vertex pour qu'il puisse contenir tout le niveau
+    texture= textureTIleset.getTexture();
+    int cellWidth= textureTIleset.getCellWidth();
+    int cellHeight= textureTIleset.getCellHeight();
+    
+    quads.setPrimitiveType(sf::Quads);
+    quads.resize(state.getMap().size() * state.getMap()[0].size() * 4);
+
+    int tileNumber = state.getCursor().getTileCode();
+
+    // on en déduit sa position dans la texture du tileset
+    int tx = tileNumber % (texture.getSize().x / cellWidth);
+    int ty = tileNumber / (texture.getSize().x / cellWidth);
+
+    // on récupère un pointeur vers le quad à définir dans le tableau de vertex
+    sf::Vertex *quad = &quads[4];
+
+    // on définit ses quatre coins
+    quad[0].position = sf::Vector2f(state.getCursor().getPosition().getX() * cellWidth, state.getCursor().getPosition().getY() * cellHeight);
+    quad[1].position = sf::Vector2f((state.getCursor().getPosition().getX() + 1) * cellWidth, state.getCursor().getPosition().getY() * cellHeight);
+    quad[2].position = sf::Vector2f((state.getCursor().getPosition().getX() + 1) * cellWidth, (state.getCursor().getPosition().getY() + 1) * cellHeight);
+    quad[3].position = sf::Vector2f(state.getCursor().getPosition().getX() * cellWidth, (state.getCursor().getPosition().getY() + 1) * cellHeight);
+
+    // on définit ses quatre coordonnées de texture
+    quad[0].texCoords = sf::Vector2f(tx * cellWidth, ty * cellHeight);
+    quad[1].texCoords = sf::Vector2f((tx + 1) * cellWidth, ty * cellHeight);
+    quad[2].texCoords = sf::Vector2f((tx + 1) * cellWidth, (ty + 1) * cellHeight);
+    quad[3].texCoords = sf::Vector2f(tx * cellWidth, (ty + 1) * cellHeight);
+
+    return true;
 }

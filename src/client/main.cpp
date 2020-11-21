@@ -33,6 +33,7 @@ int main(int argc,char* argv[])
         }else if (string(argv[1]) == "render")
         {
             State state;
+            state.setCurAction(MOVING);
             state.initPlayers();
             state.initCharacters();
             state.initMapCell();

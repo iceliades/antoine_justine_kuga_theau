@@ -6,11 +6,12 @@
 using namespace std;
 using namespace state;
 
-State::State():cursor(10,10,2){ // call a specific constructor
+State::State():cursor(10,10,3){ // call a specific constructor
     round=1;
     endGame=false;
     curPlayerID=1;
     nbOfPlayers=1;
+    curAction=IDLE;
 
 }
 State::~State(){}
@@ -78,40 +79,37 @@ void State::initMapCell(){
 void State::initCharacters(){
    
     //init Player 1 Characters
-    unique_ptr<Character> ptrCrook1(new Character(CROOK,"CROOK",2,10,0));
-    unique_ptr<Character> ptrKnight1(new Character(KNIGHT,"KNIGHT",2,12,28));
-    unique_ptr<Character> ptrDwarf1(new Character(DWARF,"DWARF",2,14,56));
+    unique_ptr<Character> ptrCrook1(new Character(CROOK,"CROOK1",2,10,0));
+    unique_ptr<Character> ptrKnight1(new Character(KNIGHT,"KNIGHT1",2,12,28));
+    unique_ptr<Character> ptrDwarf1(new Character(DWARF,"DWARF1",2,14,56));
+    // testing for render
+    ptrCrook1->setStatus(SELECTED);
     listPlayers[0]->getListCharacters().push_back(move(ptrCrook1));
     listPlayers[0]->getListCharacters().push_back(move(ptrKnight1));
     listPlayers[0]->getListCharacters().push_back(move(ptrDwarf1));
 
     //init Player 2 Characters
-    unique_ptr<Character> ptrCrook2(new Character(CROOK,"CROOK",23,10,0));
-    unique_ptr<Character> ptrKnight2(new Character(KNIGHT,"KNIGHT",23,12,15));
-    unique_ptr<Character> ptrDwarf2(new Character(DWARF,"DWARF",23,14,56));
+    unique_ptr<Character> ptrCrook2(new Character(CROOK,"CROOK2",23,10,0));
+    unique_ptr<Character> ptrKnight2(new Character(KNIGHT,"KNIGHT2",23,12,15));
+    unique_ptr<Character> ptrDwarf2(new Character(DWARF,"DWARF2",23,14,56));
     listPlayers[1]->getListCharacters().push_back(move(ptrCrook2));
     listPlayers[1]->getListCharacters().push_back(move(ptrKnight2));
     listPlayers[1]->getListCharacters().push_back(move(ptrDwarf2));
 
 
-  /*  // set Index for Characets for each Players
-    for(int i=0; i<listPlayers.size();i++){
-        for (int j=0; j<listPlayers[0]->getListCharacters().size();j++){
-            Stats charStats= listPlayers[i]->getListCharacters()[j]->getStats();       
+   // set Index for Characets for each Players
+    for(unsigned int i=0; i<listPlayers.size();i++){
+        for (unsigned int j=0; j<listPlayers[i]->getListCharacters().size();j++){
+            //Stats charStats= listPlayers[i]->getListCharacters()[j]->getStats();       
             
             // Not a very clean code 
             // Init can take parameters for 
-            //listPlayers[i]->getListCharacters()[j]->setIndex(j);
+            listPlayers[i]->getListCharacters()[j]->setIndex(j);
+            listPlayers[i]->getListCharacters()[j]->setPlayerID(i+1);
             //listPlayers[i]->getListCharacters()[j]->setHealth(charStats.getStamina(),charStats.getStrength());
-
-
-        
-            
-
-        }
-             
-    }*/
-
+        }           
+    }
+    cursor.setPosition(listPlayers[0]->getListCharacters()[0]->getPosition());
 }
 
 void State::deletePlayer(Player& player){

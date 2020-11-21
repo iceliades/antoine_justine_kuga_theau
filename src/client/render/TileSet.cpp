@@ -19,6 +19,11 @@ TileSet::TileSet(TileSetID ID){
             cellHeight=72;
             resFile="res/textures/characters_tileset.png";
             break;
+        case CURSORTILESET:
+            cellWidth=32;
+            cellHeight=32;
+            resFile="res/textures/Cursor_tileset.png";
+            break;
         default:
             break;
     }
