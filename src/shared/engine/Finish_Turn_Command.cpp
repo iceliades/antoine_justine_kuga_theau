@@ -11,7 +11,7 @@ Finish_Turn_Command::Finish_Turn_Command (){
 
 }
 
-void Finish_Turn_Command::Exec (state::State& state){
+void Finish_Turn_Command::exec (state::State& state){
 
     // for the Plyaer for has finished his turn
     for (auto& charac: state.getListCharacters(state.getCurPlayerID()-1)){
@@ -45,6 +45,6 @@ void Finish_Turn_Command::Exec (state::State& state){
         state.getCursor().setTileCode(1);
     
      cout << endl << "Turn Changed: Current PLAYER ID " <<state.getCurPlayerID()<< endl;
-        
+     cout << "\n";
 
 }

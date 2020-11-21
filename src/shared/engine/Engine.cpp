@@ -1,102 +1,80 @@
-#include "engine.h"
 #include "Engine.h"
-#include <fstream>
-#include <sstream>
-#include <memory>
-#include <vector>
+#include "engine.h"
 #include <iostream>
+#include <unistd.h>
 
-using namespace std;
-using namespace engine;
 using namespace state;
-/*
-Engine::Engine() : currState("engine")
+using namespace engine;
+using namespace std;
+
+
+Engine::~Engine()
 {
-	//record["length"] = 0;
-	//record["commands"][0] = "";
 }
 
-Engine::Engine(string stateMode) : currState(stateMode)
+state::State& Engine::getState()
 {
-	//record["length"] = 0;
-	//record["commands"][0] = "";
+    return currState;
 }
 
-Engine::~Engine()/µ
+void Engine::addPsvCommands()
 {
-	
-}
-/*
-bool getRecEn()
-{
-	return RecEn;
+    int priority = 0;
+    // if currentCommands isnt empty
+    if (currCommands.size() > 0)
+        // find largest priority
+        priority = currCommands.rbegin()->first + 1;
+
+    // passive commands...
+    unique_ptr<Command> ptr_cw(new Check_Win_Command());
+    addCommand(move(ptr_cw), priority++);
+    
 }
 
-void setRecEn(bool enableRecord)
+
+void Engine::addCommand(std::unique_ptr<Command> ptr_cmd, int priority)
 {
-	RecEn = enableRecord;
+    if (priority == -1)
+    {
+        // find largest priority
+        if (currCommands.size() > 0)
+            priority = currCommands.rbegin()->first + 1;
+        else
+        {
+            priority = 0;
+        }
+    }
+    currCommands[priority] = move(ptr_cmd);
 }
 
-Json::Value getRec()
+void Engine::update()
 {
-	return Rec;
+    if (!currState.getEndGame())
+    {
+        cout << "Adding passive commands ..." << endl;
+        addPsvCommands();
+        cout << "Executing commands from turn " << currState.getRound() << endl;
+        //default event
+        StateEvent stateEvent(ALLCHANGED);
+        for (size_t i = 0; i < currCommands.size(); i++)
+        {
+            currCommands[i]->exec(currState);
+            currState.notifyObservers(stateEvent, currState);
+			usleep(200 * 1000);
+        }
+        // clean using iterator
+        map<int, std::unique_ptr<Command>>::iterator iterator;
+        for (iterator = currCommands.begin(); iterator != currCommands.end(); iterator++)
+        {
+            currCommands.erase(iterator);
+        }
+    }
+    else
+    {
+        cout << "The game is ended, we have a winner" << endl;
+    }
 }
 
-State& getState()
-{
-	State& ref = currState;
-	return ref;
+std::map<int, std::unique_ptr<Command>>& Engine::getCurrCommands (){
+    return currCommands;
 }
-
-map<int, unique_ptr<Command>>& getCurrCommands()
-{
-	return currCommands;
-}
-
-void add_PCommands()
-{
-	int prior = 0;
-	unique_ptr<Command> cw(new Check_Win_Command);
-	
-	if (currCommands.size() > 0) prior = currCommands.rbegin()->first + 1;
-	add_Command(move(cw,prior++);
-	
-}
-
-void add_Command(unique_ptr<Command> ptr_com, int prior = -1)
-{
-	if (currCommands.size() > 0) prior = currCommands.rbegin()->first + 1;
-	else prior = 0;
-	
-	if (RecEn && ptr_com->getCommandID() != CHECK_WIN)
-	{
-		Json::Value newCommand = ptr_com->serialize();
-		record["Command Array"][record["Size"].asUInt()] = newCommand;
-		record["Size"] = record["Size"].asUInt + 1;
-	}
-	
-	currCommands[prior] = move(ptr_com);
-}
-
-void update()
-{
-	if (!currState.getEndGame())
-	{
-		cout << "Adding passive commands..." << endl;
-		add_PCommands();
-		cout << "Executing command from player " << currState.getCurPlayer() << endl;
-		StateEvent stateEvent(ALLCHANGED);
-		bool endTurn = false;
-		
-		for (size_t i; i < currCommands.size(); i++)
-		{
-			currCommands[i]->execute(currState);
-			currState.notifyObservers(stateEvent, currState);
-			if (currState.getMode() == "engine") usleep(200*1000);
-		}
-		
-		map<int, unique_ptr<Command>>::iterator it;
-		for (it = currCommands.begin(); it != currCommands.end(); it++) currCommands.erase(it)
-	}
-	else cout << "Winner found... Game Over" << endl;
-}*/

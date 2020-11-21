@@ -25,8 +25,8 @@ int main(int argc,char* argv[])
     //exemple.setX(53);
     if(argc==2) {
         
-        if (string(argv[1]) == "hello")cout << "Bonjour le monde!" << endl;
-        
+        if (string(argv[1]) == "hello")
+            cout << "Bonjour le monde!" << endl; 
         else if (string(argv[1]) == "state") {
             cout << "Veillez utiliser les commandes make unittest et make code-coverage depuis le dossier build" << endl;
     
@@ -57,6 +57,15 @@ int main(int argc,char* argv[])
             }
 
         }
+        else if (string(argv[1]) == "engine")
+        {
+            
+        }
+        
+        
+
+
+
         
 
     }

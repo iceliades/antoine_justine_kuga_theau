@@ -21,4 +21,6 @@ void Sel_Char_Command::exec(state::State &state)
     
     targetedChar.setStatus(SELECTED);
     cout << endl << "THE SELECTED CHARACTER IS "<<targetedChar.getName() << endl;
+    cout << "\n";
+
 }

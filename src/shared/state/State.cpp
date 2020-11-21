@@ -138,13 +138,17 @@ void State::setRound(int newRound){ round= newRound;}
 void State::setEndGame(bool res){ endGame=res;}
 void State::setCurPlayerID(int newPlayer){curPlayerID=newPlayer;}
 void State::setCurAction(CurActionID newAction){curAction=newAction;}
-
+void State::setGameWinner(int winnerID){ gameWinner=winnerID;}
+void State::setMode(std::string newMode){ mode= newMode;}
 
 
 bool State::getEndGame(){ return endGame;}
 int State::getRound(){ return round;}
 int State::getCurPlayerID(){ return curPlayerID;}
 int State::getNbOfPlayers(){ return nbOfPlayers;}
+int State::getGameWinner(){ return gameWinner;}
+std::string State::getMode(){ return mode;}
+
 Cursor& State::getCursor(){ return cursor;}
 CurActionID State::getCurAction(){return curAction;}
 std::vector<std::unique_ptr<Player>>& State::getListPlayers (){

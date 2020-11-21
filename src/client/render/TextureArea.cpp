@@ -64,6 +64,7 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
                     }
                 }
                 // for now need to change by for players
+                // will change by a for on player
                 for (auto &charac : curState.getListCharacters(1)){
                     if (charac->getStatus() == SELECTED && charac->getMovementLeft() > 0){
                         
@@ -84,16 +85,15 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
                     }
                 }
             }
-            
-            /*if (curState.getCurAction() == ATTACKING){
-                for (auto &charac : curState.getListCharacters(j)){
-                    if (charac->getStatus() == SELECTED && charac->getMovementLeft() > 0){
+            if (curState.getCurAction() == ATTACKING){
+                for (auto &charac : curState.getListCharacters(0)){
+                    if (charac->getStatus() == SELECTED ){
                         
                         int tilePosX = curState.getMap()[i][j]->getPosition().getX();
                         int tilePosY = curState.getMap()[i][j]->getPosition().getY();
-                        for (auto &allowedPos : charac->allowedMove(curState)){
-                            if( allowedPos.getX()== tilePosX && allowedPos.getY()==tilePosY){
-                                Color c = sf::Color::Cyan;
+                        for (auto &allowedAttackPos : charac->allowedAttackPos(curState)){
+                            if( allowedAttackPos.getX()== tilePosX && allowedAttackPos.getY()==tilePosY){
+                                Color c = sf::Color::Red;
                                 quad[0].color = c;
                                 quad[1].color = c;
                                 quad[2].color = c;
@@ -105,11 +105,29 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
 
                     }
                 }
-            }*/
+                for (auto &charac : curState.getListCharacters(1)){
+                    if (charac->getStatus() == SELECTED ){
+                        
+                        int tilePosX = curState.getMap()[i][j]->getPosition().getX();
+                        int tilePosY = curState.getMap()[i][j]->getPosition().getY();
+                        for (auto &allowedAttackPos : charac->allowedAttackPos(curState)){
+                            if( allowedAttackPos.getX()== tilePosX && allowedAttackPos.getY()==tilePosY){
+                                Color c = sf::Color::Red;
+                                quad[0].color = c;
+                                quad[1].color = c;
+                                quad[2].color = c;
+                                quad[3].color = c;
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
 
 
-
-
+            
 
         }
     }

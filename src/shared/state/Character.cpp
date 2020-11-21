@@ -96,6 +96,7 @@ void Character::setEffect (bool Immobilised,bool Stunned,bool Disarmed){
 void Character::setHealth ( int Stamina,  int Strength){
     Health= 3*Stamina + 2*Strength;
 }
+void Character::setNewHealth(int newHealth){ this->Health= newHealth;}
 
 void Character::setIndex(int Index) {
     this->Index=Index;
@@ -237,7 +238,7 @@ std::vector<Position> Character::allowedMove(State& state){
 }
 
 
-
+// Return all the positon the character is allowed to ttack
 std::vector<Position> Character::allowedAttackPos(State &state){
    vector<Position> allowedAttackPos;
    int maxRange= this->charWeap->getMaxRange();
@@ -249,7 +250,7 @@ std::vector<Position> Character::allowedAttackPos(State &state){
             allowedAttackPos.push_back(pos);
             if (y !=0){
                 Position posMirror(position.getX()+x,position.getY()-y);
-                allowedAttackPos.push_back(pos);
+                allowedAttackPos.push_back(posMirror);
             }
         }
     }
@@ -262,16 +263,20 @@ std::vector<int> Character::allowedAttackTarget (State& state){
     std::vector<Position> charallowedAttackPos=allowedAttackPos(state); 
     
     for (unsigned int i=0; i< state.getListPlayers().size();i++){
-        for (unsigned int j=0; j< state.getListCharacters(i).size();j++){
-            Character& charac = *state.getListCharacters(i)[j];
-            if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
-                for (unsigned int pos=0; pos<charallowedAttackPos.size(); pos++){
-                    if(charallowedAttackPos[pos].equals(charac.getPosition())){
-                        posibleCharIndexes.push_back(j);
+        if( state.getCurPlayerID()!=(i+1)){
+            for (unsigned int j=0; j< state.getListCharacters(i).size();j++){
+                Character& charac = *state.getListCharacters(i)[j];
+                if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
+                    for (unsigned int pos=0; pos<charallowedAttackPos.size(); pos++){
+                        if(charallowedAttackPos[pos].equals(charac.getPosition())){
+                            posibleCharIndexes.push_back(j);// return the index of the character
+                        }
                     }
                 }
             }
+
         }
+        
     }
     return posibleCharIndexes;
 }
