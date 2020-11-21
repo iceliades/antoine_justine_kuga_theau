@@ -1,5 +1,5 @@
 #include "Check_Win_Command.h"
-#include "state.h"
+
 // to use console
 #include <iostream>
 
@@ -36,8 +36,9 @@ void Check_Win_Command::Exec(state::State &state)
         //state.setGmaeWinner(winner);
         StateEvent se{StateEventID::ENDGAME};
         state.notifyObservers(se, state);
-        cout << endl << "ATENTION!!! THE WINNER IS THE PLAYER " << winnedID << endl;
-        cout << endl << "All the opponent's characters are dead" << endl;
+        cout << endl << "GAME OVER" << endl;
+        cout << endl << "THE GAME WINNER IS THE PLAYER No" << winnedID << endl;
+        
     }
     if (p2nbDeathChar==state.getListCharacters(1).size()){
         winnedID=2;
@@ -45,8 +46,8 @@ void Check_Win_Command::Exec(state::State &state)
         //state.setGmaeWinner(winner);
         StateEvent se{StateEventID::ENDGAME};
         state.notifyObservers(se, state);
-        cout << endl << "ATENTION!!! THE WINNER IS THE PLAYER " << winnedID << endl;
-        cout << endl << "All the opponent's characters are dead" << endl;
+        cout << endl << "GAME OVER" << endl;
+        cout << endl << "THE GAME WINNER IS THE PLAYER No " << winnedID << endl;
     }
  
 }
