@@ -9,24 +9,24 @@
 using namespace std;
 using namespace engine;
 using namespace state;
-
+/*
 Engine::Engine() : currState("engine")
 {
-	/*record["length"] = 0;
-	record["commands"][0] = "";*/
+	//record["length"] = 0;
+	//record["commands"][0] = "";
 }
 
 Engine::Engine(string stateMode) : currState(stateMode)
 {
-	/*record["length"] = 0;
-	record["commands"][0] = "";*/
+	//record["length"] = 0;
+	//record["commands"][0] = "";
 }
 
-Engine::~Engine()
+Engine::~Engine()/µ
 {
 	
 }
-
+/*
 bool getRecEn()
 {
 	return RecEn;
@@ -99,4 +99,4 @@ void update()
 		for (it = currCommands.begin(); it != currCommands.end(); it++) currCommands.erase(it)
 	}
 	else cout << "Winner found... Game Over" << endl;
-}
+}*/
