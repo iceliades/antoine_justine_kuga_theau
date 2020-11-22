@@ -31,9 +31,9 @@ namespace state{
                 BOOST_CHECK_EQUAL(Crook.getName(), "crook");
                 BOOST_CHECK_EQUAL(Crook.getMovement(), 5);
                 //BOOST_CHECK_EQUAL(Crook.getMovementLeft(), 5);
-                BOOST_CHECK_EQUAL(Crook.getHealth(),30);
-                BOOST_CHECK_EQUAL(Crook.getPrecision(), 0.7);
-                BOOST_CHECK_EQUAL(Crook.getDodge(), 0.1);
+                BOOST_CHECK_EQUAL(Crook.getHealth(),100);
+                BOOST_CHECK_EQUAL(Crook.getPrecision(), 0.7f);
+                BOOST_CHECK_EQUAL(Crook.getDodge(), 0.1f);
                 BOOST_CHECK_EQUAL(Crook.getStatus(), AVAILABLE);
                 //BOOST_CHECK_EQUAL(Crook.getDirection(), DOWN);
                 //BOOST_CHECK_EQUAL(Crook.getPlayerID(), 0);
@@ -81,7 +81,7 @@ namespace state{
 
 
                 Character knigth(KNIGHT, "crook", 10, 10, 1);
-                BOOST_CHECK_EQUAL(knigth.getHealth(),80);
+                BOOST_CHECK_EQUAL(knigth.getHealth(),100);
                 //Crook.setEffect(false,true,false);
                 //BOOST_CHECK_EQUAL(Crook.getEffect().getStunned(),true);
 

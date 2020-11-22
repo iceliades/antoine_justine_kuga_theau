@@ -19,6 +19,7 @@ void Attack_Command::exec(state::State& curState)
 {
 	cout << attacker.getName() << "is trying to attack" << target.getName() << endl;
 	cout << "Actual health of " << target.getName() << ": " << target.getHealth() << endl;
+
 	
 	int pre(attacker.getPrecision()), dod(target.getDodge());
 	default_random_engine generator;
@@ -42,7 +43,10 @@ void Attack_Command::exec(state::State& curState)
 				cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
 				cout<<"\n";
 			}
-			else cout << "Sorry, you missed... Retry next turn or die before..." << endl;
+			
+			cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
+			cout<<"\n";
+					
 		}
 	}	
 

@@ -6,6 +6,6 @@ engine::CommandID Command::getId(){
 	return Id;
 }
 
-void Command::setId(engine::CommandID id){
+void Command::setID(CommandID id){
 	Id = id;
 }
