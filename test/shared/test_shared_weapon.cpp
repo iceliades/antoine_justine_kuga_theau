@@ -170,7 +170,7 @@ namespace weapon{
                 BOOST_CHECK_EQUAL(Sling.getMaxRange(),5); 
 
 
-// Weapon WAND
+		// Weapon WAND
 		Weapon Wand("WAND");
 
                 BOOST_CHECK_EQUAL(Wand.getDammages(), 10);
@@ -190,7 +190,7 @@ namespace weapon{
 
 
 
-// Weapon STICK
+		// Weapon STICK
 		Weapon Stick("STICK");
 
                 BOOST_CHECK_EQUAL(Stick.getDammages(), 11);
