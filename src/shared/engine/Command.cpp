@@ -6,3 +6,6 @@ CommandID Command::getId(){
 	return Id;
 }
 
+void setId(ComandId id){
+	Id = id;
+}
