@@ -84,7 +84,7 @@ void Character::setCharWeap (Weapon* w){
 }
 
 void Character::setDodge (int Agility, int Intelligence){
-    Dodge= 0,33 * ((Agility+Intelligence-16)**2)/196;
+    Dodge= 0,33 * ((Agility+Intelligence-16)^2)/196;
 }
 
 void Character::setEffect (bool Immobilised,bool Stunned,bool Disarmed){
@@ -194,6 +194,7 @@ int Character::getIndex() const {
 int Character::getPlayerID(){
     return this->PlayerID;
 }
+
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){
     return false;

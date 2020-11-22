@@ -6,6 +6,6 @@ CommandID Command::getId(){
 	return Id;
 }
 
-void setId(ComandId id){
-	Id = id;
+void Command::setID(CommandID Id){
+	this->Id = Id;
 }
