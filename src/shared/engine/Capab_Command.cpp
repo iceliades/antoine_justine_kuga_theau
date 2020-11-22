@@ -28,3 +28,36 @@
 using namespace engine;
 using namespace state;
 using namespace std;
+
+Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTarget) : user(refUser), target(refTarget)
+{
+	Id = CAPAB;
+}
+
+Capab_Command::~Capab_Command()
+{
+	
+}
+
+/*void Capab_Command::Exec (state::State& curState)
+{
+	cout << user.getName() << "is trying to use his powers on" << target.getName() << endl;
+	
+	for(auto& index: attacker.allowedAttackTarget(curState))
+	{
+		if(index==target.getIndex())
+		{
+			
+		}
+	}
+}*/
+
+
+
+
+
+
+
+
+
+

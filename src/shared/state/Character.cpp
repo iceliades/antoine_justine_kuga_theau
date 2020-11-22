@@ -114,11 +114,9 @@ void Character::setMovementLeft(int movement){
 
 }
 
-
 void Character::setMovementBonus (int Courage, int Stamina){
     Movement= int(5+ Courage/12 + Stamina/12);
 }
-
 
 void Character::setPrecision ( int Agility, int Intelligence, int Strength, int Arcane){
     Precision= (Agility+Intelligence+Strength+Arcane)/60;
@@ -150,7 +148,7 @@ CharacterTypeID Character::getTypeID() {
     return TypeID;
 }
 
-std::string   Character::getName (){
+std::string Character::getName (){
     return Name;
 }
 
@@ -195,9 +193,19 @@ int Character::getPlayerID(){
     return this->PlayerID;
 }
 
+std::vector<int>& Character::getCapab()
+{
+	return Capab;
+}
+
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){
     return false;
+}
+
+void Character::addCapab(int compt)
+{
+	Capab.push_back(move(compt));
 }
 
 std::vector<Position> Character::allowedMove(State& state){
