@@ -43,10 +43,6 @@ void Attack_Command::exec(state::State& curState)
 			else cout << "Sorry, you missed... Retry next turn or die before..." << endl;
 		}
 	}	
-	
-	
-	
-
 
 }
 

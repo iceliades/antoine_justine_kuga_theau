@@ -194,10 +194,21 @@ int Character::getIndex() const {
 int Character::getPlayerID(){
     return this->PlayerID;
 }
+
+vector<int>& getCapab()
+{
+	return Capab;
+}
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){
     return false;
 }
+
+void addCapab(int compt)
+{
+	Capab.push_back(move(compt));
+}
+
 
 std::vector<Position> Character::allowedMove(State& state){
     
