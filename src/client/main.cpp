@@ -42,7 +42,7 @@ int main(int argc,char* argv[])
             state.initCharacters();
             state.initMapCell();
             
-            sf::RenderWindow window(sf::VideoMode(32*26,32*24), "Zorglub");
+            sf::RenderWindow window(sf::VideoMode(32*26+500,32*24), "Zorglub");
             StateLayer stateLayer (state,window);
             
             
@@ -70,7 +70,7 @@ int main(int argc,char* argv[])
             engine.getState().initMapCell();
             cout<<" INIT DONE"<< endl;
             
-            sf::RenderWindow window(sf::VideoMode(32*26,32*24), "Zorglub");
+            sf::RenderWindow window(sf::VideoMode(32*26+500,32*24), "Zorglub");
             StateLayer stateLayer (engine.getState(),window);
             stateLayer.initTextureArea(engine.getState());
 
@@ -227,15 +227,12 @@ int main(int argc,char* argv[])
                         }
                         engine.update();                                   
                    
-                    }else
-                    {
-                        usleep(50000);
                     }
-                    
-                    
+                              
                     window.pollEvent(event);
                     if (event.type == sf::Event::Closed)
                         window.close();
+                    
                     
                 }
                 
