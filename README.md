@@ -12,7 +12,6 @@ Each character has attributes (which he can choose), skills (calculated automati
 On each turn, the player has 2 action points (movement or attack).  
 The object of the game is to be the last to survive.
 
-
 ### Depedencies to install
 In order to get the game running  you will need to install some package on your Linux environment; in a terminal:
 Git 
@@ -30,49 +29,52 @@ cmake and g++ are used to compile C++ code
 sudo apt install cmake
 sudo apt install g++
 ```
-
 lcov and lcov are used to check the code coverage
 ```bash
 sudo apt install lcov
 sudo apt install gcovr
 ```
-
 smfl libraries for the render
-
 ```bash
 sudo apt-get install libsfml -dev
 sudo apt-get install libboost-all-dev
 ```
 
-
-
 ## Build instructions
 Then, in order to use our project, you have to clone it, this way:
 
 ```bash
-mkdir build
+git clone https://github.com/iceliades/antoine_justine_kuga_theau
+cd antoine_justine_kuga_theau
+mkdir build (first use only)
 cd build
+clean
 cmake .. && make
-
+(+ cmd in next chapters)
 ```
-## Test
-```
-cd ./build/test/shared
-```
-
-## Report
-
-Nothing to see here move along.
 
 ## 1.1 Development environment
-The recommended environment to use and install this project is a linux distribution of your choosing. Preferably Ubuntu 16.04 and upwards.
-
+The recommended environment to use and install this project is a linux distribution of your choosing. Preferably Ubuntu 16.04 and upwards.  
+Hello World dislay
+```bash
+./bin/client hello
+```
 ## 1.final Game state
-
+Unit test
+```bash
+make unittest
+```
 ## 2.1 Render
+Render automatic display
+```bash
+./bin/client render
+```
 
 ## 2.2 Engine
-
+Engine automatic display
+```bash
+./bin/client engine
+```
 ## 2.final Random AI
 
 ## 3.1 Heuristic AI
@@ -80,6 +82,10 @@ The recommended environment to use and install this project is a linux distribut
 ## 3.final Advanced AI
 
 ## 4.1 Multi threading
+
+## Report
+
+Nothing to see here move along.
 
 ## Authors
 
