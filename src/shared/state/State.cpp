@@ -12,6 +12,7 @@ State::State():cursor(10,10,3){ // call a specific constructor
     curPlayerID=1;
     nbOfPlayers=1;
     curAction=IDLE;
+    gameWinner=0;
 
 }
 State::~State(){}
