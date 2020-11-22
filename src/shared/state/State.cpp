@@ -6,31 +6,27 @@
 using namespace std;
 using namespace state;
 
-State::State():cursor(10,10,2){ // call a specific constructor
+State::State():cursor(10,10,3){ // call a specific constructor
     round=1;
     endGame=false;
     curPlayerID=1;
     nbOfPlayers=1;
+    curAction=IDLE;
 
 }
 State::~State(){}
 
 //getters
 void State::initPlayers(){
+    // for now 2 Players
     unique_ptr<Player> ptrPlayer1(new Player(1));
-    unique_ptr<Character> ptrCrook(new Character(CROOK,"crook",10,10,24));
-    ptrPlayer1->getListCharacters().push_back(move(ptrCrook));
-
+    unique_ptr<Player> ptrPlayer2(new Player(2));
     listPlayers.push_back(move(ptrPlayer1));
-
+    listPlayers.push_back(move(ptrPlayer2));
 
 }
 
-  std::vector<std::vector<std::unique_ptr<MapCell>>>& State::getMap (){
-      return map;
-  }
-
-  void State::initMapCell(){
+void State::initMapCell(){
 
     int nbWidthTile= 26;
     int nbHeightTile=24;
@@ -45,19 +41,19 @@ void State::initPlayers(){
         while (std::getline(file,line)){
             line = line + ",";
             content = content + line;
- 
+
         }
         file.close();
     }
-     std::stringstream contentStream(content); 
+        std::stringstream contentStream(content); 
     int i=0;
-    
+
     while(std::getline(contentStream, tile_code, ',')){ // ',' is a delimiter of a line
         // Convert string tile codes into integers and store it in an array
         map_tile_code[i] = (int) std::stoi(tile_code);
         i++;
     }
-    
+
 
     int k=0;
     for (int i=0; i<nbHeightTile;i++){
@@ -78,7 +74,113 @@ void State::initPlayers(){
         map.push_back(move(mapLine));
     }
 
+}
+
+void State::initCharacters(){
 
 
+    if (mode=="engine"){
+        unique_ptr<Character> eptrCrook1(new Character(CROOK,"CROOK1",4,2,0));
+        unique_ptr<Character> eptrKnight2(new Character(KNIGHT,"KNIGHT2",4,22,42));
+        listPlayers[0]->getListCharacters().push_back(move(eptrCrook1));
+        listPlayers[1]->getListCharacters().push_back(move(eptrKnight2));
 
+    }else
+    {
+            //init Player 1 Characters
+        unique_ptr<Character> ptrCrook1(new Character(CROOK,"CROOK1",2,10,0));
+        unique_ptr<Character> ptrKnight1(new Character(KNIGHT,"KNIGHT1",2,12,28));
+        unique_ptr<Character> ptrDwarf1(new Character(DWARF,"DWARF1",2,14,56));
+        // testing for render
+        if (mode=="render")
+            ptrCrook1->setStatus(SELECTED);
+        listPlayers[0]->getListCharacters().push_back(move(ptrCrook1));
+        listPlayers[0]->getListCharacters().push_back(move(ptrKnight1));
+        listPlayers[0]->getListCharacters().push_back(move(ptrDwarf1));
+
+        //init Player 2 Characters
+        unique_ptr<Character> ptrCrook2(new Character(CROOK,"CROOK2",23,10,0));
+        unique_ptr<Character> ptrKnight2(new Character(KNIGHT,"KNIGHT2",23,12,15));
+        unique_ptr<Character> ptrDwarf2(new Character(DWARF,"DWARF2",23,14,56));
+        listPlayers[1]->getListCharacters().push_back(move(ptrCrook2));
+        listPlayers[1]->getListCharacters().push_back(move(ptrKnight2));
+        listPlayers[1]->getListCharacters().push_back(move(ptrDwarf2));
+        
+    }
+    
+
+   // set Index for Characets for each Players
+    for(unsigned int i=0; i<listPlayers.size();i++){
+        for (unsigned int j=0; j<listPlayers[i]->getListCharacters().size();j++){
+            //Stats charStats= listPlayers[i]->getListCharacters()[j]->getStats();       
+            
+            // Not a very clean code 
+            // Init can take parameters for 
+            listPlayers[i]->getListCharacters()[j]->setIndex(j);
+            listPlayers[i]->getListCharacters()[j]->setPlayerID(i+1);
+            //listPlayers[i]->getListCharacters()[j]->setHealth(charStats.getStamina(),charStats.getStrength());
+        }           
+    }
+    cursor.setPosition(listPlayers[0]->getListCharacters()[0]->getPosition());
+}
+
+void State::deletePlayer(Player& player){
+    for(unsigned int i=0; i<listPlayers.size(); i++){
+        if(listPlayers[i]->getId() == player.getId() ){
+            listPlayers.erase(listPlayers.begin() + i);
+        }
+    }
+}
+
+
+// A character has been selected
+bool State::ifStelected(){
+    for(unsigned int i=0;i<listPlayers.size();i++){
+        for(unsigned int j=0;j<listPlayers[i]->getListCharacters().size();j++){
+            if(listPlayers[i]->getListCharacters()[j]->getStatus() == SELECTED)
+                return true;
+        }
+    }
+    return false;
+}
+
+// setters and getters
+
+void State::setRound(int newRound){ round= newRound;}
+void State::setEndGame(bool res){ endGame=res;}
+void State::setCurPlayerID(int newPlayer){curPlayerID=newPlayer;}
+void State::setCurAction(CurActionID newAction){curAction=newAction;}
+void State::setGameWinner(int winnerID){ gameWinner=winnerID;}
+void State::setMode(std::string newMode){ mode= newMode;}
+
+
+bool State::getEndGame(){ return endGame;}
+int State::getRound(){ return round;}
+int State::getCurPlayerID(){ return curPlayerID;}
+int State::getNbOfPlayers(){ return nbOfPlayers;}
+int State::getGameWinner(){ return gameWinner;}
+std::string State::getMode(){ return mode;}
+
+Cursor& State::getCursor(){ return cursor;}
+CurActionID State::getCurAction(){return curAction;}
+std::vector<std::unique_ptr<Player>>& State::getListPlayers (){
+    return listPlayers;
+}
+std::vector<std::unique_ptr<Character>>& State::getListCharacters (int playerID){
+    return listPlayers[playerID]->getListCharacters();
+}
+
+  std::vector<std::vector<std::unique_ptr<MapCell>>>& State::getMap (){
+      return map;
   }
+
+
+
+
+
+
+
+
+
+
+

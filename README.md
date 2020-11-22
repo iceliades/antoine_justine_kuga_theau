@@ -50,11 +50,10 @@ sudo apt-get install libboost-all-dev
 Then, in order to use our project, you have to clone it, this way:
 
 ```bash
-git clone https://github.com/iceliades/antoine_justine_kuga_theau
-cd antoine_justine_kuga_teau
 mkdir build
-cmake ..
-make
+cd build
+cmake .. && make
+
 ```
 ## Test
 ```
