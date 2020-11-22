@@ -8,6 +8,9 @@ using namespace engine;
 using namespace std;
 
 //mutable std::vector<Observer*> observers;
+engineObservable::engineObservable(){}
+engineObservable::~engineObservable(){}
+
 
 void engineObservable::registerObserver(engineObserver* obs){
 	observers.push_back(obs);

@@ -21,7 +21,7 @@ void Move_Command::exec(state::State &state)
     if (targetedChar.getStatus() == SELECTED)
     {
         // if the character has moves to do
-        cout << "Move chances left " << targetedChar.getMovementLeft() << endl;
+        cout << "Move left" << targetedChar.getMovementLeft() << endl;
         if (targetedChar.getMovementLeft() > 0)
         {
             for (auto &pos: targetedChar.allowedMove(state))
@@ -39,8 +39,8 @@ void Move_Command::exec(state::State &state)
                 targetedChar.setMovementLeft(targetedChar.getMovementLeft() - 1);
                 // TODO refresh to the base move quantity for each character if the are not death.
                 
-                cout << "The character " << targetedChar.getName() << " has been moved to [" << targetedPos.getX() << ", " << targetedPos.getY() << "]" << endl;
-                cout << "The character has " << targetedChar.getMovementLeft() << " left" << endl;
+                cout << "The character " << targetedChar.getName() << " has been moved to (" << targetedPos.getX() << ", " << targetedPos.getY() << ")" << endl;
+                cout << "The character has " << targetedChar.getMovementLeft() << "Movement left" << endl;
             }
             else
                 cout << "The character " << targetedChar.getName() << " not allowed to move in that position" << endl;

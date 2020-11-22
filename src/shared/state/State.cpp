@@ -77,25 +77,37 @@ void State::initMapCell(){
 }
 
 void State::initCharacters(){
-   
-    //init Player 1 Characters
-    unique_ptr<Character> ptrCrook1(new Character(CROOK,"CROOK1",2,10,0));
-    unique_ptr<Character> ptrKnight1(new Character(KNIGHT,"KNIGHT1",2,12,28));
-    unique_ptr<Character> ptrDwarf1(new Character(DWARF,"DWARF1",2,14,56));
-    // testing for render
-    ptrCrook1->setStatus(SELECTED);
-    listPlayers[0]->getListCharacters().push_back(move(ptrCrook1));
-    listPlayers[0]->getListCharacters().push_back(move(ptrKnight1));
-    listPlayers[0]->getListCharacters().push_back(move(ptrDwarf1));
 
-    //init Player 2 Characters
-    unique_ptr<Character> ptrCrook2(new Character(CROOK,"CROOK2",23,10,0));
-    unique_ptr<Character> ptrKnight2(new Character(KNIGHT,"KNIGHT2",23,12,15));
-    unique_ptr<Character> ptrDwarf2(new Character(DWARF,"DWARF2",23,14,56));
-    listPlayers[1]->getListCharacters().push_back(move(ptrCrook2));
-    listPlayers[1]->getListCharacters().push_back(move(ptrKnight2));
-    listPlayers[1]->getListCharacters().push_back(move(ptrDwarf2));
 
+    if (mode=="engine"){
+        unique_ptr<Character> eptrCrook1(new Character(CROOK,"CROOK1",4,2,0));
+        unique_ptr<Character> eptrKnight2(new Character(KNIGHT,"KNIGHT2",4,22,42));
+        listPlayers[0]->getListCharacters().push_back(move(eptrCrook1));
+        listPlayers[1]->getListCharacters().push_back(move(eptrKnight2));
+
+    }else
+    {
+            //init Player 1 Characters
+        unique_ptr<Character> ptrCrook1(new Character(CROOK,"CROOK1",2,10,0));
+        unique_ptr<Character> ptrKnight1(new Character(KNIGHT,"KNIGHT1",2,12,28));
+        unique_ptr<Character> ptrDwarf1(new Character(DWARF,"DWARF1",2,14,56));
+        // testing for render
+        if (mode=="render")
+            ptrCrook1->setStatus(SELECTED);
+        listPlayers[0]->getListCharacters().push_back(move(ptrCrook1));
+        listPlayers[0]->getListCharacters().push_back(move(ptrKnight1));
+        listPlayers[0]->getListCharacters().push_back(move(ptrDwarf1));
+
+        //init Player 2 Characters
+        unique_ptr<Character> ptrCrook2(new Character(CROOK,"CROOK2",23,10,0));
+        unique_ptr<Character> ptrKnight2(new Character(KNIGHT,"KNIGHT2",23,12,15));
+        unique_ptr<Character> ptrDwarf2(new Character(DWARF,"DWARF2",23,14,56));
+        listPlayers[1]->getListCharacters().push_back(move(ptrCrook2));
+        listPlayers[1]->getListCharacters().push_back(move(ptrKnight2));
+        listPlayers[1]->getListCharacters().push_back(move(ptrDwarf2));
+        
+    }
+    
 
    // set Index for Characets for each Players
     for(unsigned int i=0; i<listPlayers.size();i++){

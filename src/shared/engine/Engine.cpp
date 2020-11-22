@@ -7,6 +7,9 @@ using namespace state;
 using namespace engine;
 using namespace std;
 
+Engine::Engine(){
+    
+}
 
 Engine::~Engine()
 {
@@ -60,7 +63,8 @@ void Engine::update()
         {
             currCommands[i]->exec(currState);
             currState.notifyObservers(stateEvent, currState);
-			usleep(200 * 1000);
+            if (currState.getMode()=="engine")
+			    usleep(200 * 1000);
         }
         // clean using iterator
         map<int, std::unique_ptr<Command>>::iterator iterator;

@@ -13,7 +13,7 @@ Finish_Turn_Command::Finish_Turn_Command (){
 
 void Finish_Turn_Command::exec (state::State& state){
 
-    // for the Plyaer for has finished his turn
+    // for the Plyaer who has finished his turn
     for (auto& charac: state.getListCharacters(state.getCurPlayerID()-1)){
         if(charac->getStatus() != DEATH){
             charac->setMovementLeft(charac->getMovement());
