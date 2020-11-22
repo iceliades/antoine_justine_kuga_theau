@@ -1,5 +1,6 @@
 #include "Attack_Command.h"
 #include <iostream>
+#include <random>
 
 using namespace engine;
 using namespace state;
@@ -19,9 +20,10 @@ void Attack_Command::exec(state::State& curState)
 	cout << attacker.getName() << "is trying to attack" << target.getName() << endl;
 	cout << "Actual health of " << target.getName() << ": " << target.getHealth() << endl;
 	
-	default_random_engine generator
-	bernoulli_distribution precision(attacker.getPrecision());
-	bernoulli_distribution dodge(1-target.getDodge());
+	int pre(attacker.getPrecision()), dod(target.getDodge());
+	default_random_engine generator;
+	bernoulli_distribution precision(pre);
+	bernoulli_distribution dodge(1-dod);
     
 
 	for(auto& index: attacker.allowedAttackTarget(curState)){
@@ -29,7 +31,7 @@ void Attack_Command::exec(state::State& curState)
 			int chardmg= attacker.getCharWeap()->getDammages();
 			// need to produce the final using dodge and precision
 			if (precision(generator) && dodge(generator)){
-				nt newtarHealth= target.getHealth()- chardmg;
+				int newtarHealth= target.getHealth()- chardmg;
 				target.setNewHealth(newtarHealth);
 				
 				if (target.getHealth()<= 0){

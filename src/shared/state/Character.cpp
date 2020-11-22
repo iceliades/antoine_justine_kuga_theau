@@ -6,6 +6,7 @@
 #include <sstream>
 #include <memory>
 #include <vector>
+#include <math.h>
 
 using namespace std;
 using namespace state;
@@ -84,7 +85,7 @@ void Character::setCharWeap (Weapon* w){
 }
 
 void Character::setDodge (int Agility, int Intelligence){
-    Dodge= 0,33 * ((Agility+Intelligence-16)**2)/196;
+    Dodge= 0.33 * (pow((Agility+Intelligence-16),2))/196;
 }
 
 void Character::setEffect (bool Immobilised,bool Stunned,bool Disarmed){
@@ -114,11 +115,9 @@ void Character::setMovementLeft(int movement){
 
 }
 
-
 void Character::setMovementBonus (int Courage, int Stamina){
     Movement= int(5+ Courage/12 + Stamina/12);
 }
-
 
 void Character::setPrecision ( int Agility, int Intelligence, int Strength, int Arcane){
     Precision= (Agility+Intelligence+Strength+Arcane)/60;
@@ -150,7 +149,7 @@ CharacterTypeID Character::getTypeID() {
     return TypeID;
 }
 
-std::string   Character::getName (){
+std::string Character::getName (){
     return Name;
 }
 
@@ -195,7 +194,7 @@ int Character::getPlayerID(){
     return this->PlayerID;
 }
 
-vector<int>& getCapab()
+std::vector<int>& Character::getCapab()
 {
 	return Capab;
 }
@@ -204,7 +203,7 @@ bool Character::isMapCell(){
     return false;
 }
 
-void addCapab(int compt)
+void Character::addCapab(int compt)
 {
 	Capab.push_back(move(compt));
 }

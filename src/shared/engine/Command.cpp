@@ -2,10 +2,10 @@
 #include "Command.h"
 using namespace engine;
 
-CommandID Command::getId(){
+engine::CommandID Command::getId(){
 	return Id;
 }
 
-void setId(ComandId id){
+void Command::setId(engine::CommandID id){
 	Id = id;
 }
