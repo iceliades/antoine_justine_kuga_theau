@@ -72,6 +72,8 @@ void StateLayer::draw(sf::RenderWindow &window)
     window.draw(*textureAreas[1]);
     window.draw(*textureAreas[2]);
     displayText();
+    for (auto& m: message)
+        window.draw(m);
     window.display();
 }
 
@@ -92,7 +94,13 @@ void StateLayer::stateChanged(const state::StateEvent &stateEvent, state::State 
     {
         initTextureArea(state);
         draw(window);
+    }else if (stateEvent.stateEventID == StateEventID::ENDGAME)
+    {
+        displayWinner();
+        initTextureArea(state);
+        draw(window);
     }
+    
 }
 
 void StateLayer::displayText (){
@@ -262,123 +270,18 @@ void StateLayer::displayText (){
     }
 
 
+}
 
-
-
-
-
-
-
-
-
-
-/*
-    sf::Texture logo;
-    logo.loadFromFile("res/textures/zorglub.png");
-    sf::Sprite spritelogo;
-    spritelogo.setPosition(32*26.f+2.f, 2.f);
-    spritelogo.setTexture(logo,true);
-    window.draw(spritelogo);
-
-*/
-/*
-    std::queue<sf::Text> texts;
-    // Player 1 texts
-    sf::Text p1;
-    p1.setPosition(4,32*24+ 2);
-    p1.setFont(font);
-    p1.setString("PLAYER 1");
-    p1.setCharacterSize(30);
-    texts.push(p1);
-
-    sf::Text p2;
-    p2.setPosition(32*26+2,(32*24)/2);
-    p2.setFont(font);
-    p2.setString("PLAYER 2");
-    p2.setCharacterSize(30);
-    texts.push(p2);
-
-
-
-    sf::Text textStats1;
-    textStats1.setPosition(32*26+10,40);
-    textStats1.setFont(font);
-    std::string str1= "NAME"+'\n';
-    str1+= "HP"+ to_string(100)+"/"+to_string(100)+'\n';
-    str1+= "Dammage"+ to_string(33);
-    textStats1.setString(str1);
-    textStats1.setFillColor(sf::Color::Green);
-    textStats1.setCharacterSize(15);
-    texts.push(textStats1);
-
-*/
-
-
-/*
-
-
-    float playerOneBasePos = p1.getPosition().y + 32.f;
-       
-
-    for (auto& charac: currentState.getListCharacters(0)){
-
-        sf::Text textStats1;
-        //textStats.setPosition(window.getSize().x - 280.f,charac->getIndex()*(window.getSize().y/6)+p1.getPosition().y+32.f);
-        
-        
-        textStats1.setPosition(window.getSize().x - 280.f,playerOneBasePos);
-        std::string str1= charac->getName()+"\n";
-        str1+= "HP"+ std::to_string((charac->getHealth()<=0)? 0: charac->getHealth())+"/100"+"\n";
-        str1+= "Dammage"+ std::to_string(charac->getCharWeap()->getDammages());
-        textStats1.setString(str1);
-        if( charac->getStatus()==SELECTED){
-            textStats1.setFillColor(sf::Color::Green);
-            p1.setFillColor(sf::Color::Green);
-        }
-            
-        if (charac->getStatus()==DEATH){
-            textStats1.setFillColor(sf::Color::Red);
-            p1.setFillColor(sf::Color::Red);             
-        }         
-        textStats1.setCharacterSize(15);
-        playerOneBasePos+=100.f;
-        texts.push(textStats1);
-
-    }
-
-    // Player 2 texts
-    sf::Text p2;
-    p2.setPosition(window.getSize().x - 280.f,window.getSize().y/2 );
-    p2.setFont(font);
-    p2.setString("PLAYER 2");
-    p2.setCharacterSize(30);
-    texts.push(p2);
-    float playerTwoBasePos = p2.getPosition().y + 32.f;
-    
-    for (auto& charac: currentState.getListCharacters(1)){
-
-        sf::Text textStats2;
-        //textStats.setPosition(window.getSize().x - 260.f,(window.getSize().y/2)+ p2.getPosition().y+charac->getIndex()*(window.getSize().y/6)+32);
-        textStats2.setPosition(window.getSize().x - 240.f, playerTwoBasePos);
-        std::string str2= charac->getName()+"\n";
-        str2+= "HP "+ std::to_string((charac->getHealth()<=0)? 0: charac->getHealth())+"/100"+"\n";
-        str2+= "Dammage"+ std::to_string(charac->getCharWeap()->getDammages());
-        textStats2.setString(str2);
-        if( charac->getStatus()==SELECTED)
-            textStats2.setFillColor(sf::Color::Green);
-        if (charac->getStatus()==DEATH)
-            textStats2.setFillColor(sf::Color::Red);
-        textStats2.setCharacterSize(20);
-        playerTwoBasePos += 100.f;
-        texts.push(textStats2);
-
-    }*/
-
- /*   while(!texts.empty()){
-        window.draw(texts.front());
-        texts.pop();
-        
-    }*/
-
-
+void StateLayer::displayWinner(){
+    if (currentState.getGameWinner() == 1 || currentState.getGameWinner()==2)
+    {
+        sf::Text win;
+        win.setPosition(currentState.getMap().size()*32 / 2.f, currentState.getMap()[0].size()*32/ 2.f);
+        win.setFont(font);
+        string str = "PLAYER " + to_string(currentState.getGameWinner()) + " WIN";
+        win.setString(str);
+        win.setCharacterSize(48);
+        win.setFillColor(sf::Color::Red);
+        message.push_back(move(win));
+    } 
 }
