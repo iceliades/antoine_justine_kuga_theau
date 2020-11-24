@@ -302,6 +302,51 @@ namespace state{
 				
 			}
 
+                        
+//------------------------------------------------------ Position ---------------------------------------------------------
+
+ 
+            {
+				// Position
+
+                Position *posv = new Position();
+
+
+                // getters et setters
+                BOOST_CHECK_EQUAL(posv->getX(), 0);
+                BOOST_CHECK_EQUAL(posv->getY(), 0);
+                
+                posv->setX(2);
+                BOOST_CHECK_EQUAL(posv->getX(),2) ;
+                posv->setY(3);
+                BOOST_CHECK_EQUAL(posv->getY(),3) ;
+              
+                // equals
+                Position *post = new Position();
+
+                BOOST_CHECK_EQUAL(post->equals(*posv),true);
+                *post->setX(3);
+                *post->setY(2);
+                BOOST_CHECK_EQUAL(post->equals(*posv),false);
+
+                // distance
+                BOOST_CHECK_EQUAL(*posv->distance(*post),5);
+                *post->setX(5);
+                *post->setY(2);
+                BOOST_CHECK_EQUAL(*posv->distance(*post),7);
+
+
+                Position posXY();
+
+
+
+                
+				
+				
+				
+				
+			}
+
 
         }
 }
