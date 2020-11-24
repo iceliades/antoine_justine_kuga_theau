@@ -283,19 +283,19 @@ namespace state{
 
  
             {
-				// Effect effet
-                Effect effet();
+				// Effect effect
+                Character Crook(CROOK, "crook", 10, 10, 1);
 
-                BOOST_CHECK_EQUAL(effet.getImmobilised(), false);
-                BOOST_CHECK_EQUAL(effet.getDisarmed(), false);
-                BOOST_CHECK_EQUAL(effet.getStunned(), false);
+                BOOST_CHECK_EQUAL(Crook.getEffect().getImmobilised(), false);
+                BOOST_CHECK_EQUAL(Crook.getEffect().getDisarmed(), false);
+                BOOST_CHECK_EQUAL(Crook.getEffect().getStunned(), false);
                 
-                effet.setImmobilised(true);
-                BOOST_CHECK_EQUAL(effet.getImmobilised(),true) ;
-                effet.setDisarmed(true);
-                BOOST_CHECK_EQUAL(effet.getDisarmed(),true) ;
-                effet.setStunned(true);
-                BOOST_CHECK_EQUAL(effet.getStunned(),true); 
+                Crook.setEffect(true,false,false);
+                BOOST_CHECK_EQUAL(Crook.getEffect().getImmobilised(),true) ;
+                Crook.setEffect(false,false,true);
+                BOOST_CHECK_EQUAL(Crook.getEffect().getDisarmed(),true) ;
+                Crook.setEffect(false,true,false);
+                BOOST_CHECK_EQUAL(Crook.getEffect().getStunned(),true); 
 				
 				
 				
