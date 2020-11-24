@@ -278,6 +278,29 @@ namespace state{
                 BOOST_CHECK_EQUAL(Strap.getMaxRange(),8.f); 
 
             }
+            
+//------------------------------------------------------ Effect ---------------------------------------------------------
+
+ 
+            {
+				// Effect effet
+                Effect effet();
+
+                BOOST_CHECK_EQUAL(effet.getImmobilised(), false);
+                BOOST_CHECK_EQUAL(effet.getDisarmed(), false);
+                BOOST_CHECK_EQUAL(effet.getStunned(), false);
+                
+                effet.setImmobilised(true);
+                BOOST_CHECK_EQUAL(effet.getImmobilised(),true) ;
+                effet.setDisarmed(true);
+                BOOST_CHECK_EQUAL(effet.getDisarmed(),true) ;
+                effet.setStunned(true);
+                BOOST_CHECK_EQUAL(effet.getStunned(),true); 
+				
+				
+				
+				
+			}
 
 
         }
