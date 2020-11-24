@@ -145,7 +145,197 @@ namespace state{
 
         }
 
-          
+
+//------------------------------------------------------ Weapon ---------------------------------------------------------
+
+          {
+                // Weapon SWORD
+                Weapon Sword(SWORD);
+
+                BOOST_CHECK_EQUAL(Sword.getDammages(), 13);
+                BOOST_CHECK_EQUAL(Sword.getMinRange(), 1.f);
+                BOOST_CHECK_EQUAL(Sword.getMaxRange(), 2.f);
+                
+
+
+                Sword.setDammages(10);
+                BOOST_CHECK_EQUAL(Sword.getDammages(),10) ;
+
+                Sword.setMinRange(3.f);
+                BOOST_CHECK_EQUAL(Sword.getMinRange(),3.f) ;
+
+                Sword.setMaxRange(5.f);
+                BOOST_CHECK_EQUAL(Sword.getMaxRange(),5.f);    
+
+
+		
+				// Weapon AXE
+				Weapon Axe(AXE);
+
+                BOOST_CHECK_EQUAL(Axe.getDammages(), 14);
+                BOOST_CHECK_EQUAL(Axe.getMinRange(), 1.f);
+                BOOST_CHECK_EQUAL(Axe.getMaxRange(), 1.5f);
+                
+
+
+                Axe.setDammages(15);
+                BOOST_CHECK_EQUAL(Axe.getDammages(),15) ;
+
+                Axe.setMinRange(3.f);
+                BOOST_CHECK_EQUAL(Sword.getMinRange(),3.f) ;
+
+                Axe.setMaxRange(3.5f);
+                BOOST_CHECK_EQUAL(Axe.getMaxRange(),3.5f);  
+
+
+
+
+				// Weapon Spear
+				Weapon Spear(SPEAR);
+
+                BOOST_CHECK_EQUAL(Spear.getDammages(), 12);
+                BOOST_CHECK_EQUAL(Spear.getMinRange(), 1.f);
+                BOOST_CHECK_EQUAL(Spear.getMaxRange(), 2.5f);
+                
+
+
+                Spear.setDammages(15);
+                BOOST_CHECK_EQUAL(Spear.getDammages(),15) ;
+
+                Spear.setMinRange(3.f);
+                BOOST_CHECK_EQUAL(Spear.getMinRange(),3.f) ;
+
+                Spear.setMaxRange(3.5f);
+                BOOST_CHECK_EQUAL(Spear.getMaxRange(),3.5f); 
+
+
+
+				// Weapon BOW
+				Weapon Bow(BOW);
+
+                BOOST_CHECK_EQUAL(Bow.getDammages(), 6);
+                BOOST_CHECK_EQUAL(Bow.getMinRange(), 2.f);
+                BOOST_CHECK_EQUAL(Bow.getMaxRange(), 8.f);
+                
+
+
+                Bow.setDammages(10);
+                BOOST_CHECK_EQUAL(Bow.getDammages(),10) ;
+
+                Bow.setMinRange(3.f);
+                BOOST_CHECK_EQUAL(Bow.getMinRange(),3.f) ;
+
+                Bow.setMaxRange(3.5f);
+                BOOST_CHECK_EQUAL(Bow.getMaxRange(),3.5f); 
+
+
+
+
+
+				// Weapon CROSSBOW
+				Weapon Crossbow(CROSSBOW);
+
+                BOOST_CHECK_EQUAL(Crossbow.getDammages(), 7);
+                BOOST_CHECK_EQUAL(Crossbow.getMinRange(), 2.f);
+                BOOST_CHECK_EQUAL(Crossbow.getMaxRange(), 7.f);
+                
+
+
+                Crossbow.setDammages(10);
+                BOOST_CHECK_EQUAL(Crossbow.getDammages(),10) ;
+
+                Crossbow.setMinRange(3.f);
+                BOOST_CHECK_EQUAL(Crossbow.getMinRange(),3.f) ;
+
+                Crossbow.setMaxRange(5.f);
+                BOOST_CHECK_EQUAL(Crossbow.getMaxRange(),5.f); 
+
+
+
+
+
+		// Weapon SLING
+		Weapon Sling(SLING);
+
+                BOOST_CHECK_EQUAL(Sling.getDammages(), 8);
+                BOOST_CHECK_EQUAL(Sling.getMinRange(), 2.f);
+                BOOST_CHECK_EQUAL(Sling.getMaxRange(), 6.5f);
+                
+
+
+                Sling.setDammages(10);
+                BOOST_CHECK_EQUAL(Sling.getDammages(),10) ;
+
+                Sling.setMinRange(3.f);
+                BOOST_CHECK_EQUAL(Sling.getMinRange(),3.f) ;
+
+                Sling.setMaxRange(5.f);
+                BOOST_CHECK_EQUAL(Sling.getMaxRange(),5.f); 
+
+
+				// Weapon WAND
+				Weapon Wand(WAND);
+
+                BOOST_CHECK_EQUAL(Wand.getDammages(), 10);
+                BOOST_CHECK_EQUAL(Wand.getMinRange(), 3.f);
+                BOOST_CHECK_EQUAL(Wand.getMaxRange(), 4.5f);
+                
+
+
+                Wand.setDammages(15);
+                BOOST_CHECK_EQUAL(Wand.getDammages(),15) ;
+
+                Wand.setMinRange(5.f);
+                BOOST_CHECK_EQUAL(Wand.getMinRange(),5.f) ;
+
+                Wand.setMaxRange(7.f);
+                BOOST_CHECK_EQUAL(Wand.getMaxRange(),7.f); 
+
+
+
+				// Weapon STICK
+				Weapon Stick(STICK);
+
+                BOOST_CHECK_EQUAL(Stick.getDammages(), 11);
+                BOOST_CHECK_EQUAL(Stick.getMinRange(), 3.f);
+                BOOST_CHECK_EQUAL(Stick.getMaxRange(), 4.f);
+                
+
+
+                Stick.setDammages(10);
+                BOOST_CHECK_EQUAL(Stick.getDammages(),10) ;
+
+                Stick.setMinRange(2.f);
+                BOOST_CHECK_EQUAL(Stick.getMinRange(),2.f) ;
+
+                Stick.setMaxRange(5.f);
+                BOOST_CHECK_EQUAL(Stick.getMaxRange(),5.f); 
+
+
+
+				// Weapon STRAP
+				Weapon Strap(STRAP);
+
+                BOOST_CHECK_EQUAL(Strap.getDammages(), 9);
+                BOOST_CHECK_EQUAL(Strap.getMinRange(), 3.f);
+                BOOST_CHECK_EQUAL(Strap.getMaxRange(), 5.f);
+                
+
+
+                Strap.setDammages(10);
+                BOOST_CHECK_EQUAL(Strap.getDammages(),10) ;
+
+                Strap.setMinRange(6.f);
+                BOOST_CHECK_EQUAL(Strap.getMinRange(),6.f) ;
+
+                Strap.setMaxRange(8.f);
+                BOOST_CHECK_EQUAL(Strap.getMaxRange(),8.f); 
+
+
+
+
+
+            }
 
 
         }
