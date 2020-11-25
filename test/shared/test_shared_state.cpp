@@ -383,7 +383,22 @@ namespace state{
                 posXYt->setY(2);
                 BOOST_CHECK_EQUAL(posXY->distance(*posXYt),7);
 
-                
+                /*
+                std::vector<Position> vect;
+                Position front{this->getX(), this->getY() + 1};
+                Position back{this->getX(), this->getY() - 1};
+                Position left{this->getX() - 1, this->getY()};
+                Position right{this->getX() + 1, this->getY()};
+
+
+                vect.push_back(move(front));
+                vect.push_back(move(back));
+                vect.push_back(move(left));
+                vect.push_back(move(right));
+
+                BOOST_CHECK_EQUAL(posv->getNearPositions(),vect);
+
+                */
 				
 				
 				
