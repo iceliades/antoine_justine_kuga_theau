@@ -42,13 +42,34 @@ namespace state {
         Position left{this->getX() - 1, this->getY()};
         Position right{this->getX() + 1, this->getY()};
 
+        // coin en bas à gauche
         if (this->getY() == 0){
-            Position back{this->getX(), this->getY()};
+            if (this->getX() == 0){
+                left.setX(0);
+                left.setY(0);
+            }
+            if (this->getX() == 26){
+                right.setX(0);
+                right.setY(0);
+            }
+            back.setX(0);
+            back.setY(0);
         }
 
-        if (this->getX() == 0){
-            Position left{this->getX(), this->getY()};
+        if (this->getY() == 24){
+            if (this->getX() == 0){
+                left.setX(0);
+                left.setY(0);
+            }
+            if (this->getX() == 26){
+                right.setX(0);
+                right.setY(0);
+            }
+            front.setX(0);
+            front.setY(0);
         }
+
+
 
         result.push_back(move(front));
         result.push_back(move(right));

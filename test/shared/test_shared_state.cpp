@@ -5,6 +5,7 @@
 #include "../../src/shared/state.h"
 #include <string>
 #include <vector>
+#include <iostream>
 
 
 namespace state{
@@ -325,20 +326,62 @@ namespace state{
                 Position *post = new Position();
 
                 BOOST_CHECK_EQUAL(post->equals(*posv),true);
-                *post->setX(3);
-                *post->setY(2);
+
+
+                post->setX(3);
+                post->setY(2);
                 BOOST_CHECK_EQUAL(post->equals(*posv),false);
 
                 // distance
-                BOOST_CHECK_EQUAL(*posv->distance(*post),5);
-                *post->setX(5);
-                *post->setY(2);
-                BOOST_CHECK_EQUAL(*posv->distance(*post),7);
+                BOOST_CHECK_EQUAL(posv->distance(*post),5);
+                post->setX(5);
+                post->setY(2);
+                BOOST_CHECK_EQUAL(posv->distance(*post),7);
+
+                /*
+                std::vector<Position> vect;
+                Position front{this->getX(), this->getY() + 1};
+                Position back{this->getX(), this->getY() - 1};
+                Position left{this->getX() - 1, this->getY()};
+                Position right{this->getX() + 1, this->getY()};
 
 
-                Position posXY();
+                vect.push_back(move(front));
+                vect.push_back(move(back));
+                vect.push_back(move(left));
+                vect.push_back(move(right));
+
+                BOOST_CHECK_EQUAL(posv->getNearPositions(),vect);
+
+                */
 
 
+                Position *posXY = new Position(2,5);
+
+                // getters et setters
+                BOOST_CHECK_EQUAL(posv->getX(), 2);
+                BOOST_CHECK_EQUAL(posv->getY(), 5);
+                
+                posv->setX(3);
+                BOOST_CHECK_EQUAL(posv->getX(),3) ;
+                posv->setY(3);
+                BOOST_CHECK_EQUAL(posv->getY(),3) ;
+              
+                // equals
+                Position *posXYt = new Position();
+
+                BOOST_CHECK_EQUAL(posXY->equals(*posXYt),false);
+
+
+                posXYt->setX(3);
+                posXYt->setY(3);
+                BOOST_CHECK_EQUAL(posXY->equals(*posXYt),false);
+
+                // distance
+                BOOST_CHECK_EQUAL(posXY->distance(*posXYt),0);
+                posXYt->setX(5);
+                posXYt->setY(2);
+                BOOST_CHECK_EQUAL(posXY->distance(*posXYt),7);
 
                 
 				
