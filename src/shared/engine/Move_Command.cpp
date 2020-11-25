@@ -31,6 +31,14 @@ void Move_Command::exec(state::State &state)
                     break;
                 }
             }
+            // Taking effect Immobilised into account
+            if (targetedChar.getEffect().getImmobilised())
+            {
+				allowed = false;
+				// Immobilised canceled for next turn
+				targetedChar.setEffect(false, false, false);
+				cout << "You can't move, you're immobilised." << endl;
+			}
             if (allowed)
             {
                 // Moving

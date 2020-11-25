@@ -29,7 +29,8 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
     Health = 100;
     Dodge = 0.1;
     Precision = 0.7;
-
+	this->Capab.push_back(0);
+	
     switch (id) {
         case (CROOK) :
             stats.setIntelligence(stats.getIntelligence()+1);
@@ -71,7 +72,7 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
             stats.setStrength(stats.getStrength()+1);
         break;
 
-}
+	}
 }
 Character::~Character(){
     delete charWeap;
@@ -84,7 +85,7 @@ void Character::setCharWeap (Weapon* w){
 }
 
 void Character::setDodge (int Agility, int Intelligence){
-    Dodge= 0,33 * ((Agility+Intelligence-16)^2)/196;
+    Dodge= 0.1 * ((Agility+Intelligence-16)^2)/196;
 }
 
 void Character::setEffect (bool Immobilised,bool Stunned,bool Disarmed){
@@ -143,6 +144,10 @@ void Character::setPlayerID(int PlayerID){
     this->PlayerID=PlayerID;
 }
 
+void Character::setCapused(bool use) {Capused = use;}
+
+void Character::setCapab(int val, int pos) {this->Capab[pos] = val;}
+
 //------------------------------------------------- Getters ------------------------------------------------------------
 CharacterTypeID Character::getTypeID() {
     return TypeID;
@@ -197,6 +202,8 @@ std::vector<int>& Character::getCapab()
 {
 	return Capab;
 }
+
+bool Character::getCapused() {return Capused;}
 
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){

@@ -20,9 +20,10 @@ void Attack_Command::exec(state::State& curState)
 	cout << attacker.getName() << "is trying to attack" << target.getName() << endl;
 	cout << "Actual health of " << target.getName() << ": " << target.getHealth() << endl;
 
-	
+	/*Setting the probabilities*/
 	int pre(attacker.getPrecision()), dod(target.getDodge());
-	default_random_engine generator;
+	random_device         rdev{};
+	default_random_engine generator(rdev());
 	bernoulli_distribution precision(pre);
 	bernoulli_distribution dodge(1-dod);
     
