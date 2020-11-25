@@ -35,17 +35,27 @@ namespace state {
 
     std::vector<Position> Position::getNearPositions(){
 
-	vector<Position> result;
-	Position front{this->getX(), this->getY() + 1};
-	Position back{this->getX(), this->getY() - 1};
-	Position left{this->getX() - 1, this->getY()};
-	Position right{this->getX() + 1, this->getY()};
-	result.push_back(move(front));
-	result.push_back(move(right));
-	result.push_back(move(back));
-	result.push_back(move(left));
+        vector<Position> result;
 
-	return result;
-}
+        Position front{this->getX(), this->getY() + 1};
+        Position back{this->getX(), this->getY() - 1};
+        Position left{this->getX() - 1, this->getY()};
+        Position right{this->getX() + 1, this->getY()};
+
+        if (this->getY() == 0){
+            Position back{this->getX(), this->getY()};
+        }
+
+        if (this->getX() == 0){
+            Position left{this->getX(), this->getY()};
+        }
+
+        result.push_back(move(front));
+        result.push_back(move(right));
+        result.push_back(move(back));
+        result.push_back(move(left));
+
+        return result;
+    }
 
 }

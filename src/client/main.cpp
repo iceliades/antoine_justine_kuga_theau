@@ -42,7 +42,7 @@ int main(int argc,char* argv[])
             state.initCharacters();
             state.initMapCell();
             
-            sf::RenderWindow window(sf::VideoMode(32*26,32*24), "Zorglub");
+            sf::RenderWindow window(sf::VideoMode(32*26+500,32*24), "Zorglub");
             StateLayer stateLayer (state,window);
             
             
@@ -70,7 +70,7 @@ int main(int argc,char* argv[])
             engine.getState().initMapCell();
             cout<<" INIT DONE"<< endl;
             
-            sf::RenderWindow window(sf::VideoMode(32*26,32*24), "Zorglub");
+            sf::RenderWindow window(sf::VideoMode(32*26+500,32*24), "Zorglub");
             StateLayer stateLayer (engine.getState(),window);
             stateLayer.initTextureArea(engine.getState());
 
@@ -82,8 +82,14 @@ int main(int argc,char* argv[])
             bool secondroun=false;
             bool thirdround=false;
             bool fourround=false;
+            bool fiveround=false;
+            bool sixround=false;
             int p1X;int p1Y;int p2X;int p2Y;
             int priority;
+
+            // hard code health bc its loong either wise
+            engine.getState().getListCharacters(0)[0]->setNewHealth(25);
+            engine.getState().getListCharacters(1)[0]->setNewHealth(25);
 
 
             while (window.isOpen()){
@@ -194,7 +200,7 @@ int main(int argc,char* argv[])
                    
                     }
 
-                     if (fourround){  
+                    if (fourround){  
                         engine.getState().setCurAction(IDLE);
                         //Player 2
                         p2X= engine.getState().getListCharacters(1)[0]->getPosition().getX();
@@ -219,23 +225,80 @@ int main(int argc,char* argv[])
                      
                             engine.getState().setCurAction(ATTACKING);// Show the attack range
                             cout<<"STATE IN ATTACING MODE: SHOW ATTACK RANGE"<<endl;
+
+                            unique_ptr<engine::Command> ptr_ac2(new engine::Attack_Command(*engine.getState().getListCharacters(1)[0], *engine.getState().getListCharacters(0)[0]));
+                            engine.addCommand(move(ptr_ac2), priority++);
+                            cout<< "ATTACKED";
+
+
                             unique_ptr<engine::Command> ptr_ftc(new engine::Finish_Turn_Command());
                             engine.addCommand(move(ptr_ftc), priority++);
                             cout<<"FINISHING TURN"<<endl;
                             fourround=false;
+                            fiveround= true;
                             
                         }
                         engine.update();                                   
                    
-                    }else
-                    {
-                        usleep(50000);
+                    }if (fiveround){
+                        engine.getState().setCurAction(IDLE);
+                        p1X= engine.getState().getListCharacters(0)[0]->getPosition().getX();
+                        p1Y= engine.getState().getListCharacters(0)[0]->getPosition().getY();
+
+                        int priority=0;
+                        
+                        cout << "[Player 1] Character pos( " << engine.getState().getListCharacters(0)[0]->getPosition().getX()
+                        << " " << engine.getState().getListCharacters(0)[0]->getPosition().getY() << endl;
+                        
+                        unique_ptr<engine::Command> ptr_sc(new engine::Sel_Char_Command(*engine.getState().getListCharacters(0)[0]));
+                        engine.addCommand(move(ptr_sc), priority++);
+                        cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+
+                        engine.getState().setCurAction(ATTACKING);// Show the attack range
+                        cout<<"STATE IN ATTACING MODE: SHOW ATTACK RANGE"<<endl;
+                        unique_ptr<engine::Command> ptr_ac1(new engine::Attack_Command(*engine.getState().getListCharacters(0)[0], *engine.getState().getListCharacters(1)[0]));
+                        engine.addCommand(move(ptr_ac1), priority++);
+                        cout<< "ATTACKED";
+
+                        unique_ptr<engine::Command> ptr_ftc(new engine::Finish_Turn_Command());
+                        engine.addCommand(move(ptr_ftc), priority++);
+                        cout<<"FINISHING TURN"<<endl;
+                        fiveround=false;
+                        sixround=true;
+                        engine.update(); 
+                    }if (sixround){
+                        engine.getState().setCurAction(IDLE);
+                        //Player 2
+                        p2X= engine.getState().getListCharacters(1)[0]->getPosition().getX();
+                        p2Y= engine.getState().getListCharacters(1)[0]->getPosition().getY();
+                        priority=0;
+                        
+                        cout << "[Player 2] Character pos( " << engine.getState().getListCharacters(1)[0]->getPosition().getX()
+                        << " " << engine.getState().getListCharacters(1)[0]->getPosition().getY() << endl;
+                        
+                        unique_ptr<engine::Command> ptr_sc(new engine::Sel_Char_Command(*engine.getState().getListCharacters(1)[0]));
+                        engine.addCommand(move(ptr_sc), priority++);
+                        cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+
+                        engine.getState().setCurAction(ATTACKING);// Show the attack range
+                        cout<<"STATE IN ATTACING MODE: SHOW ATTACK RANGE"<<endl;
+
+                        unique_ptr<engine::Command> ptr_ac2(new engine::Attack_Command(*engine.getState().getListCharacters(1)[0], *engine.getState().getListCharacters(0)[0]));
+                        engine.addCommand(move(ptr_ac2), priority++);
+                        cout<< "ATTACKED";
+
+                        unique_ptr<engine::Command> ptr_ftc(new engine::Finish_Turn_Command());
+                        engine.addCommand(move(ptr_ftc), priority++);
+                        cout<<"FINISHING TURN"<<endl;
+                        sixround=false;
+                        engine.update();
                     }
                     
-                    
+                              
                     window.pollEvent(event);
                     if (event.type == sf::Event::Closed)
                         window.close();
+                    
                     
                 }
                 
