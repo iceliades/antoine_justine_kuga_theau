@@ -6,6 +6,7 @@
 #include <sstream>
 #include <memory>
 #include <vector>
+#include <random>
 
 using namespace std;
 using namespace state;
@@ -47,8 +48,11 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
         case (DWARF) :
             stats.setStamina(stats.getStamina()+1);
         break;
+        case (TROLL) :
+            stats.setStrength(stats.getStrength()+1);
+            break;
         case (PIRATE) :
-            /*std::default_random_engine generator;
+            std::default_random_engine generator;
             std::uniform_int_distribution<int> distribution(1,6);
             int dice_roll = distribution(generator);
             // Pirate and Gambling, name a better duo
@@ -65,12 +69,9 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
                     stats.setStamina(stats.getStamina()+1);
                 case(6):
                     stats.setStrength(stats.getStrength()+1);
-            }*/
+            }
+        break;
 
-        break;
-        case (TROLL) :
-            stats.setStrength(stats.getStrength()+1);
-        break;
 
 	}
 }
