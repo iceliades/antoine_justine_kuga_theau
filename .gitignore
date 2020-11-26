@@ -2,6 +2,7 @@
 build
 bin
 nbproject
+cmake-build-debug
 src/*/*.h
 src/*/*/*.h
 .idea
