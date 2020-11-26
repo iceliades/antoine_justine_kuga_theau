@@ -86,7 +86,7 @@ void Character::setCharWeap (Weapon* w){
 }
 
 void Character::setDodge (int Agility, int Intelligence){
-    Dodge= 0.1 * ((Agility+Intelligence-16)^2)/196;
+    Dodge= 0.1 * pow((Agility+Intelligence-16),2)/196; // use pow to handle doubles and floats properly
 }
 
 void Character::setEffect (bool Immobilised,bool Stunned,bool Disarmed){

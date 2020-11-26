@@ -26,7 +26,7 @@ namespace state {
 
     // If 2 elements are in the same position
     bool Position::equals( Position& position){
-        return(position.getX()==x && position.getY()==y);
+        return((position.getX()==x) && (position.getY()==y));
     }
 
     int Position::distance(Position& position){
