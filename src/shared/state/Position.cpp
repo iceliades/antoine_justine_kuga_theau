@@ -42,7 +42,7 @@ namespace state {
         Position left{this->getX() - 1, this->getY()};
         Position right{this->getX() + 1, this->getY()};
 
-        // coin en bas à gauche
+        /*// coin en bas à gauche
         if (this->getY() == 0){
             if (this->getX() == 0){
                 left.setX(0);
@@ -67,7 +67,7 @@ namespace state {
             }
             front.setX(0);
             front.setY(0);
-        }
+        }*/
 
 
 
