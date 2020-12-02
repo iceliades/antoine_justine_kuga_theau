@@ -17,10 +17,9 @@ namespace state{
 
         BOOST_AUTO_TEST_CASE(TestState)
         {   
-//--------------------------------------------------- Cursor -------------------------------------------------------
-            {
-                
-            }
+
+
+
 //--------------------------------------------------- Characters -------------------------------------------------------
             {
 // Does the basic constructor do its job ?
@@ -110,19 +109,21 @@ namespace state{
                 BOOST_CHECK_GT(p.distance(p2), 0); // distance returns a positive int.
 
                 State myAllowState;
+                myAllowState.setMode("engine");
                 myAllowState.initPlayers();
                 myAllowState.initCharacters();
                 myAllowState.initMapCell();
-                myAllowState.setMode("engine");
+                
                 std::vector<Position> allowpos; 
-                int px= myAllowState.getListCharacters(0)[0]->getPosition().getX();
-                int py= myAllowState.getListCharacters(0)[0]->getPosition().getY();
+                const int px= myAllowState.getListCharacters(0)[0]->getPosition().getX();
+                const int py= myAllowState.getListCharacters(0)[0]->getPosition().getY();
                 Position pos1{px-1,py};Position pos2{px+1,py};Position pos3{px,py+1};Position pos4{px,py-1};
                 allowpos.push_back(pos1);allowpos.push_back(pos2);allowpos.push_back(pos3);allowpos.push_back(pos4);
 
                 myAllowState.getListCharacters(0)[0]->setMovementLeft(1);
                 std::vector<Position> posallow= myAllowState.getListCharacters(0)[0]->allowedMove(myAllowState);
                 BOOST_CHECK_EQUAL(posallow[0].equals(allowpos[0]),true);
+
                 
                 myAllowState.getListCharacters(0)[0]->getCharWeap()->setMaxRange(1.f);
                 BOOST_CHECK_EQUAL(myAllowState.getListCharacters(0)[0]->allowedAttackPos(myAllowState)[0].equals(allowpos[0]),true);
@@ -134,8 +135,25 @@ namespace state{
                 
             }
 
-       
+//--------------------------------------------------- Cursor -------------------------------------------------------
+        {
+            Cursor cur(10,10,1);
+            cur.setName("Cursor");
+            Cursor cur2(10,10,1);
+            cur2.setName("Cursor");
+            BOOST_CHECK_EQUAL(cur.getName(),"Cursor");
+            BOOST_CHECK_EQUAL(cur.equals(cur2),false);
+            BOOST_CHECK_EQUAL(cur.isMapCell(), false);
+            cur.setVisible(true);
+            BOOST_CHECK_EQUAL(cur.getVisible(),true);
+            BOOST_CHECK_EQUAL(cur.getLastPosition().getX(),10);
+            BOOST_CHECK_EQUAL(cur.getLastPosition().getY(),10);
+            Position dest{11,11};
+            cur.move(dest);
+            cur.setTileCode(1);
+            cur.setPosition(dest);
 
+        }
 
 //------------------------------------------------------ Effect --------------------------------------------------------
 
@@ -160,68 +178,122 @@ namespace state{
 				
 			}
 
-                        
+//------------------------------------------------ ObstacleMapTiles ----------------------------------------------------
+
+        {
+// Does the basic constructor work ?
+            ObstacleMapTiles omp(ObstacleMapTilesID::Wall,2,2);
+
+// Do setters and getters work ?
+            BOOST_CHECK_EQUAL(omp.isSpace(),false);
+            BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Wall);
+
+            omp.setObstacleTilesID(ObstacleMapTilesID::Rock);
+            BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Rock);
+
+        }
+//------------------------------------------------ Observable ----------------------------------------------------
+        {
+            class helloObserver : Observer
+		    {
+                private:
+                    std::string hello="idle";
+                public:
+                    void stateChanged(const StateEvent &e, State &s)
+                        {
+                            hello = "hello";
+                        }
+                        std::string getNotified(){ return hello; }
+		    };
+
+        helloObserver * ho = new helloObserver();
+		BOOST_CHECK_EQUAL(ho->getNotified(), "idle");
+		State myObsState; myObsState.setMode("engine");
+		StateEvent se{StateEventID::ALLCHANGED};
+		myObsState.registerObserver((Observer *)ho);
+		myObsState.notifyObservers(se, myObsState);
+		BOOST_CHECK_EQUAL(ho->getNotified(), "hello");
+
+
+
+        }
+
 //------------------------------------------------------ Position ------------------------------------------------------
 
- 
-            {
-                // Normal constructor
-                Position *posv = new Position();
+
+        {
+            // Normal constructor
+            Position *posv = new Position();
 
 
 // do getters et setters and setters work ?
-                BOOST_CHECK_EQUAL(posv->getX(), 0);
-                BOOST_CHECK_EQUAL(posv->getY(), 0);
-                
-                posv->setX(2);
-                BOOST_CHECK_EQUAL(posv->getX(),2) ;
-                posv->setY(3);
-                BOOST_CHECK_EQUAL(posv->getY(),3) ;
-              
+            BOOST_CHECK_EQUAL(posv->getX(), 0);
+            BOOST_CHECK_EQUAL(posv->getY(), 0);
+
+            posv->setX(2);
+            BOOST_CHECK_EQUAL(posv->getX(), 2);
+            posv->setY(3);
+            BOOST_CHECK_EQUAL(posv->getY(), 3);
+
 // Overloaded constructor
-                Position *post = new Position(2,3);
-                BOOST_CHECK_EQUAL(post->equals(*posv),true); // are post and posv at the same position ?
-                //BOOST_CHECK_EQUAL(post->equals(*posv),true); // why posv ?
+            Position *post = new Position(2, 3);
+            BOOST_CHECK_EQUAL(post->equals(*posv), true); // are post and posv at the same position ?
+            //BOOST_CHECK_EQUAL(post->equals(*posv),true); // why posv ?
 
 // does the distance method works ?
-                BOOST_CHECK_EQUAL(posv->distance(*post),0);
-                post->setX(0);
-                post->setY(0);
-                BOOST_CHECK_EQUAL(posv->distance(*post),5);
+            BOOST_CHECK_EQUAL(posv->distance(*post), 0);
+            post->setX(0);
+            post->setY(0);
+            BOOST_CHECK_EQUAL(posv->distance(*post), 5);
 
-                post->setX(2);
-                post->setY(2);
+            post->setX(2);
+            post->setY(2);
 
 // Normal case for the nearest positions
-                std::vector<Position> vect = post->getNearPositions();
-                int northX= vect[2].getX();
-                int northY = vect[2].getY();
-                int southX = vect[0].getX();
-                int southY = vect[0].getY();
-                int westX = vect[3].getX();
-                int westY = vect[3].getY();
-                int eastX = vect[1].getX();
-                int eastY = vect[1].getY();
+            std::vector<Position> vect = post->getNearPositions();
+            int northX = vect[2].getX();
+            int northY = vect[2].getY();
+            int southX = vect[0].getX();
+            int southY = vect[0].getY();
+            int westX = vect[3].getX();
+            int westY = vect[3].getY();
+            int eastX = vect[1].getX();
+            int eastY = vect[1].getY();
 
-                BOOST_CHECK_EQUAL(northX,2);
-                BOOST_CHECK_EQUAL(northY,1);
+            BOOST_CHECK_EQUAL(northX, 2);
+            BOOST_CHECK_EQUAL(northY, 1);
 
-                BOOST_CHECK_EQUAL(southX,2);
-                BOOST_CHECK_EQUAL(southY,3);
+            BOOST_CHECK_EQUAL(southX, 2);
+            BOOST_CHECK_EQUAL(southY, 3);
 
-                BOOST_CHECK_EQUAL(westX,1);
-                BOOST_CHECK_EQUAL(westY,2);
+            BOOST_CHECK_EQUAL(westX, 1);
+            BOOST_CHECK_EQUAL(westY, 2);
 
-                BOOST_CHECK_EQUAL(eastX,3);
-                BOOST_CHECK_EQUAL(eastY,2);
+            BOOST_CHECK_EQUAL(eastX, 3);
+            BOOST_CHECK_EQUAL(eastY, 2);
 
-
+        }
+//----------------------------------------------- StateEvent --------------------------------------------------------
+        {
+            StateEvent se{ALLCHANGED};
+            se.setStateEvent(ROUNDCHANGED);
+            BOOST_CHECK_EQUAL(se.stateEventID, ROUNDCHANGED);
+        }
 
 //----------------------------------------------- SpaceMapTiles --------------------------------------------------------
+        {
+// Does the basic constructor work ?
+            SpaceMapTilesID smtID(Sand);
+            SpaceMapTiles smt(smtID,2,2,2);
 
+// Do setters and getters work ?
+            BOOST_CHECK_EQUAL(smt.isSpace(),true);
+            BOOST_CHECK_EQUAL(smt.getSpaceMapTilesID(),smtID);
 
+            smt.setSpaceMapTilesID(SpaceMapTilesID::Grass);
+            BOOST_CHECK_EQUAL(smt.getSpaceMapTilesID(),SpaceMapTilesID::Grass);
 
-
+        }
 
 //------------------------------------------------------ Stats ---------------------------------------------------------
 // Does the basic constructor do its job ?
@@ -412,4 +484,4 @@ namespace state{
 
 
         }
-}
+
