@@ -62,7 +62,7 @@ void Attack_Command::exec(state::State& curState)
 					cout<<"\n";
 				}
 			}
-			else cout << "Sorry, you missed..." << endl			
+			else cout << "Sorry, you missed..." << endl;		
 		}
 	}	
 
