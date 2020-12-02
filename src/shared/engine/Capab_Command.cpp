@@ -24,12 +24,13 @@
 
 #include "Capab_Command.h"
 #include <iostream>
+#include <random>
 
 using namespace engine;
 using namespace state;
 using namespace std;
 
-Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTarget) : user(refUser), target(refTarget)
+Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTarget, state::Position& refTargetedPos) : user(refUser), target(refTarget), targetedPos(refTargetedPos)
 {
 	Id = CAPAB;
 }
@@ -39,18 +40,66 @@ Capab_Command::~Capab_Command()
 	
 }
 
-/*void Capab_Command::Exec (state::State& curState)
+void Capab_Command::exec (state::State& curState)
 {
-	cout << user.getName() << "is trying to use his powers on" << target.getName() << endl;
-	
-	for(auto& index: attacker.allowedAttackTarget(curState))
+	if (user.getCapab()[0] != 0) {cout << "You can't use your powers yet." << endl;}
+	else 
 	{
-		if(index==target.getIndex())
+		cout << user.getName() << "is using his powers." << endl;
+	
+		user.setCapused(true);
+		user.setCapab(3,0);
+		CapabID cap = user.getCharWeap()->getCType();
+	
+		/*Setting the probabilities for arrow rain*/
+		int pre(user.getPrecision()), dod(target.getDodge());
+		random_device         rdev{};
+		default_random_engine generator(rdev());
+		bernoulli_distribution precision(pre);
+		bernoulli_distribution dodge(1-dod);
+	
+		switch(cap)
 		{
+			case (IMMOBIL):
+				target.setEffect(true, false, false);
+				cout << target.getName() << "is immobilised." << endl;
+				break;
+			
+			case (SRAIN):
+	
+				for(auto& index: user.allowedAttackTarget(curState)){
+					if( index==target.getIndex()){
+						int chardmg= user.getCharWeap()->getDammages();
+						// need to produce the final using dodge and precision
+						if (precision(generator) && dodge(generator)){
+							int newtarHealth= target.getHealth()- 3*chardmg;
+							target.setNewHealth(newtarHealth);
+				
+							if (target.getHealth()<= 0){
+								target.setStatus(DEATH);
+								cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
+							}
+				
+							cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
+							cout<<"\n";
+						}
+					}
+				}
+				break;
+			
+			case (TELEPORT):
+		
+				cout << "User at " << user.getPosition().getX() << "," << user.getPosition().getY() << " will teleport" << endl;
+				cout<<"\n";
+				user.getPosition().setX(targetedPos.getX());
+				user.getPosition().setY(targetedPos.getY());
+				cout << "User teleported at " << user.getPosition().getX() << "," << user.getPosition().getY() << endl;
+				break;
 			
 		}
 	}
-}*/
+}
+
 
 
 

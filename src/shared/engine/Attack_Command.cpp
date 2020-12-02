@@ -20,18 +20,20 @@ void Attack_Command::exec(state::State& curState)
 	cout << attacker.getName() << "is trying to attack" << target.getName() << endl;
 	cout << "Actual health of " << target.getName() << ": " << target.getHealth() << endl;
 
-	
-	//int pre(attacker.getPrecision()), dod(target.getDodge());
-	//default_random_engine generator;
-	//bernoulli_distribution precision(pre);
-	//bernoulli_distribution dodge(1-dod);
+
+	/*Setting the probabilities*/
+	int pre(attacker.getPrecision()), dod(target.getDodge());
+	random_device         rdev{};
+	default_random_engine generator(rdev());
+	bernoulli_distribution precision(pre);
+	bernoulli_distribution dodge(1-dod);
     
 
 	for(auto& index: attacker.allowedAttackTarget(curState)){
 		if( index==target.getIndex()){
 			int chardmg= attacker.getCharWeap()->getDammages();
 			// need to produce the final using dodge and precision
-			//if (precision(generator) && dodge(generator)){
+			if (precision(generator) && dodge(generator)){
 			int newtarHealth= target.getHealth()- chardmg;
 			target.setNewHealth(newtarHealth);
 			
@@ -42,7 +44,7 @@ void Attack_Command::exec(state::State& curState)
 			
 			cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
 			cout<<"\n";
-			//}
+			}
 			
 			cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
 			cout<<"\n";
