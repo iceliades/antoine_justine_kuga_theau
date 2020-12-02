@@ -187,69 +187,6 @@ namespace state{
                 BOOST_CHECK_EQUAL(eastY,2);
 
 
-                //vect.push_back(move(front));
-                //vect.push_back(move(back));
-                //vect.push_back(move(left));
-                //vect.push_back(move(right));
-
-                //BOOST_CHECK_EQUAL(posv->getNearPositions(),vect);
-
-
-
-                /*
-                Position *posXY = new Position(2,5);
-
-
-                BOOST_CHECK_EQUAL(Stick.getDammages(), 11);
-                BOOST_CHECK_EQUAL(Stick.getMinRange(), 3.f);
-                BOOST_CHECK_EQUAL(Stick.getMaxRange(), 4.f);
-                Stick.setOwner("CROOK1");
-                BOOST_CHECK_EQUAL(Stick.getOwner(),"CROOK1");
-
-                // getters et setters
-                BOOST_CHECK_EQUAL(posv->getX(), 2);
-                BOOST_CHECK_EQUAL(posv->getY(), 5);
-                
-                posv->setX(3);
-                BOOST_CHECK_EQUAL(posv->getX(),3) ;
-                posv->setY(3);
-                BOOST_CHECK_EQUAL(posv->getY(),3) ;
-              
-                // equals
-                Position *posXYt = new Position();
-
-                BOOST_CHECK_EQUAL(posXY->equals(*posXYt),false);
-
-
-
-                posXYt->setX(3);
-                posXYt->setY(3);
-                BOOST_CHECK_EQUAL(posXY->equals(*posXYt),false);
-
-                // distance
-                BOOST_CHECK_EQUAL(posXY->distance(*posXYt),0);
-                posXYt->setX(5);
-                posXYt->setY(2);
-                BOOST_CHECK_EQUAL(posXY->distance(*posXYt),7);
-                 */
-
-                /*
-                std::vector<Position> vect;
-                Position front{this->getX(), this->getY() + 1};
-                Position back{this->getX(), this->getY() - 1};
-                Position left{this->getX() - 1, this->getY()};
-                Position right{this->getX() + 1, this->getY()};
-
-
-                vect.push_back(move(front));
-                vect.push_back(move(back));
-                vect.push_back(move(left));
-                vect.push_back(move(right));
-
-                BOOST_CHECK_EQUAL(posv->getNearPositions(),vect);
-
-                */
-
 
 //----------------------------------------------- SpaceMapTiles --------------------------------------------------------
 
