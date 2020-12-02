@@ -17,6 +17,7 @@ namespace state{
 
         BOOST_AUTO_TEST_CASE(TestState)
         {   
+
 //--------------------------------------------------- Cursor -------------------------------------------------------
             {
                 Cursor cur(10,10,1);
@@ -38,6 +39,7 @@ namespace state{
 
                 
             }
+
 //--------------------------------------------------- Characters -------------------------------------------------------
             {
 // Does the basic constructor do its job ?
@@ -153,8 +155,10 @@ namespace state{
                 
             }
 
-       
+//--------------------------------------------------- Cursor -------------------------------------------------------
+        {
 
+        }
 
 //------------------------------------------------------ Effect --------------------------------------------------------
 
@@ -179,68 +183,91 @@ namespace state{
 				
 			}
 
+//------------------------------------------------ ObstacleMapTiles ----------------------------------------------------
+
+        {
+// Does the basic constructor work ?
+            ObstacleMapTiles omp(ObstacleMapTilesID::Wall,2,2);
+
+// Do setters and getters work ?
+            BOOST_CHECK_EQUAL(omp.isSpace(),false);
+            BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Wall);
+
+            omp.setObstacleTilesID(ObstacleMapTilesID::Rock);
+            BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Rock);
+
+        }
                         
 //------------------------------------------------------ Position ------------------------------------------------------
 
- 
-            {
-                // Normal constructor
-                Position *posv = new Position();
+
+        {
+            // Normal constructor
+            Position *posv = new Position();
 
 
 // do getters et setters and setters work ?
-                BOOST_CHECK_EQUAL(posv->getX(), 0);
-                BOOST_CHECK_EQUAL(posv->getY(), 0);
-                
-                posv->setX(2);
-                BOOST_CHECK_EQUAL(posv->getX(),2) ;
-                posv->setY(3);
-                BOOST_CHECK_EQUAL(posv->getY(),3) ;
-              
+            BOOST_CHECK_EQUAL(posv->getX(), 0);
+            BOOST_CHECK_EQUAL(posv->getY(), 0);
+
+            posv->setX(2);
+            BOOST_CHECK_EQUAL(posv->getX(), 2);
+            posv->setY(3);
+            BOOST_CHECK_EQUAL(posv->getY(), 3);
+
 // Overloaded constructor
-                Position *post = new Position(2,3);
-                BOOST_CHECK_EQUAL(post->equals(*posv),true); // are post and posv at the same position ?
-                //BOOST_CHECK_EQUAL(post->equals(*posv),true); // why posv ?
+            Position *post = new Position(2, 3);
+            BOOST_CHECK_EQUAL(post->equals(*posv), true); // are post and posv at the same position ?
+            //BOOST_CHECK_EQUAL(post->equals(*posv),true); // why posv ?
 
 // does the distance method works ?
-                BOOST_CHECK_EQUAL(posv->distance(*post),0);
-                post->setX(0);
-                post->setY(0);
-                BOOST_CHECK_EQUAL(posv->distance(*post),5);
+            BOOST_CHECK_EQUAL(posv->distance(*post), 0);
+            post->setX(0);
+            post->setY(0);
+            BOOST_CHECK_EQUAL(posv->distance(*post), 5);
 
-                post->setX(2);
-                post->setY(2);
+            post->setX(2);
+            post->setY(2);
 
 // Normal case for the nearest positions
-                std::vector<Position> vect = post->getNearPositions();
-                int northX= vect[2].getX();
-                int northY = vect[2].getY();
-                int southX = vect[0].getX();
-                int southY = vect[0].getY();
-                int westX = vect[3].getX();
-                int westY = vect[3].getY();
-                int eastX = vect[1].getX();
-                int eastY = vect[1].getY();
+            std::vector<Position> vect = post->getNearPositions();
+            int northX = vect[2].getX();
+            int northY = vect[2].getY();
+            int southX = vect[0].getX();
+            int southY = vect[0].getY();
+            int westX = vect[3].getX();
+            int westY = vect[3].getY();
+            int eastX = vect[1].getX();
+            int eastY = vect[1].getY();
 
-                BOOST_CHECK_EQUAL(northX,2);
-                BOOST_CHECK_EQUAL(northY,1);
+            BOOST_CHECK_EQUAL(northX, 2);
+            BOOST_CHECK_EQUAL(northY, 1);
 
-                BOOST_CHECK_EQUAL(southX,2);
-                BOOST_CHECK_EQUAL(southY,3);
+            BOOST_CHECK_EQUAL(southX, 2);
+            BOOST_CHECK_EQUAL(southY, 3);
 
-                BOOST_CHECK_EQUAL(westX,1);
-                BOOST_CHECK_EQUAL(westY,2);
+            BOOST_CHECK_EQUAL(westX, 1);
+            BOOST_CHECK_EQUAL(westY, 2);
 
-                BOOST_CHECK_EQUAL(eastX,3);
-                BOOST_CHECK_EQUAL(eastY,2);
+            BOOST_CHECK_EQUAL(eastX, 3);
+            BOOST_CHECK_EQUAL(eastY, 2);
 
-
+        }
 
 //----------------------------------------------- SpaceMapTiles --------------------------------------------------------
+        {
+// Does the basic constructor work ?
+            SpaceMapTilesID smtID(Sand);
+            SpaceMapTiles smt(smtID,2,2,2);
 
+// Do setters and getters work ?
+            BOOST_CHECK_EQUAL(smt.isSpace(),true);
+            BOOST_CHECK_EQUAL(smt.getSpaceMapTilesID(),smtID);
 
+            smt.setSpaceMapTilesID(SpaceMapTilesID::Grass);
+            BOOST_CHECK_EQUAL(smt.getSpaceMapTilesID(),SpaceMapTilesID::Grass);
 
-
+        }
 
 //------------------------------------------------------ Stats ---------------------------------------------------------
 // Does the basic constructor do its job ?
@@ -431,4 +458,4 @@ namespace state{
 
 
         }
-}
+
