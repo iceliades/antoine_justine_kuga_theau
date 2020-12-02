@@ -161,30 +161,30 @@ namespace state{
                 BOOST_CHECK_EQUAL(posv->distance(*post),5);
 
                 post->setX(2);
-                post->setY(3);
+                post->setY(2);
 
-
+//
                 std::vector<Position> vect = post->getNearPositions();
-                int northX= vect[0].getX();
-                int northY = vect[0].getY() + 1;
-                int southX = vect[1].getX();
-                int southY = vect[1].getY() - 1;
-                int westX = vect[2].getX() - 1;
-                int westY = vect[2].getY();
-                int eastX = vect[3].getX() + 1;
-                int eastY = vect[3].getY();
+                int northX= vect[2].getX();
+                int northY = vect[2].getY();
+                int southX = vect[0].getX();
+                int southY = vect[0].getY();
+                int westX = vect[3].getX();
+                int westY = vect[3].getY();
+                int eastX = vect[1].getX();
+                int eastY = vect[1].getY();
 
-                BOOST_CHECK_EQUAL(northY,4);
                 BOOST_CHECK_EQUAL(northX,2);
+                BOOST_CHECK_EQUAL(northY,1);
 
                 BOOST_CHECK_EQUAL(southX,2);
-                BOOST_CHECK_EQUAL(southY,2);
+                BOOST_CHECK_EQUAL(southY,3);
 
                 BOOST_CHECK_EQUAL(westX,1);
-                BOOST_CHECK_EQUAL(westY,3);
+                BOOST_CHECK_EQUAL(westY,2);
 
                 BOOST_CHECK_EQUAL(eastX,3);
-                BOOST_CHECK_EQUAL(eastY,3);
+                BOOST_CHECK_EQUAL(eastY,2);
 
                 //vect.push_back(move(front));
                 //vect.push_back(move(back));
