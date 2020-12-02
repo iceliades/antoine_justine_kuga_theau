@@ -19,6 +19,23 @@ namespace state{
         {   
 //--------------------------------------------------- Cursor -------------------------------------------------------
             {
+                Cursor cur(10,10,1);
+                cur.setName("Cursor");
+                Cursor cur2(10,10,1);
+                cur2.setName("Cursor");
+                BOOST_CHECK_EQUAL(cur.getName(),"Cursor");
+                BOOST_CHECK_EQUAL(cur.equals(cur2),false);
+                BOOST_CHECK_EQUAL(cur.isMapCell(), false);
+                cur.setVisible(true);
+                BOOST_CHECK_EQUAL(cur.getVisible(),true);
+                BOOST_CHECK_EQUAL(cur.getLastPosition().getX(),10);
+                BOOST_CHECK_EQUAL(cur.getLastPosition().getY(),10);
+                Position dest{11,11};
+                cur.move(dest);
+                cur.setTileCode(1);
+                cur.setPosition(dest);
+                
+
                 
             }
 //--------------------------------------------------- Characters -------------------------------------------------------
@@ -110,19 +127,21 @@ namespace state{
                 BOOST_CHECK_GT(p.distance(p2), 0); // distance returns a positive int.
 
                 State myAllowState;
+                myAllowState.setMode("engine");
                 myAllowState.initPlayers();
                 myAllowState.initCharacters();
                 myAllowState.initMapCell();
-                myAllowState.setMode("engine");
+                
                 std::vector<Position> allowpos; 
-                int px= myAllowState.getListCharacters(0)[0]->getPosition().getX();
-                int py= myAllowState.getListCharacters(0)[0]->getPosition().getY();
+                const int px= myAllowState.getListCharacters(0)[0]->getPosition().getX();
+                const int py= myAllowState.getListCharacters(0)[0]->getPosition().getY();
                 Position pos1{px-1,py};Position pos2{px+1,py};Position pos3{px,py+1};Position pos4{px,py-1};
                 allowpos.push_back(pos1);allowpos.push_back(pos2);allowpos.push_back(pos3);allowpos.push_back(pos4);
 
                 myAllowState.getListCharacters(0)[0]->setMovementLeft(1);
                 std::vector<Position> posallow= myAllowState.getListCharacters(0)[0]->allowedMove(myAllowState);
                 BOOST_CHECK_EQUAL(posallow[0].equals(allowpos[0]),true);
+
                 
                 myAllowState.getListCharacters(0)[0]->getCharWeap()->setMaxRange(1.f);
                 BOOST_CHECK_EQUAL(myAllowState.getListCharacters(0)[0]->allowedAttackPos(myAllowState)[0].equals(allowpos[0]),true);
