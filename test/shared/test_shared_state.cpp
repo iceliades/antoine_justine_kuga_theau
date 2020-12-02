@@ -18,27 +18,7 @@ namespace state{
         BOOST_AUTO_TEST_CASE(TestState)
         {   
 
-//--------------------------------------------------- Cursor -------------------------------------------------------
-            {
-                Cursor cur(10,10,1);
-                cur.setName("Cursor");
-                Cursor cur2(10,10,1);
-                cur2.setName("Cursor");
-                BOOST_CHECK_EQUAL(cur.getName(),"Cursor");
-                BOOST_CHECK_EQUAL(cur.equals(cur2),false);
-                BOOST_CHECK_EQUAL(cur.isMapCell(), false);
-                cur.setVisible(true);
-                BOOST_CHECK_EQUAL(cur.getVisible(),true);
-                BOOST_CHECK_EQUAL(cur.getLastPosition().getX(),10);
-                BOOST_CHECK_EQUAL(cur.getLastPosition().getY(),10);
-                Position dest{11,11};
-                cur.move(dest);
-                cur.setTileCode(1);
-                cur.setPosition(dest);
-                
 
-                
-            }
 
 //--------------------------------------------------- Characters -------------------------------------------------------
             {
@@ -155,6 +135,25 @@ namespace state{
                 
             }
 
+//--------------------------------------------------- Cursor -------------------------------------------------------
+        {
+            Cursor cur(10,10,1);
+            cur.setName("Cursor");
+            Cursor cur2(10,10,1);
+            cur2.setName("Cursor");
+            BOOST_CHECK_EQUAL(cur.getName(),"Cursor");
+            BOOST_CHECK_EQUAL(cur.equals(cur2),false);
+            BOOST_CHECK_EQUAL(cur.isMapCell(), false);
+            cur.setVisible(true);
+            BOOST_CHECK_EQUAL(cur.getVisible(),true);
+            BOOST_CHECK_EQUAL(cur.getLastPosition().getX(),10);
+            BOOST_CHECK_EQUAL(cur.getLastPosition().getY(),10);
+            Position dest{11,11};
+            cur.move(dest);
+            cur.setTileCode(1);
+            cur.setPosition(dest);
+
+        }
 
 //------------------------------------------------------ Effect --------------------------------------------------------
 
