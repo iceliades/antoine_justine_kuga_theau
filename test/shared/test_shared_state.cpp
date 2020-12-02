@@ -30,19 +30,27 @@ namespace state{
                 BOOST_CHECK_EQUAL(Crook.getTypeID(), CROOK);
                 BOOST_CHECK_EQUAL(Crook.getName(), "crook");
                 BOOST_CHECK_EQUAL(Crook.getMovement(), 5);
-                //BOOST_CHECK_EQUAL(Crook.getMovementLeft(), 5);
+                BOOST_CHECK_EQUAL(Crook.getMovementLeft(), 5);
                 BOOST_CHECK_EQUAL(Crook.getHealth(),100);
                 BOOST_CHECK_EQUAL(Crook.getPrecision(), 0.7f);
                 BOOST_CHECK_EQUAL(Crook.getDodge(), 0.1f);
                 BOOST_CHECK_EQUAL(Crook.getStatus(), AVAILABLE);
-                //BOOST_CHECK_EQUAL(Crook.getDirection(), DOWN);
-                //BOOST_CHECK_EQUAL(Crook.getPlayerID(), 0);
+                BOOST_CHECK_EQUAL(Crook.getDirection(), DOWN);
+                BOOST_CHECK_EQUAL(Crook.getPlayerID(), 0);
                 BOOST_CHECK_EQUAL(Crook.isMapCell(), false);
+                Crook.setTypeID(ELF);
+                Crook.setMovementLeft(4);
+                Crook.setNewHealth(100);    
+                /*Crook.allowedMove(&);
+                Crook.allowedAttackPos(&);
+                Crook.allowedAttackTarget(&);*/
+
+            
 
 //Do the setters do their job ?
-
-                //Crook.setCharWeap(Weapon* hache(AXE));
-                //BOOST_CHECK_EQUAL(Crook.getCharWeap(),hache);
+                Weapon* hache= new Weapon(AXE);
+                Crook.setCharWeap(hache);
+                BOOST_CHECK_EQUAL(Crook.getCharWeap(),hache);
 
                 Crook.setDodge(15,15);
                 BOOST_CHECK_EQUAL(Crook.getDodge(),30/60);
@@ -74,31 +82,24 @@ namespace state{
                 BOOST_CHECK_EQUAL(Crook.getPrecision(),1);
 
 
-                //Position p{10, 10};
-                //Crook.setPosition(p);
-                //BOOST_CHECK_EQUAL(Crook.getPosition().equals(p), true);
+                Position p{10, 10};
+                Crook.setPosition(p);
+                BOOST_CHECK_EQUAL(Crook.getPosition().equals(p), true);
 
 
                 Character knigth(KNIGHT, "crook", 10, 10, 1);
                 BOOST_CHECK_EQUAL(knigth.getHealth(),100);
-                //Crook.setEffect(false,true,false);
-                //BOOST_CHECK_EQUAL(Crook.getEffect().getStunned(),true);
+                Crook.setEffect(false,true,false);
+                BOOST_CHECK_EQUAL(Crook.getEffect().getStunned(),true);
 
-                //Crook.setStats(14,14,14,14,14,14);
-                //BOOST_CHECK_EQUAL(Crook.getStats().getIntelligence(),14);
+                Crook.setStats(14,14,14,14,14,14);
+                BOOST_CHECK_EQUAL(Crook.getStats().getIntelligence(),14);
 
 
          
-                //Position p2{-12, -32};
-                //BOOST_CHECK_GT(p.distance(p2), 0); // distance returns a positive int.
+                Position p2{-12, -32};
+                BOOST_CHECK_GT(p.distance(p2), 0); // distance returns a positive int.
 
-                //Character c2{DISTANCE, true, "Shaker", 10, 10, 1};
-                //BOOST_CHECK_EQUAL(c.getPosition().equals(c2.getPosition()), true);
-
-                // inherited equal method from Element
-                //Character c1{STRENGHT, true, "Testy", 0, 0, 1};
-                //Character c1identical{STRENGHT, true, "Testy", 0, 0, 1};
-                //BOOST_CHECK_EQUAL(c1.equals(c1identical), true);
             }
 
        
@@ -251,8 +252,8 @@ namespace state{
                 BOOST_CHECK_EQUAL(Stick.getDammages(), 11);
                 BOOST_CHECK_EQUAL(Stick.getMinRange(), 3.f);
                 BOOST_CHECK_EQUAL(Stick.getMaxRange(), 4.f);
-                
-
+                Stick.setOwner("CROOK1");
+                BOOST_CHECK_EQUAL(Stick.getOwner(),"CROOK1");
 
                 Stick.setDammages(10);
                 BOOST_CHECK_EQUAL(Stick.getDammages(),10) ;
@@ -280,11 +281,10 @@ namespace state{
             }
             
 //------------------------------------------------------ Effect ---------------------------------------------------------
-
  
             {
 				// Effect effet
-                Effect effet();
+                Effect effet;
 
                 BOOST_CHECK_EQUAL(effet.getImmobilised(), false);
                 BOOST_CHECK_EQUAL(effet.getDisarmed(), false);

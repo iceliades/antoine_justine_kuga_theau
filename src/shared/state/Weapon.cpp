@@ -62,3 +62,6 @@ void Weapon::setMaxRange(float prtM){
 void Weapon::setMinRange(float prtm){
     MinRange= prtm;
 }
+void Weapon::setOwner(std::string Nom){
+    Owner=Nom;
+}

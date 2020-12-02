@@ -24,7 +24,7 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
     effect = Effect();
     Movement = 5;
     MovementLeft= 5;
-    PlayerID = 0;//Player->getListCharacters().size;
+    PlayerID = 0;
     direction = DOWN;
     Health = 100;
     Dodge = 0.1;
@@ -197,7 +197,9 @@ std::vector<int>& Character::getCapab()
 {
 	return Capab;
 }
-
+Direction Character::getDirection(){
+    return direction;
+}
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){
     return false;
