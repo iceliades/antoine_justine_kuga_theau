@@ -90,8 +90,7 @@ namespace state{
                 BOOST_CHECK_EQUAL(Crook.getPosition().equals(p), true);
 
 
-                Character knigth(KNIGHT, "crook", 10, 10, 1);
-                BOOST_CHECK_EQUAL(knigth.getHealth(),100);
+       
                 Crook.setEffect(false,true,false);
                 BOOST_CHECK_EQUAL(Crook.getEffect().getStunned(),true);
 
