@@ -67,4 +67,6 @@ void Weapon::setMinRange(float prtm){
 void Weapon::setOwner(std::string Nom){
     Owner=Nom;
 }
-
+void Weapon::setTypeCapab(CapabID typeCapab){
+    this->typeCapab= typeCapab;
+}

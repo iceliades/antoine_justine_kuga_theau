@@ -219,7 +219,7 @@ bool Character::isMapCell(){
 
 void Character::addCapab(int compt)
 {
-	Capab.push_back(move(compt));
+	Capab.push_back(compt);
 }
 
 std::vector<Position> Character::allowedMove(State& state){

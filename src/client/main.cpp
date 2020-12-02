@@ -95,7 +95,7 @@ int main(int argc,char* argv[])
             engine.getState().getListCharacters(1)[0]->setNewHealth(25);
             engine.getState().getListCharacters(1)[0]->setPrecision(15,15,15,15);// precision to 1
             engine.getState().getListCharacters(1)[0]->setDodge(8,8);// set dodge to 0
-
+            engine.getState().getListCharacters(1)[0]->getCharWeap()->setTypeCapab(TELEPORT); // Teleport Capacity
 
 
             while (window.isOpen()){
@@ -117,7 +117,7 @@ int main(int argc,char* argv[])
                         
                         unique_ptr<engine::Command> ptr_sc(new engine::Sel_Char_Command(*engine.getState().getListCharacters(0)[0]));
                         engine.addCommand(move(ptr_sc), priority++);
-                        cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+                        //cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
 
 
                         engine.getState().setCurAction(MOVING); // hard change the sate cur action
@@ -149,7 +149,7 @@ int main(int argc,char* argv[])
                         
                         unique_ptr<engine::Command> ptr_sc(new engine::Sel_Char_Command(*engine.getState().getListCharacters(1)[0]));
                         engine.addCommand(move(ptr_sc), priority++);
-                        cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+                        //cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
 
 
                         engine.getState().setCurAction(MOVING); // hard change the sate cur action
@@ -184,7 +184,7 @@ int main(int argc,char* argv[])
                         
                         unique_ptr<engine::Command> ptr_sc(new engine::Sel_Char_Command(*engine.getState().getListCharacters(0)[0]));
                         engine.addCommand(move(ptr_sc), priority++);
-                        cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+                        //cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
 
 
                         engine.getState().setCurAction(MOVING); // hard change the sate cur action
@@ -218,7 +218,7 @@ int main(int argc,char* argv[])
                         
                         unique_ptr<engine::Command> ptr_sc(new engine::Sel_Char_Command(*engine.getState().getListCharacters(1)[0]));
                         engine.addCommand(move(ptr_sc), priority++);
-                        cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+                        //cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
 
 
                         engine.getState().setCurAction(MOVING); // hard change the sate cur action
@@ -258,7 +258,7 @@ int main(int argc,char* argv[])
                         
                         unique_ptr<engine::Command> ptr_sc(new engine::Sel_Char_Command(*engine.getState().getListCharacters(0)[0]));
                         engine.addCommand(move(ptr_sc), priority++);
-                        cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+                        //cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
 
                         engine.getState().setCurAction(ATTACKING);// Show the attack range
                         cout<<"STATE IN ATTACING MODE: SHOW ATTACK RANGE"<<endl;
@@ -284,7 +284,14 @@ int main(int argc,char* argv[])
                         
                         unique_ptr<engine::Command> ptr_sc(new engine::Sel_Char_Command(*engine.getState().getListCharacters(1)[0]));
                         engine.addCommand(move(ptr_sc), priority++);
-                        cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+                        //cout<< "The First Plyaer Character has been Selected: Sel_Char_Command"<<endl;
+
+                        Position posTeleport{p2X-2,p2Y-2};
+                        unique_ptr<engine::Command> ptr_cap(new engine::Capab_Command(*engine.getState().getListCharacters(1)[0],
+                        *engine.getState().getListCharacters(0)[0],posTeleport));
+                        engine.addCommand(move(ptr_cap), priority++);
+                        cout <<"TELEPORTING"<<endl;
+                        usleep(1000000);
 
                         engine.getState().setCurAction(ATTACKING);// Show the attack range
                         cout<<"STATE IN ATTACING MODE: SHOW ATTACK RANGE"<<endl;

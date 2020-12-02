@@ -17,7 +17,7 @@ namespace state{
 
         BOOST_AUTO_TEST_CASE(TestState)
         {   
-            //Cursor
+//--------------------------------------------------- Cursor -------------------------------------------------------
             {
                 
             }
@@ -25,6 +25,10 @@ namespace state{
             {
 // Does the basic constructor do its job ?
                 Character Crook(CROOK, "crook", 10, 10, 1);
+                Character elf(ELF, "crook", 10, 10, 1);
+                Character pirate(PIRATE, "crook", 10, 10, 1);
+                Character native(NATIVE, "crook", 10, 10, 1);
+                Character troll(TROLL, "crook", 10, 10, 1);
                 BOOST_CHECK_EQUAL(Crook.getTileCode(), 1);
                 BOOST_CHECK_EQUAL(Crook.getPosition().getY(), 10);
                 BOOST_CHECK_EQUAL(Crook.getPosition().getX(), 10);
@@ -41,10 +45,14 @@ namespace state{
                 BOOST_CHECK_EQUAL(Crook.isMapCell(), false);
                 Crook.setTypeID(ELF);
                 Crook.setMovementLeft(4);
-                Crook.setNewHealth(100);    
-                /*Crook.allowedMove(&);
-                Crook.allowedAttackPos(&);
-                Crook.allowedAttackTarget(&);*/
+                Crook.setNewHealth(100);
+                Crook.setPlayerID(1);
+                Crook.setCapab(0,0);
+                BOOST_CHECK_EQUAL(Crook.getCapab()[0],0);
+                Crook.addCapab(2);
+                BOOST_CHECK_EQUAL(Crook.getCapab()[1],2);
+                Crook.setCapused(true);
+                BOOST_CHECK_EQUAL(Crook.getCapused(),true);
 
             
 
@@ -98,11 +106,32 @@ namespace state{
                 BOOST_CHECK_EQUAL(Crook.getStats().getIntelligence(),14);
 
 
-         
                 Position p2{-12, -32};
                 BOOST_CHECK_GT(p.distance(p2), 0); // distance returns a positive int.
 
+                State myAllowState;
+                myAllowState.initPlayers();
+                myAllowState.initCharacters();
+                myAllowState.initMapCell();
+                myAllowState.setMode("engine");
+                std::vector<Position> allowpos; 
+                int px= myAllowState.getListCharacters(0)[0]->getPosition().getX();
+                int py= myAllowState.getListCharacters(0)[0]->getPosition().getY();
+                Position pos1{px-1,py};Position pos2{px+1,py};Position pos3{px,py+1};Position pos4{px,py-1};
+                allowpos.push_back(pos1);allowpos.push_back(pos2);allowpos.push_back(pos3);allowpos.push_back(pos4);
 
+                myAllowState.getListCharacters(0)[0]->setMovementLeft(1);
+                std::vector<Position> posallow= myAllowState.getListCharacters(0)[0]->allowedMove(myAllowState);
+                BOOST_CHECK_EQUAL(posallow[0].equals(allowpos[0]),true);
+                
+                myAllowState.getListCharacters(0)[0]->getCharWeap()->setMaxRange(1.f);
+                BOOST_CHECK_EQUAL(myAllowState.getListCharacters(0)[0]->allowedAttackPos(myAllowState)[0].equals(allowpos[0]),true);
+                
+                std::vector<int> targetallow;targetallow.push_back(0);
+                std::vector<int> ta= myAllowState.getListCharacters(0)[0]->allowedAttackTarget(myAllowState);
+                ta.push_back(0);
+                BOOST_CHECK_EQUAL(ta[0],targetallow[0]);
+                
             }
 
        
@@ -377,6 +406,7 @@ namespace state{
 
 
 
+
                     // Weapon STRAP
                     Weapon Strap(STRAP);
 
@@ -390,6 +420,11 @@ namespace state{
                     BOOST_CHECK_EQUAL(Strap.getMinRange(),6.f) ;
                     Strap.setMaxRange(8.f);
                     BOOST_CHECK_EQUAL(Strap.getMaxRange(),8.f);
+                    Strap.setTypeCapab(TELEPORT);
+                    BOOST_CHECK_EQUAL(Strap.getCType(),TELEPORT);
+                    Strap.setOwner("Player1");
+                    BOOST_CHECK_EQUAL(Strap.getOwner(),"Player1");
+
 
                 }
 

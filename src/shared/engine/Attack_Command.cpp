@@ -34,16 +34,14 @@ void Attack_Command::exec(state::State& curState)
 			int chardmg= attacker.getCharWeap()->getDammages();
 			// need to produce the final using dodge and precision
 			if (precision(generator) && dodge(generator)){
-			int newtarHealth= target.getHealth()- chardmg;
-			target.setNewHealth(newtarHealth);
-			
-			if (target.getHealth()<= 0){
-				target.setStatus(DEATH);
-				cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
-			}
-			
-			cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
-			cout<<"\n";
+				int newtarHealth= target.getHealth()- chardmg;
+				target.setNewHealth(newtarHealth);
+				
+				if (target.getHealth()<= 0){
+					target.setStatus(DEATH);
+					cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
+				}
+				
 			}
 			
 			cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
