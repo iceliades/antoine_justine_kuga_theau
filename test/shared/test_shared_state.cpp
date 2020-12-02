@@ -165,12 +165,11 @@ namespace state{
 
  
             {
-				// Position
-
+                // Normal constructor
                 Position *posv = new Position();
 
 
-                // getters et setters
+// do getters et setters and setters work ?
                 BOOST_CHECK_EQUAL(posv->getX(), 0);
                 BOOST_CHECK_EQUAL(posv->getY(), 0);
                 
@@ -179,96 +178,51 @@ namespace state{
                 posv->setY(3);
                 BOOST_CHECK_EQUAL(posv->getY(),3) ;
               
-                // equals
-                Position *post = new Position();
-
-                BOOST_CHECK_EQUAL(post->equals(*post),true);
+// Overloaded constructor
+                Position *post = new Position(2,3);
+                BOOST_CHECK_EQUAL(post->equals(*posv),true); // are post and posv at the same position ?
                 //BOOST_CHECK_EQUAL(post->equals(*posv),true); // why posv ?
 
-
-
-                post->setX(6);
-                post->setY(2);
-                BOOST_CHECK_EQUAL(post->equals(*posv),false);
-
-                // distance
-                BOOST_CHECK_EQUAL(posv->distance(*post),5);
-                post->setX(2);
-                post->setY(3);
+// does the distance method works ?
                 BOOST_CHECK_EQUAL(posv->distance(*post),0);
+                post->setX(0);
+                post->setY(0);
+                BOOST_CHECK_EQUAL(posv->distance(*post),5);
 
-                /*
-                std::vector<Position> vect;
-                Position front{this->getX(), this->getY() + 1};
-                Position back{this->getX(), this->getY() - 1};
-                Position left{this->getX() - 1, this->getY()};
-                Position right{this->getX() + 1, this->getY()};
+                post->setX(2);
+                post->setY(2);
 
+// Normal case for the nearest positions
+                std::vector<Position> vect = post->getNearPositions();
+                int northX= vect[2].getX();
+                int northY = vect[2].getY();
+                int southX = vect[0].getX();
+                int southY = vect[0].getY();
+                int westX = vect[3].getX();
+                int westY = vect[3].getY();
+                int eastX = vect[1].getX();
+                int eastY = vect[1].getY();
 
-                vect.push_back(move(front));
-                vect.push_back(move(back));
-                vect.push_back(move(left));
-                vect.push_back(move(right));
+                BOOST_CHECK_EQUAL(northX,2);
+                BOOST_CHECK_EQUAL(northY,1);
 
-                BOOST_CHECK_EQUAL(posv->getNearPositions(),vect);
+                BOOST_CHECK_EQUAL(southX,2);
+                BOOST_CHECK_EQUAL(southY,3);
 
-                */
+                BOOST_CHECK_EQUAL(westX,1);
+                BOOST_CHECK_EQUAL(westY,2);
 
-                /*
-                Position *posXY = new Position(2,5);
-
-
-                BOOST_CHECK_EQUAL(Stick.getDammages(), 11);
-                BOOST_CHECK_EQUAL(Stick.getMinRange(), 3.f);
-                BOOST_CHECK_EQUAL(Stick.getMaxRange(), 4.f);
-                Stick.setOwner("CROOK1");
-                BOOST_CHECK_EQUAL(Stick.getOwner(),"CROOK1");
-
-                // getters et setters
-                BOOST_CHECK_EQUAL(posv->getX(), 2);
-                BOOST_CHECK_EQUAL(posv->getY(), 5);
-                
-                posv->setX(3);
-                BOOST_CHECK_EQUAL(posv->getX(),3) ;
-                posv->setY(3);
-                BOOST_CHECK_EQUAL(posv->getY(),3) ;
-              
-                // equals
-                Position *posXYt = new Position();
-
-                BOOST_CHECK_EQUAL(posXY->equals(*posXYt),false);
+                BOOST_CHECK_EQUAL(eastX,3);
+                BOOST_CHECK_EQUAL(eastY,2);
 
 
 
-                posXYt->setX(3);
-                posXYt->setY(3);
-                BOOST_CHECK_EQUAL(posXY->equals(*posXYt),false);
-
-                // distance
-                BOOST_CHECK_EQUAL(posXY->distance(*posXYt),0);
-                posXYt->setX(5);
-                posXYt->setY(2);
-                BOOST_CHECK_EQUAL(posXY->distance(*posXYt),7);
-                 */
-
-                /*
-                std::vector<Position> vect;
-                Position front{this->getX(), this->getY() + 1};
-                Position back{this->getX(), this->getY() - 1};
-                Position left{this->getX() - 1, this->getY()};
-                Position right{this->getX() + 1, this->getY()};
+//----------------------------------------------- SpaceMapTiles --------------------------------------------------------
 
 
-                vect.push_back(move(front));
-                vect.push_back(move(back));
-                vect.push_back(move(left));
-                vect.push_back(move(right));
 
-                BOOST_CHECK_EQUAL(posv->getNearPositions(),vect);
 
-                */
 
-                
 //------------------------------------------------------ Stats ---------------------------------------------------------
 // Does the basic constructor do its job ?
             {
