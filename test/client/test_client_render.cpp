@@ -27,17 +27,16 @@ namespace render{
         BOOST_CHECK_EQUAL(tile1.getCellWidth(), 32);
         BOOST_CHECK_EQUAL(tile1.getCellHeight(), 32);
         BOOST_CHECK_EQUAL(tile1.getTileSetID(), MAPTILESET);
-        BOOST_CHECK_EQUAL(tile1.getTexture(), "res/textures/map_tileset.png");
+        sf::Texture &t1 = tile1.getTexture();
 
         BOOST_CHECK_EQUAL(tile2.getCellWidth(), 48);
         BOOST_CHECK_EQUAL(tile2.getCellHeight(), 72);
         BOOST_CHECK_EQUAL(tile2.getTileSetID(), CHARTILESET);
-        BOOST_CHECK_EQUAL(tile2.getTexture(), "res/textures/characters_tileset.png");
 
         BOOST_CHECK_EQUAL(tile3.getCellWidth(), 32);
         BOOST_CHECK_EQUAL(tile3.getCellHeight(), 32);
         BOOST_CHECK_EQUAL(tile3.getTileSetID(), CURSORTILESET);
-        BOOST_CHECK_EQUAL(tile3.getTexture(), "res/textures/Cursor_tileset.png");
+
 
 
         }
