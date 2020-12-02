@@ -62,6 +62,7 @@ void Capab_Command::exec (state::State& curState)
 		{
 			case (IMMOBIL):
 				target.setEffect(true, false, false);
+				target.setMovementLeft(0);
 				cout << target.getName() << "is immobilised." << endl;
 				break;
 			
@@ -71,17 +72,33 @@ void Capab_Command::exec (state::State& curState)
 					if( index==target.getIndex()){
 						int chardmg= user.getCharWeap()->getDammages();
 						// need to produce the final using dodge and precision
-						if (precision(generator) && dodge(generator)){
-							int newtarHealth= target.getHealth()- 3*chardmg;
-							target.setNewHealth(newtarHealth);
-				
-							if (target.getHealth()<= 0){
-								target.setStatus(DEATH);
-								cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
+						if (precision(generator)){
+							if (dodge(generator))
+							{
+								int newtarHealth= target.getHealth()- 3*dod*chardmg;
+								target.setNewHealth(newtarHealth);
+					
+								if (target.getHealth()<= 0){
+									target.setStatus(DEATH);
+									cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
+								}
+					
+								cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
+								cout<<"\n";
 							}
-				
-							cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
-							cout<<"\n";
+							else
+							{
+								int newtarHealth= target.getHealth()- 36*chardmg;
+								target.setNewHealth(newtarHealth);
+					
+								if (target.getHealth()<= 0){
+									target.setStatus(DEATH);
+									cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
+								}
+					
+								cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
+								cout<<"\n";
+							}
 						}
 					}
 				}
