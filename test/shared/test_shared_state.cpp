@@ -155,10 +155,6 @@ namespace state{
                 
             }
 
-//--------------------------------------------------- Cursor -------------------------------------------------------
-        {
-
-        }
 
 //------------------------------------------------------ Effect --------------------------------------------------------
 
@@ -197,7 +193,32 @@ namespace state{
             BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Rock);
 
         }
-                        
+//------------------------------------------------ Observable ----------------------------------------------------
+        {
+            class helloObserver : Observer
+		    {
+                private:
+                    std::string hello="idle";
+                public:
+                    void stateChanged(const StateEvent &e, State &s)
+                        {
+                            hello = "hello";
+                        }
+                        std::string getNotified(){ return hello; }
+		    };
+
+        helloObserver * ho = new helloObserver();
+		BOOST_CHECK_EQUAL(ho->getNotified(), "idle");
+		State myObsState; myObsState.setMode("engine");
+		StateEvent se{StateEventID::ALLCHANGED};
+		myObsState.registerObserver((Observer *)ho);
+		myObsState.notifyObservers(se, myObsState);
+		BOOST_CHECK_EQUAL(ho->getNotified(), "hello");
+
+
+
+        }
+
 //------------------------------------------------------ Position ------------------------------------------------------
 
 
@@ -252,6 +273,12 @@ namespace state{
             BOOST_CHECK_EQUAL(eastX, 3);
             BOOST_CHECK_EQUAL(eastY, 2);
 
+        }
+//----------------------------------------------- StateEvent --------------------------------------------------------
+        {
+            StateEvent se{ALLCHANGED};
+            se.setStateEvent(ROUNDCHANGED);
+            BOOST_CHECK_EQUAL(se.stateEventID, ROUNDCHANGED);
         }
 
 //----------------------------------------------- SpaceMapTiles --------------------------------------------------------
