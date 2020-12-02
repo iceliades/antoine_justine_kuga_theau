@@ -131,6 +131,20 @@ namespace state{
 				
 			}
 
+//------------------------------------------------ ObstacleMapTiles ----------------------------------------------------
+
+        {
+// Does the basic constructor work ?
+            ObstacleMapTiles omp(ObstacleMapTilesID::Wall,2,2);
+
+// Do setters and getters work ?
+            BOOST_CHECK_EQUAL(omp.isSpace(),false);
+            BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Wall);
+
+            omp.setObstacleTilesID(ObstacleMapTilesID::Rock);
+            BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Rock);
+
+        }
                         
 //------------------------------------------------------ Position ------------------------------------------------------
 
@@ -197,6 +211,9 @@ namespace state{
 // Do setters and getters work ?
             BOOST_CHECK_EQUAL(smt.isSpace(),true);
             BOOST_CHECK_EQUAL(smt.getSpaceMapTilesID(),smtID);
+
+            smt.setSpaceMapTilesID(SpaceMapTilesID::Grass);
+            BOOST_CHECK_EQUAL(smt.getSpaceMapTilesID(),SpaceMapTilesID::Grass);
 
         }
 
@@ -383,4 +400,4 @@ namespace state{
 
 
         }
-}
+

@@ -18,7 +18,7 @@ ObstacleMapTiles::~ObstacleMapTiles(){}
 bool ObstacleMapTiles::isSpace(){ return false;}
 
 //getters and setters
-ObstacleMapTilesID ObstacleMapTiles::getObstacleMapTIlesID(){ 
+ObstacleMapTilesID ObstacleMapTiles::getObstacleMapTilesID() {
     return typeID; }
 
 void ObstacleMapTiles::setObstacleTilesID(ObstacleMapTilesID id){
