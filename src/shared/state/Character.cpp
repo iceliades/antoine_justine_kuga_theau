@@ -6,6 +6,7 @@
 #include <sstream>
 #include <memory>
 #include <vector>
+#include <random>
 
 using namespace std;
 using namespace state;
@@ -24,12 +25,13 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
     effect = Effect();
     Movement = 5;
     MovementLeft= 5;
-    PlayerID = 0;//Player->getListCharacters().size;
+    PlayerID = 0;
     direction = DOWN;
     Health = 100;
     Dodge = 0.1;
     Precision = 0.7;
-
+	this->Capab.push_back(0);
+	
     switch (id) {
         case (CROOK) :
             stats.setIntelligence(stats.getIntelligence()+1);
@@ -46,8 +48,11 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
         case (DWARF) :
             stats.setStamina(stats.getStamina()+1);
         break;
+        case (TROLL) :
+            stats.setStrength(stats.getStrength()+1);
+            break;
         case (PIRATE) :
-            /*std::default_random_engine generator;
+            std::default_random_engine generator;
             std::uniform_int_distribution<int> distribution(1,6);
             int dice_roll = distribution(generator);
             // Pirate and Gambling, name a better duo
@@ -64,14 +69,11 @@ Character::Character(CharacterTypeID id, std::string name, int x, int y, int cha
                     stats.setStamina(stats.getStamina()+1);
                 case(6):
                     stats.setStrength(stats.getStrength()+1);
-            }*/
-
-        break;
-        case (TROLL) :
-            stats.setStrength(stats.getStrength()+1);
+            }
         break;
 
-}
+
+	}
 }
 Character::~Character(){
     delete charWeap;
@@ -84,7 +86,7 @@ void Character::setCharWeap (Weapon* w){
 }
 
 void Character::setDodge (int Agility, int Intelligence){
-    Dodge= 0,33 * ((Agility+Intelligence-16)^2)/196;
+    Dodge= 0.1 * pow((Agility+Intelligence-16),2)/196; // use pow to handle doubles and floats properly
 }
 
 void Character::setEffect (bool Immobilised,bool Stunned,bool Disarmed){
@@ -143,6 +145,10 @@ void Character::setPlayerID(int PlayerID){
     this->PlayerID=PlayerID;
 }
 
+void Character::setCapused(bool use) {Capused = use;}
+
+void Character::setCapab(int val, int pos) {this->Capab[pos] = val;}
+
 //------------------------------------------------- Getters ------------------------------------------------------------
 CharacterTypeID Character::getTypeID() {
     return TypeID;
@@ -197,6 +203,14 @@ std::vector<int>& Character::getCapab()
 {
 	return Capab;
 }
+
+Direction Character::getDirection(){
+    return direction;
+}
+
+
+bool Character::getCapused() {return Capused;}
+
 
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){

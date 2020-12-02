@@ -89,7 +89,13 @@ int main(int argc,char* argv[])
 
             // hard code health bc its loong either wise
             engine.getState().getListCharacters(0)[0]->setNewHealth(25);
+            engine.getState().getListCharacters(0)[0]->setPrecision(15,15,15,15);// precision to 1
+            engine.getState().getListCharacters(0)[0]->setDodge(8,8);// set dodge to 0
+
             engine.getState().getListCharacters(1)[0]->setNewHealth(25);
+            engine.getState().getListCharacters(1)[0]->setPrecision(15,15,15,15);// precision to 1
+            engine.getState().getListCharacters(1)[0]->setDodge(8,8);// set dodge to 0
+
 
 
             while (window.isOpen()){
