@@ -133,6 +133,23 @@ namespace state{
 
 //--------------------------------------------------- Cursor -------------------------------------------------------
         {
+// Does the basic constructor do its job ?
+            Cursor cursor{};
+            BOOST_CHECK_EQUAL(cursor.isMapCell(),false);
+            BOOST_CHECK_EQUAL(cursor.getVisible(),false);
+            BOOST_CHECK_EQUAL(cursor.getLastPosition().getX(),0);
+            BOOST_CHECK_EQUAL(cursor.getLastPosition().getY(),0);
+
+            cursor.setVisible(true);
+            BOOST_CHECK_EQUAL(cursor.getVisible(),true);
+
+            Position deuxdeux(2,2);
+            Position zerozero(0,0);
+            cursor.move(deuxdeux);
+            cursor.move(zerozero);
+            BOOST_CHECK_EQUAL(cursor.getLastPosition().getX(),2);
+            BOOST_CHECK_EQUAL(cursor.getLastPosition().getY(),2);
+
 
         }
 
