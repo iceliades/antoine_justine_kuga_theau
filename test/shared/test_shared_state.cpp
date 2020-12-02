@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <iomanip>
+#include <memory>
 
 
 namespace state{
@@ -191,7 +193,33 @@ namespace state{
             BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Rock);
 
         }
-                        
+
+//------------------------------------------------------ Player --------------------------------------------------------
+        {
+// Does the basic constructor work ?
+            Player alfred(0);
+            BOOST_CHECK_EQUAL(alfred.getId(),0);
+            BOOST_CHECK_EQUAL(alfred.getName(),"Player0");
+
+            alfred.setID(1312);
+            BOOST_CHECK_EQUAL(alfred.getId(),1312);
+            BOOST_CHECK_EQUAL(alfred.getName(),"Player1312");
+            alfred.setName("alfred");
+            BOOST_CHECK_EQUAL(alfred.getName(),"alfred1312");
+
+            //auto batman = new Character(ELF,"BATMAN",13,12,0);
+            std::unique_ptr<Character> batman(new Character(ELF,"BATMAN",13,12,0));
+            //auto batman_unique = make_unique<Character>(ELF,"BATMAN",13,12,0);
+            //auto ptr_batman = std::unique_ptr(&batman);
+            alfred.addCharacter(std::move(batman));
+            //alfred.addCharacter(move(batman));
+            BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),1);
+            std::unique_ptr<Character> batman2(new Character(ELF,"BATMAN",13,12,0));
+            alfred.deleteCharacter(*batman2);
+            BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),0);
+
+        }
+
 //------------------------------------------------------ Position ------------------------------------------------------
 
 
