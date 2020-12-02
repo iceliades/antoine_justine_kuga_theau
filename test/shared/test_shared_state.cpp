@@ -163,7 +163,7 @@ namespace state{
                 post->setX(2);
                 post->setY(2);
 
-//
+// Normal case for the nearest positions
                 std::vector<Position> vect = post->getNearPositions();
                 int northX= vect[2].getX();
                 int northY = vect[2].getY();
@@ -185,6 +185,8 @@ namespace state{
 
                 BOOST_CHECK_EQUAL(eastX,3);
                 BOOST_CHECK_EQUAL(eastY,2);
+
+// Edge cases ( literally ) for the nearest Positions
 
                 //vect.push_back(move(front));
                 //vect.push_back(move(back));
