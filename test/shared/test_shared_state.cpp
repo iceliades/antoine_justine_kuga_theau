@@ -186,7 +186,6 @@ namespace state{
                 BOOST_CHECK_EQUAL(eastX,3);
                 BOOST_CHECK_EQUAL(eastY,2);
 
-// Edge cases ( literally ) for the nearest Positions
 
                 //vect.push_back(move(front));
                 //vect.push_back(move(back));
@@ -251,7 +250,13 @@ namespace state{
 
                 */
 
-                
+
+//----------------------------------------------- SpaceMapTiles --------------------------------------------------------
+
+
+
+
+
 //------------------------------------------------------ Stats ---------------------------------------------------------
 // Does the basic constructor do its job ?
             {
