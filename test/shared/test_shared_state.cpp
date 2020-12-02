@@ -136,12 +136,11 @@ namespace state{
 
  
             {
-				// Position
-
+                // Normal constructor
                 Position *posv = new Position();
 
 
-                // getters et setters
+// do getters et setters and setters work ?
                 BOOST_CHECK_EQUAL(posv->getX(), 0);
                 BOOST_CHECK_EQUAL(posv->getY(), 0);
                 
@@ -150,40 +149,51 @@ namespace state{
                 posv->setY(3);
                 BOOST_CHECK_EQUAL(posv->getY(),3) ;
               
-                // equals
-                Position *post = new Position();
-
-                BOOST_CHECK_EQUAL(post->equals(*post),true);
+// Overloaded constructor
+                Position *post = new Position(2,3);
+                BOOST_CHECK_EQUAL(post->equals(*posv),true); // are post and posv at the same position ?
                 //BOOST_CHECK_EQUAL(post->equals(*posv),true); // why posv ?
 
-
-
-                post->setX(6);
-                post->setY(2);
-                BOOST_CHECK_EQUAL(post->equals(*posv),false);
-
-                // distance
+// does the distance method works ?
+                BOOST_CHECK_EQUAL(posv->distance(*post),0);
+                post->setX(0);
+                post->setY(0);
                 BOOST_CHECK_EQUAL(posv->distance(*post),5);
+
                 post->setX(2);
                 post->setY(3);
-                BOOST_CHECK_EQUAL(posv->distance(*post),0);
-
-                /*
-                std::vector<Position> vect;
-                Position front{this->getX(), this->getY() + 1};
-                Position back{this->getX(), this->getY() - 1};
-                Position left{this->getX() - 1, this->getY()};
-                Position right{this->getX() + 1, this->getY()};
 
 
-                vect.push_back(move(front));
-                vect.push_back(move(back));
-                vect.push_back(move(left));
-                vect.push_back(move(right));
+                std::vector<Position> vect = post->getNearPositions();
+                int northX= vect[0].getX();
+                int northY = vect[0].getY() + 1;
+                int southX = vect[1].getX();
+                int southY = vect[1].getY() - 1;
+                int westX = vect[2].getX() - 1;
+                int westY = vect[2].getY();
+                int eastX = vect[3].getX() + 1;
+                int eastY = vect[3].getY();
 
-                BOOST_CHECK_EQUAL(posv->getNearPositions(),vect);
+                BOOST_CHECK_EQUAL(northY,4);
+                BOOST_CHECK_EQUAL(northX,2);
 
-                */
+                BOOST_CHECK_EQUAL(southX,2);
+                BOOST_CHECK_EQUAL(southY,2);
+
+                BOOST_CHECK_EQUAL(westX,1);
+                BOOST_CHECK_EQUAL(westY,3);
+
+                BOOST_CHECK_EQUAL(eastX,3);
+                BOOST_CHECK_EQUAL(eastY,3);
+
+                //vect.push_back(move(front));
+                //vect.push_back(move(back));
+                //vect.push_back(move(left));
+                //vect.push_back(move(right));
+
+                //BOOST_CHECK_EQUAL(posv->getNearPositions(),vect);
+
+
 
                 /*
                 Position *posXY = new Position(2,5);
