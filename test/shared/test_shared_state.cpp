@@ -18,27 +18,7 @@ namespace state{
         BOOST_AUTO_TEST_CASE(TestState)
         {   
 
-//--------------------------------------------------- Cursor -------------------------------------------------------
-            {
-                Cursor cur(10,10,1);
-                cur.setName("Cursor");
-                Cursor cur2(10,10,1);
-                cur2.setName("Cursor");
-                BOOST_CHECK_EQUAL(cur.getName(),"Cursor");
-                BOOST_CHECK_EQUAL(cur.equals(cur2),false);
-                BOOST_CHECK_EQUAL(cur.isMapCell(), false);
-                cur.setVisible(true);
-                BOOST_CHECK_EQUAL(cur.getVisible(),true);
-                BOOST_CHECK_EQUAL(cur.getLastPosition().getX(),10);
-                BOOST_CHECK_EQUAL(cur.getLastPosition().getY(),10);
-                Position dest{11,11};
-                cur.move(dest);
-                cur.setTileCode(1);
-                cur.setPosition(dest);
-                
 
-                
-            }
 
 //--------------------------------------------------- Characters -------------------------------------------------------
             {
@@ -157,26 +137,23 @@ namespace state{
 
 //--------------------------------------------------- Cursor -------------------------------------------------------
         {
-// Does the basic constructor do its job ?
-            Cursor cursor{};
-            BOOST_CHECK_EQUAL(cursor.isMapCell(),false);
-            BOOST_CHECK_EQUAL(cursor.getVisible(),false);
-            BOOST_CHECK_EQUAL(cursor.getLastPosition().getX(),0);
-            BOOST_CHECK_EQUAL(cursor.getLastPosition().getY(),0);
-
-            cursor.setVisible(true);
-            BOOST_CHECK_EQUAL(cursor.getVisible(),true);
-
-            Position deuxdeux(2,2);
-            Position zerozero(0,0);
-            cursor.move(deuxdeux);
-            cursor.move(zerozero);
-            BOOST_CHECK_EQUAL(cursor.getLastPosition().getX(),2);
-            BOOST_CHECK_EQUAL(cursor.getLastPosition().getY(),2);
-
+            Cursor cur(10,10,1);
+            cur.setName("Cursor");
+            Cursor cur2(10,10,1);
+            cur2.setName("Cursor");
+            BOOST_CHECK_EQUAL(cur.getName(),"Cursor");
+            BOOST_CHECK_EQUAL(cur.equals(cur2),false);
+            BOOST_CHECK_EQUAL(cur.isMapCell(), false);
+            cur.setVisible(true);
+            BOOST_CHECK_EQUAL(cur.getVisible(),true);
+            BOOST_CHECK_EQUAL(cur.getLastPosition().getX(),10);
+            BOOST_CHECK_EQUAL(cur.getLastPosition().getY(),10);
+            Position dest{11,11};
+            cur.move(dest);
+            cur.setTileCode(1);
+            cur.setPosition(dest);
 
         }
-
 //------------------------------------------------------ Effect --------------------------------------------------------
 
  
