@@ -33,6 +33,7 @@ void Attack_Command::exec(state::State& curState)
 		if( index==target.getIndex()){
 			int chardmg= attacker.getCharWeap()->getDammages();
 			// need to produce the final using dodge and precision
+
 			if (precision(generator)){
 				if (dodge(generator))
 				{
@@ -60,7 +61,8 @@ void Attack_Command::exec(state::State& curState)
 					cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
 					cout<<"\n";
 				}
-			}				
+			}
+			else cout << "Sorry, you missed..." << endl			
 		}
 	}	
 
