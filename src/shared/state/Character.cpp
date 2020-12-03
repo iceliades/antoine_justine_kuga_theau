@@ -219,7 +219,7 @@ bool Character::isMapCell(){
 
 void Character::addCapab(int compt)
 {
-	Capab.push_back(move(compt));
+	Capab.push_back(compt);
 }
 
 std::vector<Position> Character::allowedMove(State& state){
@@ -277,6 +277,27 @@ std::vector<Position> Character::allowedAttackPos(State &state){
             }
         }
     }
+    for (unsigned int indexPos=0; indexPos<allowedAttackPos.size();indexPos++){
+        if (allowedAttackPos[indexPos].getX()<0 || allowedAttackPos[indexPos].getY()<0
+        || allowedAttackPos[indexPos].getX()>state.getMap()[0].size()
+        || allowedAttackPos[indexPos].getY()>state.getMap().size())
+            allowedAttackPos.erase(allowedAttackPos.begin()+indexPos);
+
+        for (auto &line: state.getMap()){
+            if( line[0]->getPosition().getY() != allowedAttackPos[indexPos].getY())
+                continue;
+            for (auto &mapCell: line){
+                if (mapCell->getPosition().getX() != allowedAttackPos[indexPos].getX())
+                    continue;
+                if (mapCell->getPosition().equals(allowedAttackPos[indexPos])
+                &&(mapCell->isSpace()==false ))
+                    allowedAttackPos.erase(allowedAttackPos.begin()+indexPos);
+
+            }
+        }         
+    }
+
+
     return allowedAttackPos;
 }
 
