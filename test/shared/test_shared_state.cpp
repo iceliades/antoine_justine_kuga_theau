@@ -187,6 +187,7 @@ namespace state{
                 ObstacleMapTiles omp(ObstacleMapTilesID::Wall,2,2);
 
                 // Do setters and getters work ?
+                BOOST_CHECK_EQUAL(omp.isMapCell(),true);
                 BOOST_CHECK_EQUAL(omp.isSpace(),false);
                 BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(),ObstacleMapTilesID::Wall);
 
@@ -221,33 +222,34 @@ namespace state{
             }
 
 
-        }
+        
 
 //------------------------------------------------------ Player --------------------------------------------------------
-        {
-// Does the basic constructor work ?
-            Player alfred(0);
-            BOOST_CHECK_EQUAL(alfred.getId(),0);
-            BOOST_CHECK_EQUAL(alfred.getName(),"Player0");
+            {
+                // Does the basic constructor work ?
+                Player alfred(0);
+                Player alfonse(2,"alfonse");
+                BOOST_CHECK_EQUAL(alfred.getId(),0);
+                BOOST_CHECK_EQUAL(alfred.getName(),"Player0");
 
-            alfred.setID(1312);
-            BOOST_CHECK_EQUAL(alfred.getId(),1312);
-            BOOST_CHECK_EQUAL(alfred.getName(),"Player1312");
-            alfred.setName("alfred");
-            BOOST_CHECK_EQUAL(alfred.getName(),"alfred1312");
+                alfred.setID(1312);
+                BOOST_CHECK_EQUAL(alfred.getId(),1312);
+                BOOST_CHECK_EQUAL(alfred.getName(),"Player1312");
+                alfred.setName("alfred");
+                BOOST_CHECK_EQUAL(alfred.getName(),"alfred1312");
 
-            //auto batman = new Character(ELF,"BATMAN",13,12,0);
-            std::unique_ptr<Character> batman(new Character(ELF,"BATMAN",13,12,0));
-            //auto batman_unique = make_unique<Character>(ELF,"BATMAN",13,12,0);
-            //auto ptr_batman = std::unique_ptr(&batman);
-            alfred.addCharacter(std::move(batman));
-            //alfred.addCharacter(move(batman));
-            BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),1);
-            std::unique_ptr<Character> batman2(new Character(ELF,"BATMAN",13,12,0));
-            alfred.deleteCharacter(*batman2);
-            BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),0);
+                //auto batman = new Character(ELF,"BATMAN",13,12,0);
+                std::unique_ptr<Character> batman(new Character(ELF,"BATMAN",13,12,0));
+                //auto batman_unique = make_unique<Character>(ELF,"BATMAN",13,12,0);
+                //auto ptr_batman = std::unique_ptr(&batman);
+                alfred.addCharacter(std::move(batman));
+                //alfred.addCharacter(move(batman));
+                BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),1);
+                std::unique_ptr<Character> batman2(new Character(ELF,"BATMAN",13,12,0));
+                alfred.deleteCharacter(*batman2);
+                BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),0);
 
-        }
+            }
 
 
 //------------------------------------------------------ Position ------------------------------------------------------
@@ -305,6 +307,46 @@ namespace state{
                 BOOST_CHECK_EQUAL(eastY, 2);
 
             }
+//----------------------------------------------- State --------------------------------------------------------
+            {
+                // Init
+
+                State myState;
+                myState.initMapCell();
+                myState.initPlayers();
+                myState.initCharacters();
+
+                myState.deletePlayer(*myState.getListPlayers()[1]);
+                BOOST_CHECK_EQUAL(myState.getListPlayers().size(),1);
+
+                myState.getListCharacters(0)[0]->setStatus(SELECTED);
+                BOOST_CHECK_EQUAL(myState.ifStelected(),true);
+                myState.setRound(10);
+                BOOST_CHECK_EQUAL(myState.getRound(),10);
+                myState.setEndGame(true);
+                BOOST_CHECK_EQUAL(myState.getEndGame(),true);
+                myState.setCurPlayerID(1);
+                BOOST_CHECK_EQUAL(myState.getCurPlayerID(),1);
+                myState.setGameWinner(2);
+                BOOST_CHECK_EQUAL(myState.getGameWinner(),2);
+                BOOST_CHECK_EQUAL(myState.getNbOfPlayers(),2);
+                myState.setCurAction(ATTACKING);
+                BOOST_CHECK_EQUAL(myState.getCurAction(),ATTACKING);
+                Cursor &cur= myState.getCursor();
+                Position pcur{2,10};
+                BOOST_CHECK_EQUAL(cur.getPosition().getX(),pcur.getX());
+                BOOST_CHECK_EQUAL(cur.getPosition().getY(),pcur.getY());
+                
+                myState.setMode("nothing");
+                BOOST_CHECK_EQUAL(myState.getMode(),"nothing");
+                myState.setMode("render");
+                myState.initMapCell();
+                myState.initPlayers();
+                myState.initCharacters();
+
+
+            }
+
 //----------------------------------------------- StateEvent --------------------------------------------------------
             {
                 StateEvent se{ALLCHANGED};

@@ -24,8 +24,7 @@ TileSet::TileSet(TileSetID ID){
             cellHeight=32;
             resFile="res/textures/Cursor_tileset.png";
             break;
-        default:
-            break;
+       
     }
 
     textureTileSet.loadFromFile(resFile);
