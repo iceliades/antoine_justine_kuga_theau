@@ -12,8 +12,6 @@ Attack_Command::Attack_Command(Character& refAttacker, Character& refTarget) : a
 	Id = ATTACK;	
 }
 
-Attack_Command::~Attack_Command(){}
-
 
 void Attack_Command::exec(state::State& curState)
 {
@@ -30,39 +28,37 @@ void Attack_Command::exec(state::State& curState)
     
 
 	for(auto& index: attacker.allowedAttackTarget(curState)){
-		if( index==target.getIndex()){
+		if( index==target.getIndex() && attacker.getPlayerID()!=target.getPlayerID()){
 			int chardmg= attacker.getCharWeap()->getDammages();
 			// need to produce the final using dodge and precision
 
-			if (precision(generator)){
-				if (dodge(generator))
-				{
-					int newtarHealth= target.getHealth()- 3*dod*chardmg;
-					target.setNewHealth(newtarHealth);
-		
-					if (target.getHealth()<= 0){
-						target.setStatus(DEATH);
-						cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
-					}
-		
-					cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
-					cout<<"\n";
+			if (precision(generator) && dodge(generator)){
+				int newtarHealth= target.getHealth()- chardmg;
+				target.setNewHealth(newtarHealth);
+				
+				if (target.getHealth()<= 0){
+					target.setStatus(DEATH);
+					cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
 				}
-				else
-				{
-					int newtarHealth= target.getHealth()- 36*chardmg;
-					target.setNewHealth(newtarHealth);
-		
-					if (target.getHealth()<= 0){
-						target.setStatus(DEATH);
-						cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
-					}
-		
-					cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
-					cout<<"\n";
+				
+				cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
+				cout<<"\n";
+			}else{
+				int newtarHealth= target.getHealth()- (chardmg-int((dod/2)*chardmg));
+				target.setNewHealth(newtarHealth);
+				
+				if (target.getHealth()<= 0){
+					target.setStatus(DEATH);
+					cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
 				}
+				
+				cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
+				cout<<"\n";
 			}
-			else cout << "Sorry, you missed..." << endl;		
+			
+					
+		}else{
+			cout<<"You can't attack this element sorry buddy";
 		}
 	}	
 

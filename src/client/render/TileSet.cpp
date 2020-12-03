@@ -5,27 +5,36 @@ using namespace render;
 
 // Constructor
 
-TileSet::TileSet(TileSetID ID){
+TileSet::TileSet(TileSetID ID,std::string mode){
     id = ID;
     
     switch(id){
         case MAPTILESET:
             cellWidth=32;
-            cellHeight=32;
-            resFile="res/textures/map_tileset.png";
+            cellHeight=32;         
+            if(mode=="test")
+                resFile="../../../res/textures/map_tileset.png";
+            else
+                resFile="res/textures/map_tileset.png";
+            
             break;
         case CHARTILESET:
             cellWidth=48;
             cellHeight=72;
-            resFile="res/textures/characters_tileset.png";
+            if(mode=="test")
+                resFile="../../../res/textures/characters_tileset.png";
+            else 
+                resFile="res/textures/characters_tileset.png";
             break;
         case CURSORTILESET:
             cellWidth=32;
-            cellHeight=32;
-            resFile="res/textures/Cursor_tileset.png";
+            cellHeight=32;          
+            if(mode=="test")
+                resFile="../../../res/textures/Cursor_tileset.png";
+            else
+                resFile="res/textures/Cursor_tileset.png";
             break;
-        default:
-            break;
+       
     }
 
     textureTileSet.loadFromFile(resFile);

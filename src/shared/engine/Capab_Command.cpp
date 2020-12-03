@@ -35,10 +35,6 @@ Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTar
 	Id = CAPAB;
 }
 
-Capab_Command::~Capab_Command()
-{
-	
-}
 
 void Capab_Command::exec (state::State& curState)
 {
@@ -69,38 +65,37 @@ void Capab_Command::exec (state::State& curState)
 			case (SRAIN):
 	
 				for(auto& index: user.allowedAttackTarget(curState)){
-					if( index==target.getIndex()){
+					if( index==target.getIndex()&& user.getPlayerID()!=target.getPlayerID()){
 						int chardmg= user.getCharWeap()->getDammages();
 						// need to produce the final using dodge and precision
-						if (precision(generator)){
-							if (dodge(generator))
-							{
-								int newtarHealth= target.getHealth()- 3*dod*chardmg;
-								target.setNewHealth(newtarHealth);
-					
-								if (target.getHealth()<= 0){
-									target.setStatus(DEATH);
-									cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
-								}
-					
-								cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
-								cout<<"\n";
+						if (precision(generator) && dodge(generator)){
+							int newtarHealth= target.getHealth()- int(3*(1-dod)*pre*chardmg);
+							target.setNewHealth(newtarHealth);
+							
+							if (target.getHealth()<= 0){
+								target.setStatus(DEATH);
+								cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
 							}
-							else
-							{
-								int newtarHealth= target.getHealth()- 36*chardmg;
-								target.setNewHealth(newtarHealth);
-					
-								if (target.getHealth()<= 0){
-									target.setStatus(DEATH);
-									cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
-								}
-					
-								cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
-								cout<<"\n";
+							
+							cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
+							cout<<"\n";
+						}else{
+							int newtarHealth= target.getHealth()- int((3*(1-dod)*pre*chardmg)/2);
+							target.setNewHealth(newtarHealth);
+							
+							if (target.getHealth()<= 0){
+								target.setStatus(DEATH);
+								cout<<"U KILLED THE CHARACTER"<<target.getName()<<endl;
 							}
+							
+							cout << "THE TARGET HEALTH"<< target.getHealth()<<endl;
+							cout<<"\n";
 						}
+					}else
+					{
+						cout<<"You can't attack this element sorry buddy";
 					}
+					
 				}
 				break;
 			
