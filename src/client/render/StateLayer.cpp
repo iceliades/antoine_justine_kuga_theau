@@ -10,24 +10,31 @@ using namespace std;
 using namespace state;
 
 
-StateLayer::StateLayer(state::State& myState, sf::RenderWindow& window):window(window),currentState(myState){
+StateLayer::StateLayer(state::State& myState, sf::RenderWindow& window,std::string mode):window(window),currentState(myState){
    
+    if(mode=="test")
+        resPath="../../../res/textures/";
+    else
+        resPath="res/textures/";
     
-    font.loadFromFile("res/textures/arial.ttf");
+    font.loadFromFile(resPath+"arial.ttf");
 
-   TileSet tileSetMap(MAPTILESET);
-   unique_ptr<TileSet>ptr_mapTileset(new TileSet(tileSetMap));
-   tileSets.push_back(move(ptr_mapTileset));
+   //TileSet tileSetMap(MAPTILESET,mode);
+   unique_ptr<TileSet>ptr_mapTileset(new TileSet(MAPTILESET,mode));
+   
    //screenWidth=myState.getMap()[0].size()*tileSetMap.getCellWidth();
    //screenHeight=myState.getMap().size()*tileSetMap.getCellHeight();
 
+   //TileSet tileSetCharacters(CHARTILESET,mode);
+   unique_ptr<TileSet>ptr_charTileset(new TileSet(CHARTILESET,mode));
+   
 
-   TileSet tileSetCharacters(CHARTILESET);
-   unique_ptr<TileSet>ptr_charTileset(new TileSet(tileSetCharacters));
+   //TileSet tileSetCursor(CURSORTILESET,mode);
+   unique_ptr<TileSet>ptr_cursorTileset(new TileSet(CURSORTILESET,mode));
+
+    
+   tileSets.push_back(move(ptr_mapTileset));
    tileSets.push_back(move(ptr_charTileset));
-
-   TileSet tileSetCursor(CURSORTILESET);
-   unique_ptr<TileSet>ptr_cursorTileset(new TileSet(CURSORTILESET));
    tileSets.push_back(move(ptr_cursorTileset));
    
 
@@ -104,8 +111,7 @@ void StateLayer::stateChanged(const state::StateEvent &stateEvent, state::State 
 }
 
 void StateLayer::displayText (){
-
-
+ 
     sf::VertexArray right_rectangle(sf::Quads, 4);
 	right_rectangle[0].position = sf::Vector2f(32*26.f, 0.f);
 	right_rectangle[1].position = sf::Vector2f(32*26+500.f, 0.f);
@@ -120,7 +126,7 @@ void StateLayer::displayText (){
 
 
     sf::Texture logo;
-    logo.loadFromFile("res/textures/zorglub.png");
+    logo.loadFromFile(resPath+"zorglub.png");
     sf::Sprite spritelogo;
     spritelogo.setPosition(32*26.f+50.f, 0.f);
     spritelogo.setTexture(logo,true);
@@ -161,24 +167,24 @@ void StateLayer::displayText (){
         sf::Texture logo;
         switch (charac->getTypeID()){
             case (CROOK) :
-                 logo.loadFromFile("res/textures/bandit.png");
+                 logo.loadFromFile(resPath+"bandit.png");
             break;
             case (KNIGHT) :
-                logo.loadFromFile("res/textures/chevalier.png");
+                logo.loadFromFile(resPath+"chevalier.png");
             break;
             case (ELF) :
-                logo.loadFromFile("res/textures/elfe.png");
+                logo.loadFromFile(resPath+"elfe.png");
             break;
             case (NATIVE) :
-                logo.loadFromFile("res/textures/indien.png");
+                logo.loadFromFile(resPath+"indien.png");
             break;
             case (DWARF) :
-                logo.loadFromFile("res/textures/nain.png");
+                logo.loadFromFile(resPath+"nain.png");
             break;
             case (PIRATE) :
-                logo.loadFromFile("res/textures/pirate.png");
+                logo.loadFromFile(resPath+"pirate.png");
             case (TROLL):
-                logo.loadFromFile("res/textures/troll.png");
+                logo.loadFromFile(resPath+"troll.png");
             
             default:
                 break;
@@ -194,7 +200,7 @@ void StateLayer::displayText (){
     }
 
     sf::Texture vslogo;
-    vslogo.loadFromFile("res/textures/vs.png");
+    vslogo.loadFromFile(resPath+"vs.png");
     sf::Sprite vsSprite;
     vsSprite.setPosition(32*26.f+220.f,300.f);
     vsSprite.setTexture(vslogo,true);
@@ -237,24 +243,24 @@ void StateLayer::displayText (){
         
         switch (charac->getTypeID()){
             case (CROOK) :
-                 logo.loadFromFile("res/textures/bandit.png");
+                 logo.loadFromFile(resPath+"bandit.png");
             break;
             case (KNIGHT) :
-                logo.loadFromFile("res/textures/chevalier.png");
+                logo.loadFromFile(resPath+"chevalier.png");
             break;
             case (ELF) :
-                logo.loadFromFile("res/textures/elfe.png");
+                logo.loadFromFile(resPath+"elfe.png");
             break;
             case (NATIVE) :
-                logo.loadFromFile("res/textures/indien.png");
+                logo.loadFromFile(resPath+"indien.png");
             break;
             case (DWARF) :
-                logo.loadFromFile("res/textures/nain.png");
+                logo.loadFromFile(resPath+"nain.png");
             break;
             case (PIRATE) :
-                logo.loadFromFile("res/textures/pirate.png");
+                logo.loadFromFile(resPath+"pirate.png");
             case (TROLL):
-                logo.loadFromFile("res/textures/troll.png");
+                logo.loadFromFile(resPath+"troll.png");
             
             default:
                 break;

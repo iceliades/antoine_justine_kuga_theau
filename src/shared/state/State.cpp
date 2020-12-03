@@ -31,8 +31,15 @@ void State::initMapCell(){
 
     int nbWidthTile= 26;
     int nbHeightTile=24;
+    std::string path;
+    if( mode=="test")
+        path="../../../res/textures/map.csv";
+    else
+        path="res/textures/map.csv";
 
-    std::ifstream file("res/textures/map.csv",ios::in);
+    std::ifstream file(path,ios::in);
+ 
+    
     std::string content, line, tile_code;
     int map_tile_code[nbWidthTile*nbHeightTile]; // width*height
 
