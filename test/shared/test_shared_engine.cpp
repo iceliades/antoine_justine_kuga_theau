@@ -42,43 +42,122 @@ using namespace std;
         
 BOOST_AUTO_TEST_CASE(TestEngineNamespace)
         {
-			Character Crook(CROOK, "crook", 10, 10, 1);
-			Weapon* hache= new Weapon(AXE);
-            Crook.setCharWeap(hache););
-            Crook.setDodge(15,15);
-            Crook.setEffect(false,false,false);
-            Crook.setStatus(CharacterStatusID::SELECTED);
-            Crook.setHealth(10,10);
-            Crook.setIndex(1);
-			Crook.setMovement(5);
-			Crook.setMovementBonus(13,13);
-			Crook.setPrecision(15,15,15,15);
+			// Init
+			Engine engine;
+            engine.getState().setMode("test");
+            engine.getState().initPlayers();
+            engine.getState().initCharacters();
+            engine.getState().initMapCell();
+			int p1x=2,p1y=2;
+			int p2x=2,p2y=4;
+			state::Position newpos1{p1x,p1y};
+			state::Position newpos2{p2x,p2y};
+			engine.getState().getListCharacters(0)[0]->setPosition(newpos1);
+			engine.getState().getListCharacters(1)[0]->setPosition(newpos2);
+			engine.getState().getListCharacters(0)[0]->setPrecision(15,15,15,15);// precision to 1
+            engine.getState().getListCharacters(0)[0]->setDodge(8,8);// set dodge to 0
+            engine.getState().getListCharacters(0)[0]->getCharWeap()->setTypeCapab(state::TELEPORT);
+
+			std::map<int, std::unique_ptr<Command>>& curcmd =engine.getCurrCommands();
+			BOOST_CHECK_EQUAL(curcmd.size(),0);
+			// Player 1
+				//select
+			Sel_Char_Command scc(*engine.getState().getListCharacters(0)[0]);
+			scc.setID(SELECT_CHAR);BOOST_CHECK_EQUAL(scc.getId(),SELECT_CHAR);
+			unique_ptr<Command> ptr_sc(new Sel_Char_Command(*engine.getState().getListCharacters(0)[0]));
+				// move
+			state::Position dest{p1x,++p1y};
+			unique_ptr<Command> ptr_m(new Move_Command(*engine.getState().getListCharacters(0)[0],dest));
+				// attack
+			unique_ptr<Command> ptr_ac(new Attack_Command(*engine.getState().getListCharacters(0)[0], *engine.getState().getListCharacters(1)[0]));
+				// Teleport
+			state::Position telepos{++p1x,++p1y};
+			unique_ptr<Command> ptr_cap(new Capab_Command(*engine.getState().getListCharacters(0)[0]
+			,*engine.getState().getListCharacters(1)[0],telepos));
+		
+			engine.addCommand(move(ptr_sc));
+			engine.addCommand(move(ptr_m));
+			engine.addCommand(move(ptr_ac));
+			engine.addCommand(move(ptr_cap));
+			
+			//engine.addCommand(move(ptr_cw));
+			engine.update();
+
+							
+				// Attacking 2
+			engine.getState().getListCharacters(0)[0]->setPrecision(0,0,0,0);// precision to 1
+            engine.getState().getListCharacters(0)[0]->setDodge(4,4);
+			unique_ptr<Command> ptr_ac2(new Attack_Command(*engine.getState().getListCharacters(0)[0], *engine.getState().getListCharacters(1)[0]));
+
+			
+				//Immobilized
+			engine.getState().getListCharacters(0)[0]->getCharWeap()->setTypeCapab(state::IMMOBIL);	
+			engine.getState().getListCharacters(0)[0]->setCapab(0,0);
+			unique_ptr<Command> ptr_cap_immobil(new Capab_Command(*engine.getState().getListCharacters(0)[0]
+			,*engine.getState().getListCharacters(1)[0],telepos));
+					
+			engine.addCommand(move(ptr_ac2));
+			engine.addCommand(move(ptr_cap_immobil));
+			engine.update();
+
+				//SRAIN 0
+			engine.getState().getListCharacters(0)[0]->setCapab(0,0);
+			engine.getState().getListCharacters(0)[0]->getCharWeap()->setTypeCapab(state::SRAIN);
+			unique_ptr<Command> ptr_cap_ra0(new Capab_Command(*engine.getState().getListCharacters(0)[0]
+			,*engine.getState().getListCharacters(1)[0],telepos));
+			engine.addCommand(move(ptr_cap_ra0));
+			engine.update();
+
+			
 
 
-			Position p{10, 9};
-			Crook.setPosition(p);
-			Crook.setStats(14,14,14,14,14,14);
-			
-			Character Crook2(CROOK, "crook", 10, 10, 1);
-			Weapon* hache= new Weapon(AXE);
-            Crook2.setCharWeap(hache););
-            Crook2.setDodge(15,15);
-            Crook2.setEffect(false,false,false);
-            Crook2.setStatus(CharacterStatusID::SELECTED);
-            Crook2.setHealth(10,10);
-            Crook2.setIndex(1);
-			Crook2.setMovement(5);
-			Crook2.setMovementBonus(13,13);
-			Crook2.setPrecision(15,15,15,15);
+				//SRAIN 1
+			engine.getState().getListCharacters(0)[0]->setPrecision(15,15,15,15);// precision to 1
+            engine.getState().getListCharacters(0)[0]->setDodge(8,8);// Dodge to 0
+			engine.getState().getListCharacters(0)[0]->setCapab(0,0);
+			engine.getState().getListCharacters(0)[0]->getCharWeap()->setTypeCapab(state::SRAIN);
+			unique_ptr<Command> ptr_cap_ra(new Capab_Command(*engine.getState().getListCharacters(0)[0]
+			,*engine.getState().getListCharacters(1)[0],telepos));
+						
+				// Finish Turn
+			unique_ptr<Command> ptr_ftc(new Finish_Turn_Command());
+			engine.addCommand(move(ptr_cap_ra));
+			engine.addCommand(move(ptr_ftc));
 
-			Position p2{11, 10};
-			Position p3{10, 10};
-			
-			Crook2.setPosition(p3);
-			Crook2.setStats(14,14,14,14,14,14);
-	 
-			Move_Command Crook_move(Crook,p2);
-			BOOST_CHECK_EQUAL(Crook.getPosition().equals(p2), true);
-			
-			Attack_Command Crook_attack(Crook,Crook2);
+			engine.update();
+
+			engine.getState().getListCharacters(0)[0]->setStatus(state::DEATH);
+			engine.getState().getListCharacters(0)[1]->setStatus(state::DEATH);
+			engine.getState().getListCharacters(0)[2]->setStatus(state::DEATH);
+			engine.update();
+			engine.getState().setEndGame(false);
+			engine.getState().getListCharacters(0)[0]->setStatus(state::WAITING);
+			engine.getState().getListCharacters(0)[1]->setStatus(state::WAITING);
+			engine.getState().getListCharacters(0)[2]->setStatus(state::WAITING);
+			engine.getState().getListCharacters(1)[0]->setStatus(state::DEATH);
+			engine.getState().getListCharacters(1)[1]->setStatus(state::DEATH);
+			engine.getState().getListCharacters(1)[2]->setStatus(state::DEATH);
+			engine.update();
+			// Dummy test
+			class helloObserver : engineObserver {
+            private:
+                std::string client = "idle";
+            public:
+                void engineUpdating() {
+                    client = "state changing";
+                }
+				void engineUpdated(){
+					client = "state changed";
+				}
+
+                std::string getNotified() { return client; }
+            };
+			helloObserver *ho = new helloObserver();
+			BOOST_CHECK_EQUAL(ho->getNotified(), "idle");	
+			engine.registerObserver((engineObserver*)ho);
+			engine.notifyUpdate();
+			BOOST_CHECK_EQUAL(ho->getNotified(),"state changing");
+			engine.notifyUpdated();
+			BOOST_CHECK_EQUAL(ho->getNotified(),"state changed");
+
 		}

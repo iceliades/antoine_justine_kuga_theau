@@ -196,6 +196,7 @@ namespace state {
             ObstacleMapTiles omp(ObstacleMapTilesID::Wall, 2, 2);
 
             // Do setters and getters work ?
+            BOOST_CHECK_EQUAL(omp.isMapCell(),true);
             BOOST_CHECK_EQUAL(omp.isSpace(), false);
             BOOST_CHECK_EQUAL(omp.getObstacleMapTilesID(), ObstacleMapTilesID::Wall);
 

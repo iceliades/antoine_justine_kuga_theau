@@ -67,7 +67,7 @@ namespace render{
                 stateLayer.stateChanged(se2,myState);
                 stateLayer.stateChanged(se3,myState);
                 stateLayer.draw(window);
-                window.close();
+                //window.close();
 
 
                 state::State myState2;
@@ -82,7 +82,7 @@ namespace render{
                 window2.setVisible(false);
                 StateLayer stateLayer2 (myState2,window2,"test");
                 stateLayer.initTextureArea(myState2);
-                window2.close();
+                //window2.close();
 
 
 
