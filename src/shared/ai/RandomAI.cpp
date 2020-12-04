@@ -1,7 +1,5 @@
-#include "AI.h"
 #include "RandomAI.h"
 #include "engine.h"
-#include "state.h"
 #include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
@@ -25,7 +23,7 @@ void RandomAI::run(engine::Engine &engine){
         // can attack
         cout << "first if can attack ? true " << endl;
         int moves = selectedChar.getMovementLeft();
-        while (selectedChar.allowedAttackTarget(engine.getState()).size() > 0 && moves > 0)
+        while (selectedChar.allowedAttackTarget(engine.getState()).size() > 0)
         {
             int random = selectedChar.allowedAttackTarget(engine.getState())[(rand() %
                 (selectedChar.allowedAttackTarget(engine.getState()).size()))];

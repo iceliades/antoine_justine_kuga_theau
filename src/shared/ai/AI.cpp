@@ -7,9 +7,9 @@ using namespace ai;
 using namespace state;
 using namespace std;
 
-/* AI::AI(int pn){
+AI::AI(int pn){
     this->nbplayers = pn;
-}*/
+}
 
 int AI::getNbplayers (){
     return nbplayers;
