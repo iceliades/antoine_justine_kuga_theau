@@ -254,8 +254,7 @@ namespace state {
                 alfred.addCharacter(std::move(batman));
                 //alfred.addCharacter(move(batman));
                 BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),1);
-                std::unique_ptr<Character> batman2(new Character(ELF,"BATMAN",13,12,0));
-                alfred.deleteCharacter(*batman2);
+                alfred.deleteCharacter(*alfred.getListCharacters()[0]);
                 BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),0);
             }
 
