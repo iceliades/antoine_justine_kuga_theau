@@ -256,6 +256,7 @@ namespace state {
                 BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),1);
                 //alfred.deleteCharacter(*alfred.getListCharacters()[0]);
                 //BOOST_CHECK_EQUAL(alfred.getListCharacters().size(),0);
+
             }
 
 
