@@ -13,6 +13,7 @@ void testSFML() {
 #include <state.h>
 #include <render.h>
 #include <engine.h>
+#include <ai.h>
 #include <iostream>
 #include <sstream>
 
@@ -320,14 +321,76 @@ int main(int argc,char* argv[])
 
 
             
+        }else if(string(argv[1]) == "random_ai"){
+            srand(time(NULL));// Init random generator 
+
+            Engine myEngine; // No confusion to engine packgage
+            myEngine.getState();
+            myEngine.getState().initPlayers();
+            myEngine.getState().initCharacters();
+            myEngine.getState().initMapCell();
+            
+
+            sf::RenderWindow window(sf::VideoMode(32*26+500,32*24), "Zorglub");
+            StateLayer stateLayer (myEngine.getState(),window);
+            stateLayer.initTextureArea(myEngine.getState());
+        
+            StateLayer *ptr_stateLayer = &stateLayer;
+            myEngine.getState().registerObserver(ptr_stateLayer);
+
+            bool booting=true;
+
+             // Init ai
+            ai::RandomAI randomAi;
+            randomAi.setNbplayers(2); // PLayer ID 2
+
+            // Init some characters stuffs to be  faster
+            for(int i=0; i<2; i++){
+                for(int j=0;j<3; j++){
+                    myEngine.getState().getListCharacters(i)[j]->setNewHealth(25);
+                    myEngine.getState().getListCharacters(i)[j]->setPrecision(15,15,15,15);// precision to 1
+                    myEngine.getState().getListCharacters(i)[j]->setDodge(8,8);
+                    if( i==1){
+                        Position pos{2+j,4};
+                        myEngine.getState().getListCharacters(i)[j]->setPosition(pos);
+
+                    }else{
+
+                        Position pos1{2+j,6};
+                        myEngine.getState().getListCharacters(i)[j]->setPosition(pos1);
+
+                    }
+                    
+                }
+            }
+         
+            while (window.isOpen()){
+                sf::Event event;
+                if( booting){
+                    stateLayer.draw(window);
+                    booting=false;
+                }
+                if(myEngine.getState().getCurPlayerID()==1){
+                    unique_ptr<Command> ptr_ft(new Finish_Turn_Command());
+                    myEngine.addCommand(move(ptr_ft));myEngine.update();
+                }else
+                {
+                    if(myEngine.getState().getEndGame()==false)
+                        randomAi.run(myEngine);
+                }
+                
+                                 
+                while (window.pollEvent(event)){
+                    if (event.type == sf::Event::Closed){
+                        window.close();
+                    }
+                }
+                
+            }
+
+
         }
         
-        
-
-
-
-        
-
     }
     return 0;
 }

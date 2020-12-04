@@ -310,7 +310,8 @@ std::vector<int> Character::allowedAttackTarget (State& state){
         if( state.getCurPlayerID()!=(i+1)){
             for (unsigned int j=0; j< state.getListCharacters(i).size();j++){
                 Character& charac = *state.getListCharacters(i)[j];
-                if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
+                //if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
+                if(charac.getStatus() !=DEATH ){
                     for (unsigned int pos=0; pos<charallowedAttackPos.size(); pos++){
                         if(charallowedAttackPos[pos].equals(charac.getPosition())){
                             posibleCharIndexes.push_back(j);// return the index of the character

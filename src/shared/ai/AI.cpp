@@ -13,7 +13,5 @@ int AI::getNbplayers (){
 }
 
 void AI::setNbplayers (int newNb){
-    if(newNb == 1 || newNb == 2){
-        nbplayers = newNb;
-    }
+    nbplayers = newNb;
 }
