@@ -195,8 +195,16 @@ bool TextureArea::loadCharacters(state::State& curState, render::TileSet& textur
                 quad[2].texCoords = sf::Vector2f((tx + 1) * cellWidth, (ty + 1) * cellHeight);
                 quad[3].texCoords = sf::Vector2f(tx * cellWidth, (ty + 1) * cellHeight);
                 
-
-
+                if( curState.getMode()=="PlayervsAI"){
+                    Color color = (curState.getListCharacters(j)[i]->getPlayerID()==1)? Color(0,0,int(255-j*80)) : Color(255-j*80,0,0);
+                    quad[0].color = color;
+                    quad[1].color = color;
+                    quad[2].color = color;
+                    quad[3].color = color;
+            
+                    
+                }
+                
 
                 
                           

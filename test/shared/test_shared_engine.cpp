@@ -40,8 +40,9 @@ using namespace std;
             BOOST_CHECK(1);
         }
         
-BOOST_AUTO_TEST_CASE(TestEngineNamespace)
+BOOST_AUTO_TEST_CASE(TestEngine)
         {
+			
 			// Init
 			Engine engine;
             engine.getState().setMode("test");

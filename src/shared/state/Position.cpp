@@ -43,36 +43,15 @@ namespace state {
         Position east{this->getX() + 1, this->getY()};
 
 
-        // coin en bas à gauche
-        /*if (this->getY() == 0){
 
-            if (this->getX() == 0){
-                west.setX(0);
-                west.setY(0);
-            }
-            if (this->getX() == 26){
-                east.setX(0);
-                east.setY(0);
-            }
-            north.setX(0);
+        if(this->getX()==0)
+            west.setX(0);
+        if( this->getY()==0)
             north.setY(0);
-        }
-
-        if (this->getY() == 24){
-            if (this->getX() == 0){
-                west.setX(0);
-                west.setY(0);
-            }
-            if (this->getX() == 26){
-                east.setX(0);
-                east.setY(0);
-            }
-
-            south.setX(0);
-            south.setY(0);
-
-        }*/
-
+        if(  this->getY()==24)
+            south.setY(24);
+        if( this->getX()==26)
+            east.setX(26);
 
 
         result.push_back(move(south));

@@ -131,7 +131,7 @@ void State::initCharacters(){
     }
     cursor.setPosition(listPlayers[0]->getListCharacters()[0]->getPosition());
 }
-
+/*
 void State::deletePlayer(Player& player){
     for(unsigned int i=0; i<listPlayers.size(); i++){
         if(listPlayers[i]->getId() == player.getId() ){
@@ -139,6 +139,7 @@ void State::deletePlayer(Player& player){
         }
     }
 }
+*/
 
 
 // A character has been selected

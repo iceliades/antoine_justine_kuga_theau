@@ -261,7 +261,7 @@ std::vector<Position> Character::allowedMove(State& state){
 }
 
 
-// Return all the positon the character is allowed to ttack
+// Return all the positions the character is allowed to attack
 std::vector<Position> Character::allowedAttackPos(State &state){
    vector<Position> allowedAttackPos;
    int maxRange= this->charWeap->getMaxRange();
@@ -310,7 +310,8 @@ std::vector<int> Character::allowedAttackTarget (State& state){
         if( state.getCurPlayerID()!=(i+1)){
             for (unsigned int j=0; j< state.getListCharacters(i).size();j++){
                 Character& charac = *state.getListCharacters(i)[j];
-                if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
+                //if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
+                if(charac.getStatus() !=DEATH ){
                     for (unsigned int pos=0; pos<charallowedAttackPos.size(); pos++){
                         if(charallowedAttackPos[pos].equals(charac.getPosition())){
                             posibleCharIndexes.push_back(j);// return the index of the character

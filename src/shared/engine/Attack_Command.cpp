@@ -58,7 +58,7 @@ void Attack_Command::exec(state::State& curState)
 			
 					
 		}else{
-			cout<<"You can't attack this element sorry buddy";
+			cout<<"You can't attack this element sorry buddy"<<endl;;
 		}
 	}	
 

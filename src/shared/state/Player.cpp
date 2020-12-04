@@ -36,7 +36,7 @@ void Player::addCharacter(std::unique_ptr<Character> ptr_character){
 }
 
 
-
+/*
 void Player::deleteCharacter(Character& character){
     for(unsigned int i=0; i<listCharacters.size(); i++){
         // Can be optimized
@@ -45,4 +45,5 @@ void Player::deleteCharacter(Character& character){
         }
     }
 }
+*/
 
