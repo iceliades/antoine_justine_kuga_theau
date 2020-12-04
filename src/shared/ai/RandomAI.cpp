@@ -3,106 +3,95 @@
 #include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
-#include <time.h>
+
+
 
 using namespace ai;
-using namespace engine;
-using namespace state;
 using namespace std;
+using namespace state;
+using namespace engine;
 
-void RandomAI::run(engine::Engine &engine){
-    int randomCharSelected = selectCharacter(engine.getState());
+
+void RandomAI::run(engine::Engine& myEngine){
+
+
+    int targetPlayerID= (this->getNbplayers()==2)? 1:2;
+
+    int randomCharSelected = selectCharacter(myEngine.getState());
     // always select someone
-    Character &selectedChar = *engine.getState().getListCharacters(2)[randomCharSelected];
-    unique_ptr<Command> selectCommand(new Sel_Char_Command(selectedChar));
-    engine.addCommand(move(selectCommand));
 
-    // can attack?
-    if (selectedChar.allowedAttackTarget(engine.getState()).size() > 0)
-    {
-        // can attack
-        cout << "first if can attack ? true " << endl;
-        int moves = selectedChar.getMovementLeft();
-        while (selectedChar.allowedAttackTarget(engine.getState()).size() > 0)
-        {
-            int random = selectedChar.allowedAttackTarget(engine.getState())[(rand() %
-                (selectedChar.allowedAttackTarget(engine.getState()).size()))];
+    Character &selectedChar = *myEngine.getState().getListCharacters(this->getNbplayers())[randomCharSelected];
+    unique_ptr<engine::Command> selectCommand(new Sel_Char_Command(selectedChar));
+    myEngine.addCommand(move(selectCommand));
 
-            Character &targetToAttack = *engine.getState().getListCharacters(2)[random];
-            // choose to attack or to move (0 move, 1 attack)
-            if ((rand() % 2))
-            {
-                // attack
-                unique_ptr<Command> atkCmd(new Attack_Command(selectedChar, targetToAttack));
-                engine.addCommand(move(atkCmd));
-                engine.update();
+    // ennemy character in range ?
+    if(selectedChar.allowedAttackTarget(myEngine.getState()).size() > 0){
+        int random = selectedChar.allowedAttackTarget(myEngine.getState())[(rand() %
+                (selectedChar.allowedAttackTarget(myEngine.getState()).size()))];
+        Character& targetChar= *myEngine.getState().getListCharacters(targetPlayerID)[random];
 
-                unique_ptr<Command> finTurnCmd(new Finish_Turn_Command());
-                engine.addCommand(move(finTurnCmd));
-                engine.update();
-                return;
+        unique_ptr<Command> ptr_ac(new Attack_Command(selectedChar,targetChar));
+        myEngine.addCommand(move(ptr_ac)); myEngine.update();
+
+
+        if (rand()%2){ // Choose randomly to move or finish turn
+            int mvLeft= selectedChar.getMovementLeft();
+            while (mvLeft>0)
+            {   
+                Position randPosToMove (selectedChar.getPosition().getNearPositions()[rand()%4]);
+                unique_ptr<Command> ptr_mv ( new Move_Command(selectedChar,randPosToMove));
+                myEngine.addCommand(move(ptr_mv));myEngine.update();
+                mvLeft=selectedChar.getMovementLeft();
+
+
             }
-            else
-            {
-                // move
-                int randomMove = (rand() % selectedChar.allowedMove(engine.getState()).size());
-                Position &p = selectedChar.allowedMove(engine.getState())[randomMove];
-                unique_ptr<Command> mvCmd(new Move_Command(selectedChar, p));
-                engine.addCommand(move(mvCmd));
-                engine.update();
-                moves--;
-            }
+            
+            unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
+            myEngine.addCommand(move(ptr_ft));myEngine.update();
+            
+        }else{
+
+            unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
+            myEngine.addCommand(move(ptr_ft));myEngine.update();
         }
-        unique_ptr<Command> finTurnCmd(new Finish_Turn_Command());
-        engine.addCommand(move(finTurnCmd));
-        engine.update();
-    }
-    else
-    {
-        int moves = selectedChar.getMovementLeft();
-        while ( moves > 0)
-        {
-            // can NOT attack, JUST MOVE.
-            int randomMove = (rand() % selectedChar.allowedMove(engine.getState()).size());
-            Position p{selectedChar.allowedMove(engine.getState())[randomMove].getX(),
-                selectedChar.allowedMove(engine.getState())[randomMove].getY()};
 
-            unique_ptr<Command> mvCmd(new Move_Command(selectedChar, p));
-            engine.addCommand(move(mvCmd));
-            engine.update();
-            moves--;
-            cout << " move executed " << endl;
+    }else{
 
-            // now i was deplaced, can attack?
-            if (selectedChar.allowedAttackTarget(engine.getState()).size())
-            {
-                // just attack
-                int random = selectedChar.allowedAttackTarget(engine.getState())[(rand()
-                    % (selectedChar.allowedAttackTarget(engine.getState()).size()))];
+        int mvLeft1= selectedChar.getMovementLeft();
+        while(mvLeft1>0){
 
-                Character &targetToAttack = *engine.getState().getListCharacters(2)[random];
-                unique_ptr<Command> atkCmd(new Attack_Command(selectedChar, targetToAttack));
-                engine.addCommand(move(atkCmd));
-                engine.update();
+            Position randPosToMove1 (selectedChar.getPosition().getNearPositions()[rand()%4]);
+            unique_ptr<Command> ptr_mv1 ( new Move_Command(selectedChar,randPosToMove1));
+            myEngine.addCommand(move(ptr_mv1));myEngine.update();
+            
 
-                unique_ptr<Command> finTurnCmd(new Finish_Turn_Command());
-                engine.addCommand(move(finTurnCmd));
-                engine.update();
-                return;
-            }
+            if(selectedChar.allowedAttackTarget(myEngine.getState()).size() > 0){
+
+                 int random1= selectedChar.allowedAttackTarget(myEngine.getState())[(rand() %
+                (selectedChar.allowedAttackTarget(myEngine.getState()).size()))];
+                Character& targetChar1= *myEngine.getState().getListCharacters(targetPlayerID)[random1];
+
+                unique_ptr<Command> ptr_ac1(new Attack_Command(selectedChar,targetChar1));
+                myEngine.addCommand(move(ptr_ac1)); myEngine.update();
+
+                unique_ptr<Command> ptr_ft1( new Finish_Turn_Command());
+                myEngine.addCommand(move(ptr_ft1));myEngine.update();
+                break;
+
+             }
+            mvLeft1=selectedChar.getMovementLeft();
         }
-        unique_ptr<Command> finTurnCmd(new Finish_Turn_Command());
-        engine.addCommand(move(finTurnCmd));
-        engine.update();
-        return;
+        
     }
+
 }
 
-int RandomAI::selectCharacter (state::State state){
+
+int RandomAI::selectCharacter (state::State& state){
     std::vector<int> posibleIndex;
 
-    for(unsigned int i = 0; i < state.getListCharacters(2).size(); i++){
-        Character &charac = *state.getListCharacters(2)[i];
+    for(unsigned int i = 0; i < state.getListCharacters(this->getNbplayers()).size(); i++){
+        state::Character &charac = *state.getListCharacters(this->getNbplayers())[i];
         if(charac.getPlayerID() == this->getNbplayers() && charac.getStatus() != DEATH)
             posibleIndex.push_back(i);
     }

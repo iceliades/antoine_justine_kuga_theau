@@ -1,22 +1,20 @@
 #include "AI.h"
-#include "state.h"
-#include <stdlib.h>
-#include <unistd.h>
+
 
 using namespace ai;
-using namespace state;
 using namespace std;
 
-AI::AI(int pn){
-    this->nbplayers = pn;
+
+ AI::AI(int nbplayers){
+    this->nbplayers = nbplayers;
 }
 
 int AI::getNbplayers (){
     return nbplayers;
 }
 
-void AI::setNbplayers (int pn){
-    if(pn == 1 || pn == 2){
-        nbplayers = pn;
+void AI::setNbplayers (int newNb){
+    if(newNb == 1 || newNb == 2){
+        nbplayers = newNb;
     }
 }
