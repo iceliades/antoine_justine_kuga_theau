@@ -261,7 +261,7 @@ std::vector<Position> Character::allowedMove(State& state){
 }
 
 
-// Return all the positon the character is allowed to ttack
+// Return all the positions the character is allowed to attack
 std::vector<Position> Character::allowedAttackPos(State &state){
    vector<Position> allowedAttackPos;
    int maxRange= this->charWeap->getMaxRange();
