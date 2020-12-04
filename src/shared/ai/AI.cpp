@@ -4,6 +4,7 @@
 using namespace ai;
 using namespace std;
 
+
  AI::AI(int nbplayers){
     this->nbplayers = nbplayers;
 }

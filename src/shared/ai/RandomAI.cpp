@@ -1,6 +1,5 @@
 #include "RandomAI.h"
 #include "engine.h"
-#include "state.h"
 #include <iostream>
 #include <stdlib.h>
 #include <unistd.h>
@@ -20,6 +19,7 @@ void RandomAI::run(engine::Engine& myEngine){
 
     int randomCharSelected = selectCharacter(myEngine.getState());
     // always select someone
+
     Character &selectedChar = *myEngine.getState().getListCharacters(this->getNbplayers()-1)[randomCharSelected];
     unique_ptr<engine::Command> selectCommand(new Sel_Char_Command(selectedChar));
     myEngine.addCommand(move(selectCommand));myEngine.update();
@@ -42,6 +42,7 @@ void RandomAI::run(engine::Engine& myEngine){
                 unique_ptr<Command> ptr_mv ( new Move_Command(selectedChar,randPosToMove));
                 myEngine.addCommand(move(ptr_mv));myEngine.update();
                 mvLeft=selectedChar.getMovementLeft();
+
 
             }
             
