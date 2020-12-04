@@ -327,7 +327,7 @@ int main(int argc,char* argv[])
             srand(time(NULL));// Init random generator 
 
             Engine myEngine; // No confusion to engine packgage
-            myEngine.getState();
+            myEngine.getState().setMode("random_ai");
             myEngine.getState().initPlayers();
             myEngine.getState().initCharacters();
             myEngine.getState().initMapCell();
@@ -384,8 +384,10 @@ int main(int argc,char* argv[])
                     if(myEngine.getState().getEndGame()==false)
                         randomAi2.run(myEngine);
                 }
-                
-                                 
+                // at the close event seems not working
+                // will see later for use this
+                if(myEngine.getState().getEndGame()==true) 
+                    window.close();                   
                 while (window.pollEvent(event)){
                     if (event.type == sf::Event::Closed){
                         window.close();
@@ -538,21 +540,24 @@ int main(int argc,char* argv[])
                                         unique_ptr<Command> ptr_ac0(new Attack_Command(*playerCharList[indexChar],
                                         *myEngine.getState().getListCharacters(1)[0]));
                                         myEngine.addCommand(move(ptr_ac0));myEngine.update();
-                                        myEngine.getState().setCurAction(MOVING);  
+                                        myEngine.getState().setCurAction(IDLE);
+                                        myEngine.update();   
                                     }
                                 }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
                                     if(myEngine.getState().getCurAction()==ATTACKING){
                                         unique_ptr<Command> ptr_ac1(new Attack_Command(*playerCharList[indexChar],
                                         *myEngine.getState().getListCharacters(1)[1]));
                                         myEngine.addCommand(move(ptr_ac1));myEngine.update();
-                                        myEngine.getState().setCurAction(MOVING);  
+                                        myEngine.getState().setCurAction(IDLE); 
+                                        myEngine.update(); 
                                     }
                                 }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
                                     if(myEngine.getState().getCurAction()==ATTACKING){
                                         unique_ptr<Command> ptr_ac2(new Attack_Command(*playerCharList[indexChar],
                                         *myEngine.getState().getListCharacters(1)[2]));
                                         myEngine.addCommand(move(ptr_ac2));myEngine.update();
-                                        myEngine.getState().setCurAction(MOVING); 
+                                        myEngine.getState().setCurAction(IDLE);
+                                        myEngine.update(); 
                                     }
                                 }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
                                       unique_ptr<Command> ptr_ft(new Finish_Turn_Command());

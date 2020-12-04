@@ -163,6 +163,16 @@ void StateLayer::displayText (){
                 sf::Text textchar;
                 textchar.setPosition(32*mychar.getPosition().getX(),32*mychar.getPosition().getY()+10.f);
                 textchar.setFont(font);textchar.setCharacterSize(10);textchar.setString(std::to_string(j+1));
+                if(currentState.getMode()=="random_ai"){
+                    if(i==0){
+                        textchar.setFillColor(sf::Color::Blue);
+                    }else if(i==1)
+                    {
+                        textchar.setFillColor(sf::Color::Red);
+                     }
+                }
+                
+                
                 window.draw(textchar);
             }
             
