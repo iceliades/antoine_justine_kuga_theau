@@ -75,7 +75,15 @@ Engine automatic display
 ```bash
 ./bin/client engine
 ```
-## 2.final Random AI
+## 2. Random AI
+RandomAI vs RandomAI 
+```bash
+./bin/client random_ai
+```
+Player vs RandomAI 
+```bash
+./bin/client player_vs_rai
+```
 
 ## 3.1 Heuristic AI
 
