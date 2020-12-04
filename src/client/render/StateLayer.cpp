@@ -124,6 +124,53 @@ void StateLayer::displayText (){
     right_rectangle[3].color = sf::Color::Black;
     window.draw(right_rectangle);
 
+    sf::VertexArray bottom_rectangle(sf::Quads, 4);
+	right_rectangle[0].position = sf::Vector2f(0.f, 32*24.f);
+	right_rectangle[1].position = sf::Vector2f(32*26.f+500.f, 32*24.f);
+	right_rectangle[2].position = sf::Vector2f(32*26.f+500.f, 32*24+100.f);
+	right_rectangle[3].position = sf::Vector2f(0.f, 32*24+100.f);
+    right_rectangle[0].color = sf::Color::White;
+    right_rectangle[1].color = sf::Color::Black;
+    right_rectangle[2].color = sf::Color::White;
+    right_rectangle[3].color = sf::Color::Black;
+    window.draw(bottom_rectangle);
+
+    sf::Text Info;
+    Info.setPosition(450.f+10.f,32*24.f+40.f);Info.setFont(font);Info.setFillColor(sf::Color::Red);
+    Info.setString("THIS RENDER AND KEYS ONLY FOR NOW UNTIL CLIENT UPDATE AND USE OF CURSOR");Info.setCharacterSize(20);window.draw(Info);
+
+    sf::Text arrow;
+    arrow.setPosition(0.f+10.f,32*24.f+10.f);arrow.setFont(font);
+    arrow.setString("MOVE: ARROW");arrow.setCharacterSize(20);window.draw(arrow);
+    sf::Text att;
+    att.setPosition(500.f+10.f,32*24.f+10.f);att.setFont(font);
+    att.setString("ATTACK_MODE: A");att.setCharacterSize(20);window.draw(att);
+
+    sf::Text skip;
+    skip.setPosition(250.f+10.f,32*24.f+10.f);skip.setFont(font);
+    skip.setString("FINISH TURN: S");skip.setCharacterSize(20);window.draw(skip);
+    sf::Text tselect;
+    tselect.setPosition(0.f+10.f,32*24.f+45.f);tselect.setFont(font);
+    tselect.setString("SELECT:  I -> 1   |  O -> 2   |  P-> 3 ");tselect.setCharacterSize(20);window.draw(tselect);
+    sf::Text tattack;
+    tattack.setPosition(0.f+10.f,32*24.f+70.f);tattack.setFont(font);
+    tattack.setString("TARGET:  K -> 1  |  L -> 2  |  M-> 3");tattack.setCharacterSize(20);window.draw(tattack);
+
+    for(unsigned int i=0; i<currentState.getListPlayers().size(); i++){
+        for (unsigned int j=0; j<currentState.getListCharacters(i).size();j++){
+            if( currentState.getListCharacters(i)[j]->getStatus()!=DEATH){
+                state::Character& mychar=*currentState.getListCharacters(i)[j];
+                sf::Text textchar;
+                textchar.setPosition(32*mychar.getPosition().getX(),32*mychar.getPosition().getY()+10.f);
+                textchar.setFont(font);textchar.setCharacterSize(10);textchar.setString(std::to_string(j+1));
+                window.draw(textchar);
+            }
+            
+        }
+    }
+
+
+
 
     sf::Texture logo;
     logo.loadFromFile(resPath+"zorglub.png");
