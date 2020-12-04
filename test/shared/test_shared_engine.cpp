@@ -42,16 +42,6 @@ using namespace std;
         
 BOOST_AUTO_TEST_CASE(TestEngine)
         {
-
-			State myAllowState;
-			myAllowState.initPlayers();
-			myAllowState.initCharacters();
-			myAllowState.initMapCell();
-			myAllowState.setMode("engine");
-			
-			Position p{10, 9};
-			
-			/*------------------------Engine--------------------------*/
 			
 			// Init
 			Engine engine;
