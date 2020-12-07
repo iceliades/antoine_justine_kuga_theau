@@ -43,7 +43,6 @@ void RandomAI::run(engine::Engine& myEngine){
                 myEngine.addCommand(move(ptr_mv));myEngine.update();
                 mvLeft=selectedChar.getMovementLeft();
 
-
             }
             
         }
@@ -82,7 +81,6 @@ void RandomAI::run(engine::Engine& myEngine){
     }
 
 }
-
 
 int RandomAI::selectCharacter (state::State& state){
     std::vector<int> posibleIndex;
