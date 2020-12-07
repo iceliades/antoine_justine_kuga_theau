@@ -70,7 +70,7 @@ void RandomAI::run(engine::Engine& myEngine){
 
                 unique_ptr<Command> ptr_ac1(new Attack_Command(selectedChar,targetChar1));
                 myEngine.addCommand(move(ptr_ac1)); myEngine.update();
-                break;
+                break; // sort du while
 
              }
 
