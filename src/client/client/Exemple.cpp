@@ -1,6 +1,7 @@
  // Included from library shared_static
 //#include "Exemple.h"
 
+/*
 namespace client {
 
 
@@ -12,4 +13,5 @@ void Exemple::setX (int x) {
 }
 
 }
+*/
 
