@@ -24,9 +24,6 @@ using namespace ::ai;
         
 BOOST_AUTO_TEST_CASE(TestAi)
         {
-			
-            
-
 
             State myState;
             myState.setMode("PlayervsAI");
@@ -41,12 +38,9 @@ BOOST_AUTO_TEST_CASE(TestAi)
             BOOST_CHECK_EQUAL(myAi.getNbplayers (),1);
             myAi.setNbplayers (2);
             
-            
-
-            
-
-
-
+            // check if the output belongs in [0,2]
+            BOOST_CHECK_LE(myAi.selectCharacter(myState),2);
+            BOOST_CHECK_EQUAL(myAi.selectCharacter(myState),0);
 
 
         }
