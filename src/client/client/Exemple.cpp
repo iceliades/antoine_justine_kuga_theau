@@ -1,5 +1,5 @@
  // Included from library shared_static
-#include "Exemple.h"
+//#include "Exemple.h"
 
 namespace client {
 
