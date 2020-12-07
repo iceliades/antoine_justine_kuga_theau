@@ -14,22 +14,45 @@ void testSFML() {
 #include <render.h>
 #include <engine.h>
 #include <ai.h>
+#include <client.h>
 #include <iostream>
 #include <sstream>
+#include <map>
+#include <cstdio>
+#include <functional>
+#include <boost/function.hpp>
 
 using namespace std;
 using namespace state;
 using namespace render;
 using namespace engine;
+using namespace client;
+
+
 
 
 int main(int argc,char* argv[])
 {
     //Exemple exemple;
     //exemple.setX(53);
+    std::map<std::string,ICommand_Client*> MethodMap;
+
+    MethodMap["hello"] = (ICommand_Client*)new Command_Client_Hello();
+    MethodMap["render"] = (ICommand_Client*)new Command_Client_Render();
+    MethodMap["random_ai"] = (ICommand_Client*)new Command_Client_RAI();
+    MethodMap["player_vs_rai"] = (ICommand_Client*)new Command_Client_PAI();
+    MethodMap["engine"] = (ICommand_Client*)new Command_Client_Engine();
+    MethodMap["autre"] = (ICommand_Client*)new Command_Client_Autre();
+
+
+
     if(argc==2) {
-        
-        if (string(argv[1]) == "hello")
+        if(MethodMap.find(argv[1])==MethodMap.end()) {
+            MethodMap["autre"]->execute();
+        }else {
+            MethodMap[string(argv[1])]->execute();
+        }
+        /*if (string(argv[1]) == "hello")
             cout << "Bonjour le monde!" << endl; 
         else if (string(argv[1]) == "state") {
             cout << "Veillez utiliser les commandes make unittest et make code-coverage depuis le dossier build" << endl;
@@ -581,7 +604,7 @@ int main(int argc,char* argv[])
             }
 
 
-        }
+        }*/
         
     }
     return 0;
