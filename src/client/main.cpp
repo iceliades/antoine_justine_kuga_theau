@@ -33,8 +33,6 @@ using namespace client;
 
 int main(int argc,char* argv[])
 {
-    //Exemple exemple;
-    //exemple.setX(53);
     std::map<std::string,ICommand_Client*> MethodMap;
 
     MethodMap["hello"] = (ICommand_Client*)new Command_Client_Hello();
