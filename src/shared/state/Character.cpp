@@ -149,6 +149,8 @@ void Character::setCapused(bool use) {Capused = use;}
 
 void Character::setCapab(int val, int pos) {this->Capab[pos] = val;}
 
+void Character::setAttacked(bool used){ Attacked=used;}
+
 //------------------------------------------------- Getters ------------------------------------------------------------
 CharacterTypeID Character::getTypeID() {
     return TypeID;
@@ -210,7 +212,7 @@ Direction Character::getDirection(){
 
 
 bool Character::getCapused() {return Capused;}
-
+bool Character::getAttacked(){ return Attacked;}
 
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){

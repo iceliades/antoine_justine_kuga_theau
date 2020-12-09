@@ -13,6 +13,7 @@ using namespace engine;
 
 
 HeuristicAI::HeuristicAI(engine::Engine& myEngine, int nbplayers){
+
     this->nbplayers = nbplayers;
 }
 
