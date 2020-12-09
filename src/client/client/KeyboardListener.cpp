@@ -20,7 +20,7 @@ KeyboardListener::KeyboardListener(engine::Engine &engine)
 
 
 
-Keyboard::InputManager(sf::Event event){
+KeyboardListener::InputManager(sf::Event event){
     state::CurActionID curActionID=myEgnine.getStat().getCurAction();
     state:: curPlayerID curPID=myEngine.getState().getCurPlayerID();
     switch (curActionID)
@@ -43,7 +43,7 @@ Keyboard::InputManager(sf::Event event){
 
 }
 
-Keyboard::cursorIDLE(curPlayerID,sf::Event event){
+KeyboardListener::cursorIDLE(curPlayerID,sf::Event event){
 
     int curIndex=0;
     std::Vecotr<unique_ptr<Character>>& listChar=  myEngine.getState().getListCharacters(curPlayerID-1);
@@ -59,7 +59,7 @@ Keyboard::cursorIDLE(curPlayerID,sf::Event event){
 
 }
 
-Keyboard::MOVING(state::Character& selChar, sf::Event event){
+KeyboardListener::MOVING(state::Character& selChar, sf::Event event){
     
      state::Cursor& cur= myEngine.getState().getCursor();
     switch (event)
@@ -86,7 +86,7 @@ Keyboard::MOVING(state::Character& selChar, sf::Event event){
     
 }
 
-Keyboard::cursorAttacking(state::Character& selChar,CurPLayerID){
+KeyboardListener::cursorAttacking(state::Character& selChar,CurPLayerID){
     int tarPlayerID= (curPlayerID==2)?1:2;
     int curIndex=0;
     std::Vecotr<unique_ptr<Character>>& listTarChar=  myEngine.getState().getListCharacters(tarPlayerID-1);
@@ -117,4 +117,6 @@ int KeyboardListener::SelectedChar(curPlayerID){
             return charact.getIndex();
 
     }
+
+
 }*/
