@@ -42,7 +42,7 @@ void Command_Client_PAI::execute() {
     randomAi.setNbplayers(2); // PLayer ID 1
 
     // Init some characters stuffs to be  faster
-
+    Position curPos{2,6}; myEngine.getState().getCursor().setPosition(curPos);
     for(int i=0; i<myEngine.getState().getListPlayers().size(); i++){
         for(int j=0;j<myEngine.getState().getListCharacters(i).size(); j++){
             myEngine.getState().getListCharacters(i)[j]->setNewHealth(25);
@@ -58,10 +58,10 @@ void Command_Client_PAI::execute() {
                 myEngine.getState().getListCharacters(i)[j]->setPosition(pos1);
 
             }
-
         }
     }
 
+    client::KeyboardListener key{myEngine};
     // for now hard code for keyboard listener
     // For player 1;
     int indexChar;
@@ -83,6 +83,8 @@ void Command_Client_PAI::execute() {
             }else if(event.type == sf::Event::KeyPressed){
                 if(myEngine.getState().getEndGame()==false){
                     if(myEngine.getState().getCurPlayerID()==1){
+                        key.InputManager(event);
+                        /*
                         if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)){
                             unique_ptr<Command> ptr_s0(new Sel_Char_Command(*playerCharList[0]));
                             myEngine.getState().setCurAction(CHARSELECTED);
@@ -183,7 +185,7 @@ void Command_Client_PAI::execute() {
                             myEngine.getState().setCurAction(IDLE);
                             myEngine.addCommand(move(ptr_ft));myEngine.update();
 
-                        }
+                        }*/
 
                     }
 
