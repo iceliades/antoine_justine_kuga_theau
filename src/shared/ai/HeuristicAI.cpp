@@ -11,11 +11,13 @@ using namespace std;
 using namespace state;
 using namespace engine;
 
-/*
-HeuristicAI::AI(int nbplayers){
+
+
+HeuristicAI::HeuristicAI(engine::Engine& myEngine, int nbplayers){
+
     this->nbplayers = nbplayers;
 }
-*/
+
 
 
 

@@ -83,8 +83,8 @@ void Command_Client_PAI::execute() {
             }else if(event.type == sf::Event::KeyPressed){
                 if(myEngine.getState().getEndGame()==false){
                     if(myEngine.getState().getCurPlayerID()==1){
-                        key.InputManager(event);
-                        /*
+                        //key.InputManager(event);
+                        
                         if (sf::Keyboard::isKeyPressed(sf::Keyboard::I)){
                             unique_ptr<Command> ptr_s0(new Sel_Char_Command(*playerCharList[0]));
                             myEngine.getState().setCurAction(CHARSELECTED);
@@ -185,7 +185,7 @@ void Command_Client_PAI::execute() {
                             myEngine.getState().setCurAction(IDLE);
                             myEngine.addCommand(move(ptr_ft));myEngine.update();
 
-                        }*/
+                        }
 
                     }
 

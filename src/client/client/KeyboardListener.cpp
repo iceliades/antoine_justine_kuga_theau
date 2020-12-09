@@ -44,6 +44,7 @@ void KeyboardListener::InputManager(sf::Event event){
         }
     
 
+
     }else if(curAID==state::MOVING){
         state::Character& selCharm= 
         *myEngine.getState().getListCharacters(curPID-1)[SelectedChar(curPID)];
@@ -52,7 +53,7 @@ void KeyboardListener::InputManager(sf::Event event){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
             myEngine.getState().setCurAction(state::ATTACKING);
             // Some Init stuff
-            if(selCharm.allowedAttackTarget(myEngine.getState()).size()){
+            if(selCharm.allowedAttackTarget(myEngine.getState()).size()!=0){
                 int targPlayer= (myEngine.getState().getCurPlayerID()==2)?1:2;
                 for(auto&charac: myEngine.getState().getListCharacters(targPlayer-1) ){
                     if( charac->getStatus()!=DEATH){
@@ -76,6 +77,7 @@ void KeyboardListener::InputManager(sf::Event event){
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
             myEngine.getState().setCurAction(state::MOVING);
     }
+
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
         myEngine.getState().setCurAction(IDLE);
@@ -87,7 +89,9 @@ void KeyboardListener::InputManager(sf::Event event){
     
 }
 
+
 void KeyboardListener::cursorIDLE(int curPlayerID){
+
 
     std::vector<unique_ptr<Character>>& listChar=  myEngine.getState().getListCharacters(curPlayerID-1);
     state::Cursor& cur= myEngine.getState().getCursor();
@@ -115,7 +119,9 @@ void KeyboardListener::cursorIDLE(int curPlayerID){
 
 }
 
+
 void KeyboardListener::MOVING(state::Character& selChar){
+
     
      state::Cursor& cur= myEngine.getState().getCursor();
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
@@ -146,9 +152,11 @@ void KeyboardListener::MOVING(state::Character& selChar){
     
 }
 
+
 void KeyboardListener::cursorAttacking(state::Character& selChar,int CurPLayerID){
     int tarPlayerID= (CurPLayerID==2)?1:2;
     std::vector<unique_ptr<Character>>& listTarChar=  myEngine.getState().getListCharacters(tarPlayerID-1);
+
     state::Cursor& cur= myEngine.getState().getCursor();
     std::vector<int> charIndexInRange= selChar.allowedAttackTarget(myEngine.getState());
 
@@ -181,4 +189,6 @@ int KeyboardListener::SelectedChar(int curPlayerID){
             return charact->getIndex();
 
     }
+
 }
+
