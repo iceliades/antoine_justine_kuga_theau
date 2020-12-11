@@ -124,6 +124,7 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
 
                     }
                 }
+                curState.getCursor().setTileCode(2);
             }
 
 

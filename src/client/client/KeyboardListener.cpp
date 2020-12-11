@@ -12,111 +12,183 @@ using namespace std;
 
 
 // For now commented not finish yet
-/*
-KeyboardListener::KeyboardListener(engine::Engine &engine)
+
+KeyboardListener::KeyboardListener(engine::Engine &refEngine):myEngine(refEngine)
 {
-    engine;
+    curTargIndex=0;
+    curSelIndex=0;
 }
 
 
-
-KeyboardListener::InputManager(sf::Event event){
-    state::CurActionID curActionID=myEgnine.getStat().getCurAction();
-    state:: curPlayerID curPID=myEngine.getState().getCurPlayerID();
-    switch (curActionID)
-    {
-    case IDLE
-            cursorIDLE(curPID,event);
-        break;
-    case MOVING
-            state::Character& selectedChar= 
-            *myEngine.getState().getLisCharacter(curPID)[selectedChar(curPID)];
-            cursorMOVING(selectedChar, sf::Event event);
-            // RIGHT LEFT UP DOWN
-        break;
-    case ATTACKING
-            cursorAttacking(curPID,event);
-        break;
+void KeyboardListener::InputManager(sf::Event event){
+    state::CurActionID curAID=myEngine.getState().getCurAction();
+    int curPID=myEngine.getState().getCurPlayerID();
     
+    if( curAID==IDLE){
+        cursorIDLE(curPID);
+
+        // for now i am tired so I let this code
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
+            for (auto& charac: myEngine.getState().getListCharacters(curPID-1)){
+            if(charac->getStatus()==SELECTED){
+                myEngine.getState().setCurAction(state::MOVING);
+            }
+            }  
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+            for (auto& charac: myEngine.getState().getListCharacters(curPID-1)){
+                if(charac->getStatus()==SELECTED){
+                    myEngine.getState().setCurAction(state::ATTACKING); 
+                }
+            }  
+        }
+    
+
+
+    }else if(curAID==state::MOVING){
+        state::Character& selCharm= 
+        *myEngine.getState().getListCharacters(curPID-1)[SelectedChar(curPID)];
+        MOVING(selCharm);
+        // Changing to Attacking Mode
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+            myEngine.getState().setCurAction(state::ATTACKING);
+            // Some Init stuff
+            if(selCharm.allowedAttackTarget(myEngine.getState()).size()!=0){
+                int targPlayer= (myEngine.getState().getCurPlayerID()==2)?1:2;
+                for(auto&charac: myEngine.getState().getListCharacters(targPlayer-1) ){
+                    if( charac->getStatus()!=DEATH){
+                        for(auto& pos: selCharm.allowedAttackPos(myEngine.getState())){
+                            if(pos.equals(charac->getPosition()))
+                                myEngine.getState().getCursor().setPosition(charac->getPosition());
+                        }
+                    }
+                        
+                }       
+                
+            }
+        }
+            
+    }else if(curAID==ATTACKING){
+       
+        state::Character& selChar= 
+        *myEngine.getState().getListCharacters(curPID-1)[SelectedChar(curPID)];
+        cursorAttacking(selChar,curPID);
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::M))
+            myEngine.getState().setCurAction(state::MOVING);
     }
 
+    
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+        myEngine.getState().setCurAction(IDLE);
+        unique_ptr<Command> ptr_ft(new Finish_Turn_Command());
+        myEngine.addCommand(move(ptr_ft));
+    }
 
+    myEngine.update();
+    
 }
 
-KeyboardListener::cursorIDLE(curPlayerID,sf::Event event){
 
-    int curIndex=0;
-    std::Vecotr<unique_ptr<Character>>& listChar=  myEngine.getState().getListCharacters(curPlayerID-1);
+void KeyboardListener::cursorIDLE(int curPlayerID){
+
+
+    std::vector<unique_ptr<Character>>& listChar=  myEngine.getState().getListCharacters(curPlayerID-1);
     state::Cursor& cur= myEngine.getState().getCursor();
-
-    if( event==RIGHT){
-        curIndex++;
-        cur.setPosition(listChar[curIndex%lisChar.size()]->getPosition());
-    }else if( event==LEFT){
-        curIndex--;
-        cur.setPosition(listChar[curIndex%lisChar.size()]->getPosition());
+    std::vector<int> aliveChar;
+    for(auto& charac: listChar){
+        if(charac->getStatus()!=DEATH)
+            aliveChar.push_back(charac->getIndex());
     }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+        curSelIndex=(curSelIndex+1)%aliveChar.size();    
+        cur.setPosition(listChar[aliveChar[curSelIndex]]->getPosition());
+      
+    }else if( sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+        curSelIndex=(curSelIndex-1)%listChar.size();
+        if(curSelIndex<0) curSelIndex=listChar.size()-1;  
+        cur.setPosition(listChar[aliveChar[curSelIndex]]->getPosition());
+  
+    }else if( sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
+        // select the character
+        unique_ptr<Command> ptr_sel( new Sel_Char_Command(*listChar[curSelIndex]));
+        myEngine.addCommand(move(ptr_sel));
+    }
+
 
 }
 
-KeyboardListener::MOVING(state::Character& selChar, sf::Event event){
+
+void KeyboardListener::MOVING(state::Character& selChar){
+
     
      state::Cursor& cur= myEngine.getState().getCursor();
-    switch (event)
-    {
-    case UP
-        Position pos{selChar.getPosition().getX(),--selChar.getPosition().getY()}
-        // ad comand
-        cursor.setPosition(pos);
-        break;
-    case RIGHT
-        Position pos{++selChar.getPosition().getX(),selChar.getPosition().getY()}
-        cursor.setPosition(pos);
-        break;
-    case DOWN
-        Position pos{selChar.getPosition().getX(),++selChar.getPosition().getY()}
-        cursor.setPosition(pos);
-        break;
-    case LEFT
-        Position pos{--selChar.getPosition().getX(),selChar.getPosition().getY()}
-        cursor.setPosition(pos);
-        break;
-    
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+        state::Position pos{selChar.getPosition().getX(),selChar.getPosition().getY()-1};
+        if(selChar.getMovementLeft()>0) cur.setPosition(pos);
+        unique_ptr<Command> ptr_mv( new Move_Command(selChar,pos));
+        myEngine.addCommand(move(ptr_mv));
+        
+          
+    }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+        state::Position pos{selChar.getPosition().getX()+1,selChar.getPosition().getY()};
+        if(selChar.getMovementLeft()>0) cur.setPosition(pos);
+        unique_ptr<Command> ptr_mv( new Move_Command(selChar,pos));
+        myEngine.addCommand(move(ptr_mv));
+
+    }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+        state::Position pos{selChar.getPosition().getX(),selChar.getPosition().getY()+1};
+        if(selChar.getMovementLeft()>0) cur.setPosition(pos);
+        unique_ptr<Command> ptr_mv( new Move_Command(selChar,pos));
+        myEngine.addCommand(move(ptr_mv));
+
+    }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+        state::Position pos{selChar.getPosition().getX()-1,selChar.getPosition().getY()};
+        if(selChar.getMovementLeft()>0) cur.setPosition(pos);
+        unique_ptr<Command> ptr_mv( new Move_Command(selChar,pos));
+        myEngine.addCommand(move(ptr_mv));
     }
     
 }
 
-KeyboardListener::cursorAttacking(state::Character& selChar,CurPLayerID){
-    int tarPlayerID= (curPlayerID==2)?1:2;
-    int curIndex=0;
-    std::Vecotr<unique_ptr<Character>>& listTarChar=  myEngine.getState().getListCharacters(tarPlayerID-1);
+
+void KeyboardListener::cursorAttacking(state::Character& selChar,int CurPLayerID){
+    int tarPlayerID= (CurPLayerID==2)?1:2;
+    std::vector<unique_ptr<Character>>& listTarChar=  myEngine.getState().getListCharacters(tarPlayerID-1);
+
     state::Cursor& cur= myEngine.getState().getCursor();
-    std::vector<int> charIndexInRange;
-    for(auto& tarChar: listTarCHar){
-        for(auto& pos: selChar.allowAttackPos())
-        {
-            if(pos.equals(tarChar.pos()))
-                charIndexInRange.push_back(tarChar.getIndex());
+    std::vector<int> charIndexInRange= selChar.allowedAttackTarget(myEngine.getState());
+
+    if(charIndexInRange.size()){
+         if( sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+            curTargIndex= (curTargIndex+1)%charIndexInRange.size();
+            cur.setPosition(listTarChar[charIndexInRange[curTargIndex]]->getPosition());
+        }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+            curTargIndex= (curTargIndex-1)%charIndexInRange.size();
+            cur.setPosition(listTarChar[charIndexInRange[curTargIndex]]->getPosition());
         }
     }
 
-    if( event==RIGHT){
-        curIndex++;
-        cur.setPosition(listTarChar[charIndexInRange[curIndex%charIndexInRange.size()]]->getPosition());
-    }else if( event==LEFT){
-        curIndex--;
-        cur.setPosition(listTarChar[curIndex%charIndexInRange.size()]->getPosition());
+    if( sf::Keyboard::isKeyPressed(sf::Keyboard::Return)){
+        if(!selChar.getAttacked()){
+            unique_ptr<Command> ptr_ac (new Attack_Command(selChar,*listTarChar[charIndexInRange[curTargIndex]]));
+            myEngine.addCommand(move(ptr_ac));
+            selChar.setAttacked(true);
+        }
+        
+    }
+   
+
+}
+
+int KeyboardListener::SelectedChar(int curPlayerID){
+    int selCharIndex;
+    for(auto&charact: myEngine.getState().getListCharacters(curPlayerID-1)){
+        if( charact->getStatus()==state::SELECTED)
+            return charact->getIndex();
+
     }
 
 }
 
-int KeyboardListener::SelectedChar(curPlayerID){
-    int selCharIndex;
-    for(auto&charact: myEngine.getState().getListCharacter(curPlayerID-1)){
-        if( charact.getStatus()==state::SELECTED)
-            return charact.getIndex();
-
-    }
-
-
-}*/

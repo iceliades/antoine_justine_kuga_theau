@@ -8,17 +8,19 @@
 #include <list>
 
 
-
 using namespace ai;
 using namespace std;
 using namespace state;
 using namespace engine;
 
 
+
 HeuristicAI::HeuristicAI(engine::Engine& myEngine, int nbplayers){
+
     this->nbplayers = nbplayers;
     this->currState = myEngine.getState();
 }
+
 
 
 
@@ -103,6 +105,23 @@ HeuristicAI::HeuristicAI(engine::Engine& myEngine, int nbplayers){
 
 //     return nears;
 // }
+
+
+void HeuristicAI::run(engine::Engine& engine){
+
+    // personnage attaquable ?
+    std::vector<std::unique_ptr<Player>>&  listPlayer = engine.getState().getListPlayers();
+
+    //for (perso : listPlayer){
+    //    if (perso.)
+    //}
+
+    // Sinon, déplacement vers le personnage le plus proche et attaque
+
+
+
+}
+
 
 
 

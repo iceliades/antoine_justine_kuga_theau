@@ -26,7 +26,8 @@ void Finish_Turn_Command::exec (state::State& state){
 		
         if(charac->getStatus() != DEATH){
             charac->setMovementLeft(charac->getMovement());
-            charac->setStatus(WAITING);           
+            charac->setStatus(WAITING);
+            charac->setAttacked(false);           
         }
     }
     // change the curPlyaerId for the next
