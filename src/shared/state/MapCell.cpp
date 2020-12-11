@@ -8,21 +8,38 @@ bool MapCell::isMapCell(){
     return true;
 }
 
-int MapCell::isOccupied (State& state){
+bool MapCell::isOccupied (State& state){
     
-    // A faire
+    
     unsigned int nbPlayers=  state.getListPlayers().size();
     for (unsigned int  j=0; j<nbPlayers; j++){
         for ( unsigned int i=0; i < state.getListCharacters(j).size();i++){
             if (position.equals(state.getListCharacters(j)[i]->getPosition())&& state.getListCharacters(j)[i]->getStatus()!=DEATH ){
-                return i+ (j*state.getListCharacters(j).size()); // PlayerID * Index in ListCharacters
+                //return i+ (j*state.getListCharacters(j).size()); // PlayerID * Index in ListCharacters
+                return true;
             }
 
         }     
     }
-    return -1; // nobody is in that position of the mapCell
+    return false; // nobody is in that position of the mapCell -1
 
 }
 
+
+bool MapCell::isOccupiedbyAlly(State& state){
+    
+     
+    unsigned int nbPlayers=  state.getListPlayers().size();
+    int curPID=state.getCurPlayerID();
+   
+    for ( unsigned int i=0; i < state.getListCharacters(curPID-1).size();i++){
+        if (position.equals(state.getListCharacters(curPID-1)[i]->getPosition())&& state.getListCharacters(curPID-1)[i]->getStatus()!=DEATH ){
+            return true ;// an ally is in that position
+        }
+
+    }     
+    return false;
+
+}
 
 
