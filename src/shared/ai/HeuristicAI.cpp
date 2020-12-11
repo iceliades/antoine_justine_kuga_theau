@@ -15,7 +15,7 @@ using namespace engine;
 
 
 
-HeuristicAI::HeuristicAI(engine::Engine& myEngine, int nbplayers) : currState(myEngine.getState())
+HeuristicAI::HeuristicAI(engine::Engine& engine, int nbplayers) : currState(engine.getState())
 {
 
     this->nbplayers = nbplayers;
@@ -113,17 +113,121 @@ vector<SpaceMapTiles> HeuristicAI::findSpaceNeighbours(SpaceMapTiles& currCell, 
 
 void HeuristicAI::run(engine::Engine& engine){
 
-    // personnage attaquable ?
-    //std::vector<std::unique_ptr<Player>>&  listPlayer = engine.getState().getListPlayers();
+    int targetPlayerID= (this->getNbplayers()==2)? 1:2;
 
-    //for (perso : listPlayer){
-    //    if (perso.)
-    //}
+    std::vector<int> charIndex = selectCharacter(engine.getState());
+    // always select someone
 
-    // Sinon, déplacement vers le personnage le plus proche et attaque
+    Character &selectedChar = *engine.getState().getListCharacters(this->getNbplayers()-1)[charIndex[0]];
+    unique_ptr<engine::Command> selectCommand(new Sel_Char_Command(selectedChar));
+    engine.addCommand(move(selectCommand));engine.update();
 
+    // ennemy character in range ?
+    if(selectedChar.allowedAttackTarget(engine.getState()).size() > 0){
+        
+        // Select The target with the less Health
+        Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
+        unique_ptr<Command> ptr_ac(new Attack_Command(selectedChar,targetChar));
+        engine.addCommand(move(ptr_ac)); engine.update();
 
+        if (rand()%2){ // Choose randomly to move or not for now
+            int mvLeft= selectedChar.getMovementLeft();
+            while (mvLeft>0)
+            {   
+                Position randPosToMove (selectedChar.getPosition().getNearPositions()[rand()%4]);
+                unique_ptr<Command> ptr_mv ( new Move_Command(selectedChar,randPosToMove));
+                engine.addCommand(move(ptr_mv));engine.update();
+                mvLeft=selectedChar.getMovementLeft();
 
+            }
+            
+        }
+
+        unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
+        engine.addCommand(move(ptr_ft));engine.update();
+        
+
+    }else{
+
+        int mvLeft1= selectedChar.getMovementLeft();
+        int nextPosInPath=0;
+
+        Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
+
+        SpaceMapTiles src(Sand,selectedChar.getPosition().getX(),selectedChar.getPosition().getY(),0);
+        SpaceMapTiles targ(Sand,targetChar.getPosition().getX(),targetChar.getPosition().getY(),0);
+
+        vector<SpaceMapTiles> path= FindPath(src,targ);
+
+        while(mvLeft1>0 && nextPosInPath<path.size()){
+            
+            SpaceMapTiles cellToGo= path[nextPosInPath];
+            Position pos{cellToGo.getPosition().getX(),cellToGo.getPosition().getY()};
+            unique_ptr<Command> ptr_mv1 ( new Move_Command(selectedChar,pos));
+            engine.addCommand(move(ptr_mv1));engine.update();
+            
+
+            if(selectedChar.allowedAttackTarget(engine.getState()).size() > 0){
+                
+                Character &targetToAttack = *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
+                unique_ptr<Command> atkCmd(new Attack_Command(selectedChar, targetToAttack));
+                engine.addCommand(move(atkCmd));
+                engine.update();break;
+
+             }
+
+            mvLeft1=selectedChar.getMovementLeft();
+        }
+        unique_ptr<Command> ptr_ft1( new Finish_Turn_Command());
+        engine.addCommand(move(ptr_ft1));engine.update();
+
+    }
+
+}
+
+std::vector<int> HeuristicAI::selectCharacter(state::State& curState){
+
+    int minHealth=INT32_MAX;
+    int minDist= INT32_MAX; // max int
+    int tarPlayerID= (nbplayers==2)?1:2;
+    std::vector<int> tabIndex;
+    bool done=false;
+    //std::vector<int> charHealthLowInRange;
+
+    for(unsigned int i=0; i<curState.getListCharacters(nbplayers-1).size();i++){
+        Character& curChar= *curState.getListCharacters(nbplayers-1)[i];
+            for (auto& ennemyChar: curState.getListCharacters(tarPlayerID-1)){
+                if(ennemyChar->getStatus()!=DEATH){
+                    // look if there are ennemies in range of char(mov + weapon range)
+                    if(curChar.getPosition().distance(ennemyChar->getPosition())<
+                    curChar.getMovementLeft()+curChar.getCharWeap()->getMaxRange()){
+                        if(ennemyChar->getHealth()<minHealth){
+                            minHealth=ennemyChar->getHealth();
+                            tabIndex[0]=i;
+                            tabIndex[1]=ennemyChar->getIndex();
+                            done=true;
+                        }
+                    }
+                }
+            }
+        
+    }
+    if(!done){
+        for(unsigned int i=0; i<curState.getListCharacters(nbplayers-1).size();i++){
+        Character& curChar= *curState.getListCharacters(nbplayers-1)[i];
+            for (auto& ennemyChar: curState.getListCharacters(tarPlayerID-1)){
+                if(ennemyChar->getStatus()!=DEATH){
+                    // look if there are ennemies in range of char(mov + weapon range)
+                    if(curChar.getPosition().distance(ennemyChar->getPosition())<minDist){
+                        minDist=curChar.getPosition().distance(ennemyChar->getPosition());
+                        tabIndex[0]=i;
+                        tabIndex[1]=ennemyChar->getIndex();
+                    }
+                }
+            }
+        
+        }
+    }
 }
 
 
