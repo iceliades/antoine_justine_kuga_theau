@@ -30,7 +30,7 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
             int tileNumber = map[i][j]->getTileCode();
 
             int tx= tileNumber%(texture.getSize().x/ cellWidth);
-            int ty= tileNumber/(texture.getSize().x/ cellHeight );
+            int ty= tileNumber/(texture.getSize().x/ cellHeight);
             sf::Vertex* quad = &quads[vertexArrayIndex*4];
             vertexArrayIndex++;
             quad[0].position = sf::Vector2f(j*cellWidth, i*cellHeight);
@@ -64,7 +64,6 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
                     }
                 }
                 // for now need to change by for players
-                // will change by a for on player
                 for (auto &charac : curState.getListCharacters(1)){
                     if (charac->getStatus() == SELECTED && charac->getMovementLeft() > 0){
                         
@@ -124,7 +123,7 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
 
                     }
                 }
-                curState.getCursor().setTileCode(2);
+                //curState.getCursor().setTileCode(2);
             }
 
 
