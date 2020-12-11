@@ -35,10 +35,10 @@ std::vector<state::SpaceMapTiles> HeuristicAI::FindPath (state::SpaceMapTiles& s
 
 
     // Checking if start is destination
-    /*if (src.equals(target))
-    {
-        return first;
-    }*/
+    //if (src.equals(target))
+    //{
+    //    return first;
+    //}
 
     // BFS
     while (paths.size() > 0)
@@ -71,31 +71,41 @@ std::vector<state::SpaceMapTiles> HeuristicAI::FindPath (state::SpaceMapTiles& s
                     if (near.equals(target)) return new_path;
                 }
             }
+            explored.push_back(currCell);
         }
-        explored.push_back(currCell);
+        
     }
     return first;
 }
 
-vector<SpaceMapTiles> HeuristicAI::findSpaceNeighbours(SpaceMapTiles currCell, State& currState)
+vector<SpaceMapTiles> HeuristicAI::findSpaceNeighbours(SpaceMapTiles& currCell, State& currState)
 {
     vector<Position> posNearCell = currCell.getPosition().getNearPositions();
     vector<SpaceMapTiles> nears;
-    vector<vector<unique_ptr<MapCell>>> map = currState.getMap();
+    vector<vector<unique_ptr<MapCell>>>& map = currState.getMap();
 
+    for(auto& pos: posNearCell){
+        if(map[pos.getY()][pos.getX()]->isSpace() &&
+        map[pos.getY()][pos.getX()]->isOccupied(currState)==false ){
+            SpaceMapTiles mcell2(Sand,pos.getX(),pos.getY(),0);
+            nears.push_back(mcell2);
+        }
+    }
+
+    /*
     for (auto& mline : map)
     {
         for (auto& mcell : mline) for (auto& pos : posNearCell) 
-            if (pos.equals((*mcell).getPosition()) && (*mcell).isSpace() && (*mcell).isOccupied(currState)==-1) 
+            if (pos.equals(mcell->getPosition()) && mcell->isSpace() && mcell->isOccupied(currState)==false) 
             {
-                /* On crée à partir d'une MapCell une instance SpaceMapTiles garantie par isSpace
-                    de TypeID 1 parce qu'inutilisé*/
+                //On crée à partir d'une MapCell une instance SpaceMapTiles garantie par isSpace
+                //    de TypeID 1 parce qu'inutilisé
                 SpaceMapTilesID id = (SpaceMapTilesID) 1;
                 int x((*mcell).getPosition().getX()), y((*mcell).getPosition().getY()), p(0);
                 SpaceMapTiles mcell2 = SpaceMapTiles(id, x, y, p);
                 nears.push_back(move(mcell2));
             }
-    }
+    }*/
 
     return nears;
 }
@@ -104,7 +114,7 @@ vector<SpaceMapTiles> HeuristicAI::findSpaceNeighbours(SpaceMapTiles currCell, S
 void HeuristicAI::run(engine::Engine& engine){
 
     // personnage attaquable ?
-    std::vector<std::unique_ptr<Player>>&  listPlayer = engine.getState().getListPlayers();
+    //std::vector<std::unique_ptr<Player>>&  listPlayer = engine.getState().getListPlayers();
 
     //for (perso : listPlayer){
     //    if (perso.)
