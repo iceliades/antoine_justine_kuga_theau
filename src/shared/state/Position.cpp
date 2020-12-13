@@ -48,10 +48,10 @@ namespace state {
             west.setX(0);
         if( this->getY()==0)
             north.setY(0);
-        if(  this->getY()==24)
-            south.setY(24);
-        if( this->getX()==26)
-            east.setX(26);
+        if(  this->getY()==23) // for now hard coded 23 for map size
+            south.setY(23);
+        if( this->getX()==25)
+            east.setX(25);
 
 
         result.push_back(move(south));

@@ -1,8 +1,9 @@
-#include "Command_Client_RAI.h"
+#include "Command_Client_HAI.h"
 #include "state.h"
 #include "render.h"
 #include "engine.h"
 #include "ai.h"
+#include <unistd.h>
 
 using namespace client;
 using namespace state;
@@ -14,11 +15,11 @@ using namespace client;
 using namespace std;
 
 
-Command_Client_RAI::Command_Client_RAI() {
+Command_Client_HAI::Command_Client_HAI() {
 }
-Command_Client_RAI::~Command_Client_RAI(){
+Command_Client_HAI::~Command_Client_HAI(){
 }
-void Command_Client_RAI::execute() {
+void Command_Client_HAI::execute() {
     // Random_ai vs Random_ai
 
     srand(time(NULL));// Init random generator
@@ -40,42 +41,21 @@ void Command_Client_RAI::execute() {
     bool booting=true;
 
     // Init ai
-    ai::HeuristicAI heuristic(myEngine,1);
+    ai::HeuristicAI heuristicAI(myEngine,1);
     ai::RandomAI randomAi;
-
-    heuristic.setNbplayers(1); // PLayer ID 1
     randomAi.setNbplayers(2); // PLayer ID 2
-   /* // Init some characters stuffs to be  faster
-    for(int i=0; i<myEngine.getState().getListPlayers().size(); i++){
-        for(int j=0;j<myEngine.getState().getListCharacters(i).size(); j++){
-            myEngine.getState().getListCharacters(i)[j]->setNewHealth(50);
-            myEngine.getState().getListCharacters(i)[j]->setPrecision(15,15,15,15);// precision to 1
-            myEngine.getState().getListCharacters(i)[j]->setDodge(8,8);
-            if( i==1){
-                Position pos{2+j,4};
-                myEngine.getState().getListCharacters(i)[j]->setPosition(pos);
 
-            }else{
-
-                Position pos1{2+j,6};
-                myEngine.getState().getListCharacters(i)[j]->setPosition(pos1);
-
-            }
-
-        }
-    }*/
 
     while (window.isOpen()){
         sf::Event event;
         if( booting){
             stateLayer.draw(window);
+            myEngine.update();
             booting=false;
         }
         if(myEngine.getState().getCurPlayerID()==1){
-            //unique_ptr<Command> ptr_ft(new Finish_Turn_Command());
-            //myEngine.addCommand(move(ptr_ft));myEngine.update();
             if(myEngine.getState().getEndGame()==false)
-                heuristic.run(myEngine);
+                heuristicAI.run(myEngine);
         }else
         {
             if(myEngine.getState().getEndGame()==false)
@@ -83,8 +63,10 @@ void Command_Client_RAI::execute() {
         }
         // at the close event seems not working
         // will see later for use this
-        if(myEngine.getState().getEndGame()==true)
+        if(myEngine.getState().getEndGame()==true){
             window.close();
+        }
+            
         while (window.pollEvent(event)){
             if (event.type == sf::Event::Closed){
                 window.close();

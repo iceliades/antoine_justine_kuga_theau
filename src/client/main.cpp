@@ -40,6 +40,8 @@ int main(int argc,char* argv[])
     MethodMap["random_ai"] = (ICommand_Client*)new Command_Client_RAI();
     MethodMap["player_vs_rai"] = (ICommand_Client*)new Command_Client_PAI();
     MethodMap["engine"] = (ICommand_Client*)new Command_Client_Engine();
+    MethodMap["heuristic_ai"] = (ICommand_Client*)new Command_Client_HAI();
+    MethodMap["player_vs_hai"] = (ICommand_Client*)new Command_Client_PHAI();
     MethodMap["autre"] = (ICommand_Client*)new Command_Client_Autre();
 
 

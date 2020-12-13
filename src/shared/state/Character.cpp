@@ -233,14 +233,14 @@ std::vector<Position> Character::allowedMove(State& state){
     for (int y=0; y<=this->MovementLeft;y++){
         for (int x=y-this->MovementLeft; x<=this->MovementLeft-y;x++){
             Position pos(this->position.getX()+x,this->position.getY()+y);
-            if(!(pos.getX()<0 || pos.getY()<0 || pos.getX()>myMap[0].size()||pos.getY()>myMap.size())){
+            if(pos.getX()>=0 && pos.getY()>=0 && pos.getX()<myMap[0].size() && pos.getY()<myMap.size()){
                 if(myMap[pos.getY()][pos.getX()]->isOccupied(state)==false && myMap[pos.getY()][pos.getX()]->isSpace() )
                     allowedPos.push_back(pos);
             }
                   
             if (y !=0){
                 Position posMirror(this->position.getX()+x,this->position.getY()-y);
-                if(!(posMirror.getX()<0 || posMirror.getY()<0 || posMirror.getX()>myMap[0].size()||posMirror.getY()>myMap.size())){
+                if(posMirror.getX()>=0 && posMirror.getY()>=0 && posMirror.getX()<myMap[0].size() && posMirror.getY()<myMap.size()){
                     if(myMap[posMirror.getY()][posMirror.getX()]->isOccupied(state)==false && myMap[posMirror.getY()][posMirror.getX()]->isSpace() )
                         allowedPos.push_back(posMirror);
                 }                   
@@ -283,14 +283,14 @@ std::vector<Position> Character::allowedAttackPos(State &state){
             if (y==0 && x==0) // exclude character Position
                 continue;
             Position pos(position.getX()+x,position.getY()+y);
-            if(!(pos.getX()<0 || pos.getY()<0 || pos.getX()>myMap[0].size()||pos.getY()>myMap.size())){
+            if(pos.getX()>=0 && pos.getY()>=0 && pos.getX()<myMap[0].size() && pos.getY()<myMap.size()){
                 if(myMap[pos.getY()][pos.getX()]->isOccupiedbyAlly(state)==false && myMap[pos.getY()][pos.getX()]->isSpace() )
                     allowedAttackPos.push_back(pos);
             }
             
             if (y !=0){
                 Position posMirror(position.getX()+x,position.getY()-y);
-                if(!(posMirror.getX()<0 || posMirror.getY()<0 || posMirror.getX()>myMap[0].size()||posMirror.getY()>myMap.size())){
+                if(posMirror.getX()>=0 && posMirror.getY()>=0 && posMirror.getX()<myMap[0].size() && posMirror.getY()<myMap.size()){
                     if(myMap[posMirror.getY()][posMirror.getX()]->isOccupiedbyAlly(state)==false && myMap[posMirror.getY()][posMirror.getX()]->isSpace() )
                         allowedAttackPos.push_back(posMirror);
                 }            

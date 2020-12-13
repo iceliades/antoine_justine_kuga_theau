@@ -3,6 +3,7 @@
 #include "render.h"
 #include "engine.h"
 #include "ai.h"
+#include <unistd.h>
 
 using namespace client;
 using namespace state;
@@ -83,8 +84,9 @@ void Command_Client_RAI::execute() {
         }
         // at the close event seems not working
         // will see later for use this
-        if(myEngine.getState().getEndGame()==true)
+        if(myEngine.getState().getEndGame()==true){
             window.close();
+        }
         while (window.pollEvent(event)){
             if (event.type == sf::Event::Closed){
                 window.close();

@@ -20,18 +20,19 @@ HeuristicAI::HeuristicAI(engine::Engine& engine, int nbplayers) : currState(engi
 
     this->nbplayers = nbplayers;
 }
+HeuristicAI::~HeuristicAI(){}
 
 
 
-
-std::vector<state::SpaceMapTiles> HeuristicAI::FindPath (state::SpaceMapTiles& src, state::SpaceMapTiles& target)
+std::list<state::SpaceMapTiles> HeuristicAI::FindPath (state::SpaceMapTiles& src, state::SpaceMapTiles& target)
 {
-    std::vector<state::SpaceMapTiles> explored;
-    queue<std::vector<state::SpaceMapTiles>> paths;
-    std::vector<state::SpaceMapTiles> first;
+    std::list<state::SpaceMapTiles> explored;
+    queue<std::list<state::SpaceMapTiles>> paths;
+    std::list<state::SpaceMapTiles> first;
 
-    paths.push(first);
     first.push_back(src);
+    paths.push(first);
+    
 
 
     // Checking if start is destination
@@ -43,69 +44,62 @@ std::vector<state::SpaceMapTiles> HeuristicAI::FindPath (state::SpaceMapTiles& s
     // BFS
     while (paths.size() > 0)
     {
-        std::vector<state::SpaceMapTiles> currPath = paths.front();
+        std::list<state::SpaceMapTiles> currPath = paths.front();
         paths.pop();
 
         bool done = false;
         state::SpaceMapTiles currCell = currPath.back();
 
         // Checking if node is already done
-        for (auto& cell : explored) if (cell.equals(currCell)) done = true;
+        for (auto& cell : explored) if (cell.getPosition().equals(currCell.getPosition())) done = true;
 
-        if (!done && currCell.isSpace())
+        if (!done )//&& currCell.isSpace())
         {
             // FInding available cells to continue path
-            std::vector<SpaceMapTiles> nears = findSpaceNeighbours(currCell, currState);
+            std::vector<SpaceMapTiles> nears = findSpaceNeighbours(currCell, currState,target);
 
             for (auto& near : nears)
             {
                 bool nearDone = false;
-                for (auto& visited : explored) if (visited.equals(near)) nearDone = true;
+                for (auto& visited : explored) if (visited.getPosition().equals(near.getPosition())) nearDone = true;
 
                 if (!nearDone)
                 {
-                    vector<SpaceMapTiles> new_path(currPath);
+                    list<SpaceMapTiles> new_path(currPath);
                     new_path.push_back(near);
                     paths.push(new_path);
-
-                    if (near.equals(target)) return new_path;
+                    if (near.getPosition().equals(target.getPosition())){
+                        new_path.pop_front(); // remove the selected char position
+                        new_path.pop_back(); // remove the targeted character position
+                        return new_path;
+                    }
                 }
             }
             explored.push_back(currCell);
         }
         
     }
-    return first;
+    return first; // no path to target hopefully won't return this
 }
 
-vector<SpaceMapTiles> HeuristicAI::findSpaceNeighbours(SpaceMapTiles& currCell, State& currState)
+vector<SpaceMapTiles> HeuristicAI::findSpaceNeighbours(SpaceMapTiles& currCell, State& currState,state::SpaceMapTiles& target)
 {
     vector<Position> posNearCell = currCell.getPosition().getNearPositions();
     vector<SpaceMapTiles> nears;
     vector<vector<unique_ptr<MapCell>>>& map = currState.getMap();
 
     for(auto& pos: posNearCell){
+        if(map[pos.getY()][pos.getX()]->getPosition().equals(target.getPosition())){
+            SpaceMapTiles mcell2(Sand,pos.getX(),pos.getY(),0);
+            nears.push_back(mcell2);
+            return nears;
+        }      
         if(map[pos.getY()][pos.getX()]->isSpace() &&
         map[pos.getY()][pos.getX()]->isOccupied(currState)==false ){
-            SpaceMapTiles mcell2(Sand,pos.getX(),pos.getY(),0);
+            SpaceMapTiles mcell2(Sand,pos.getX(),pos.getY(),0); // tempory
             nears.push_back(mcell2);
         }
     }
-
-    /*
-    for (auto& mline : map)
-    {
-        for (auto& mcell : mline) for (auto& pos : posNearCell) 
-            if (pos.equals(mcell->getPosition()) && mcell->isSpace() && mcell->isOccupied(currState)==false) 
-            {
-                //On crée à partir d'une MapCell une instance SpaceMapTiles garantie par isSpace
-                //    de TypeID 1 parce qu'inutilisé
-                SpaceMapTilesID id = (SpaceMapTilesID) 1;
-                int x((*mcell).getPosition().getX()), y((*mcell).getPosition().getY()), p(0);
-                SpaceMapTiles mcell2 = SpaceMapTiles(id, x, y, p);
-                nears.push_back(move(mcell2));
-            }
-    }*/
 
     return nears;
 }
@@ -113,12 +107,12 @@ vector<SpaceMapTiles> HeuristicAI::findSpaceNeighbours(SpaceMapTiles& currCell, 
 
 void HeuristicAI::run(engine::Engine& engine){
 
-    int targetPlayerID= (this->getNbplayers()==2)? 1:2;
+    int targetPlayerID= (this->nbplayers==2)? 1:2;
 
-    std::vector<int> charIndex = selectCharacter(engine.getState());
-    // always select someone
+    std::pair<int,int> charIndex = selectCharacter(engine.getState());
 
-    Character &selectedChar = *engine.getState().getListCharacters(this->getNbplayers()-1)[charIndex[0]];
+
+    Character &selectedChar = *engine.getState().getListCharacters(this->nbplayers-1)[charIndex.first];
     unique_ptr<engine::Command> selectCommand(new Sel_Char_Command(selectedChar));
     engine.addCommand(move(selectCommand));engine.update();
 
@@ -126,7 +120,8 @@ void HeuristicAI::run(engine::Engine& engine){
     if(selectedChar.allowedAttackTarget(engine.getState()).size() > 0){
         
         // Select The target with the less Health
-        Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
+        Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
+        //Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[selectedChar.allowedAttackTarget(engine.getState())[0]];
         unique_ptr<Command> ptr_ac(new Attack_Command(selectedChar,targetChar));
         engine.addCommand(move(ptr_ac)); engine.update();
 
@@ -137,74 +132,79 @@ void HeuristicAI::run(engine::Engine& engine){
                 Position randPosToMove (selectedChar.getPosition().getNearPositions()[rand()%4]);
                 unique_ptr<Command> ptr_mv ( new Move_Command(selectedChar,randPosToMove));
                 engine.addCommand(move(ptr_mv));engine.update();
-                mvLeft=selectedChar.getMovementLeft();
+                mvLeft--;
 
             }
             
         }
-
-        unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
-        engine.addCommand(move(ptr_ft));engine.update();
-        
-
+  
     }else{
 
-        int mvLeft1= selectedChar.getMovementLeft();
+        int mvLeft= selectedChar.getMovementLeft();
         int nextPosInPath=0;
 
-        Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
-
+        //Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
+        Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
+        // temporary
         SpaceMapTiles src(Sand,selectedChar.getPosition().getX(),selectedChar.getPosition().getY(),0);
         SpaceMapTiles targ(Sand,targetChar.getPosition().getX(),targetChar.getPosition().getY(),0);
 
-        vector<SpaceMapTiles> path= FindPath(src,targ);
-
-        while(mvLeft1>0 && nextPosInPath<path.size()){
+        list<SpaceMapTiles> pathlist= FindPath(src,targ);
+        vector<SpaceMapTiles> path;
+        for(auto& node: pathlist){
+            path.push_back(node);
+        }
+        while(mvLeft>0 && nextPosInPath<path.size()){
             
             SpaceMapTiles cellToGo= path[nextPosInPath];
             Position pos{cellToGo.getPosition().getX(),cellToGo.getPosition().getY()};
             unique_ptr<Command> ptr_mv1 ( new Move_Command(selectedChar,pos));
             engine.addCommand(move(ptr_mv1));engine.update();
-            
-
+            cout<<"IN WHILE BOUCLE"<<path.size()<<endl;
             if(selectedChar.allowedAttackTarget(engine.getState()).size() > 0){
                 
-                Character &targetToAttack = *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
+                //Character &targetToAttack = *engine.getState().getListCharacters
+                //(targetPlayerID-1)[selectedChar.allowedAttackTarget(engine.getState())[0]];
+                Character &targetToAttack = *engine.getState().getListCharacters
+                (targetPlayerID-1)[charIndex.second];
                 unique_ptr<Command> atkCmd(new Attack_Command(selectedChar, targetToAttack));
                 engine.addCommand(move(atkCmd));
-                engine.update();break;
+                engine.update();break; // we stop the turn for now
 
              }
 
-            mvLeft1=selectedChar.getMovementLeft();
+            mvLeft--;
+            nextPosInPath++;
         }
-        unique_ptr<Command> ptr_ft1( new Finish_Turn_Command());
-        engine.addCommand(move(ptr_ft1));engine.update();
 
     }
 
-}
+    unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
+    engine.addCommand(move(ptr_ft));engine.update();
 
-std::vector<int> HeuristicAI::selectCharacter(state::State& curState){
+}
+// pair first: character to select second: target to select
+std::pair<int,int> HeuristicAI::selectCharacter(state::State& curState){
 
     int minHealth=INT32_MAX;
+    int globalminDist=INT32_MAX;
     int minDist= INT32_MAX; // max int
-    int tarPlayerID= (nbplayers==2)?1:2;
-    std::vector<int> tabIndex;
+    int tarPlayerID= (this->nbplayers==2)?1:2;
+    std::pair<int,int> pIndex;
     bool done=false;
     //std::vector<int> charHealthLowInRange;
 
     for(unsigned int i=0; i<curState.getListCharacters(nbplayers-1).size();i++){
         Character& curChar= *curState.getListCharacters(nbplayers-1)[i];
             for (auto& ennemyChar: curState.getListCharacters(tarPlayerID-1)){
-                if(ennemyChar->getStatus()!=DEATH){
+                if(curChar.getStatus()!=DEATH &&ennemyChar->getStatus()!=DEATH){
                     // look if there are ennemies in range of char(mov + weapon range)
                     if(curChar.getPosition().distance(ennemyChar->getPosition())<
                     curChar.getMovementLeft()+curChar.getCharWeap()->getMaxRange()){
                         if(ennemyChar->getHealth()<minHealth){
                             minHealth=ennemyChar->getHealth();
-                            tabIndex[0]=i;
-                            tabIndex[1]=ennemyChar->getIndex();
+                            pIndex.first=i;
+                            pIndex.second=ennemyChar->getIndex();
                             done=true;
                         }
                     }
@@ -216,18 +216,18 @@ std::vector<int> HeuristicAI::selectCharacter(state::State& curState){
         for(unsigned int i=0; i<curState.getListCharacters(nbplayers-1).size();i++){
         Character& curChar= *curState.getListCharacters(nbplayers-1)[i];
             for (auto& ennemyChar: curState.getListCharacters(tarPlayerID-1)){
-                if(ennemyChar->getStatus()!=DEATH){
+                if(curChar.getStatus()!=DEATH &&ennemyChar->getStatus()!=DEATH){
                     // look if there are ennemies in range of char(mov + weapon range)
                     if(curChar.getPosition().distance(ennemyChar->getPosition())<minDist){
                         minDist=curChar.getPosition().distance(ennemyChar->getPosition());
-                        tabIndex[0]=i;
-                        tabIndex[1]=ennemyChar->getIndex();
+                        pIndex.first=i;
+                        pIndex.second=ennemyChar->getIndex();
                     }
                 }
-            }
-        
+            }        
         }
     }
+    return pIndex;
 }
 
 

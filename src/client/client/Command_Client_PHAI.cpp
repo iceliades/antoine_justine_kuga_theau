@@ -1,4 +1,4 @@
-#include "Command_Client_PAI.h"
+#include "Command_Client_PHAI.h"
 #include "state.h"
 #include "render.h"
 #include "engine.h"
@@ -12,11 +12,11 @@ using namespace state;
 using namespace std;
 
 
-Command_Client_PAI::Command_Client_PAI() {
+Command_Client_PHAI::Command_Client_PHAI() {
 }
-Command_Client_PAI::~Command_Client_PAI(){
+Command_Client_PHAI::~Command_Client_PHAI(){
 }
-void Command_Client_PAI::execute() {
+void Command_Client_PHAI::execute() {
     // Player vs Random_AI
 
     srand(time(NULL));// Init random generator 
@@ -39,27 +39,6 @@ void Command_Client_PAI::execute() {
 
     // Init ai
     ai::HeuristicAI heuristicAI(myEngine,2);
-    heuristicAI.setNbplayers(2); // PLayer ID 2
-
-    /*// Init some characters stuffs to be  faster
-    Position curPos{2,6}; myEngine.getState().getCursor().setPosition(curPos);
-    for(int i=0; i<myEngine.getState().getListPlayers().size(); i++){
-        for(int j=0;j<myEngine.getState().getListCharacters(i).size(); j++){
-            myEngine.getState().getListCharacters(i)[j]->setNewHealth(25);
-            myEngine.getState().getListCharacters(i)[j]->setPrecision(15,15,15,15);// precision to 1
-            myEngine.getState().getListCharacters(i)[j]->setDodge(8,8);
-            if( i==1){
-                Position pos{2+j,4};
-                myEngine.getState().getListCharacters(i)[j]->setPosition(pos);
-
-            }else{
-
-                Position pos1{2+j,6};
-                myEngine.getState().getListCharacters(i)[j]->setPosition(pos1);
-
-            }
-        }
-    }*/
 
     client::KeyboardListener key{myEngine};
     // for now hard code for keyboard listener
