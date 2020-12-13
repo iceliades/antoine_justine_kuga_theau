@@ -26,7 +26,7 @@ void Move_Command::exec(state::State &state)
         {
             for (auto &pos: targetedChar.allowedMove(state))
             {
-                if (pos.equals(targetedPos))         {
+                if (pos.equals(targetedPos)){
                     allowed = true;
                     break;
                 }
