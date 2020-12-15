@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(TestEngine)
 
 							
 				// Attacking 2
-			engine.getState().getListCharacters(0)[0]->setPrecision(0,0,0,0);// precision to 1
+			engine.getState().getListCharacters(0)[0]->setPrecision(15,15,15,15);// precision to 1
             engine.getState().getListCharacters(0)[0]->setDodge(4,4);
 			unique_ptr<Command> ptr_ac2(new Attack_Command(*engine.getState().getListCharacters(0)[0], *engine.getState().getListCharacters(1)[0]));
 
