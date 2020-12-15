@@ -98,7 +98,12 @@ BOOST_AUTO_TEST_CASE(TestEngine)
             BOOST_TEST_CHECKPOINT( "This is the Attacking 2 checkpoint" << "\n");
             //cout << "This is the Attacking 2 checkpoint" << "\n";
 				// Attacking 2
+<<<<<<< HEAD
 			engine.getState().getListCharacters(0)[0]->setPrecision(0,0,0,0);// precision to 1
+=======
+
+			engine.getState().getListCharacters(0)[0]->setPrecision(1,1,1,1);// precision to 0
+>>>>>>> d2a3f0a0ecad9a50be678c45c1d94e5c90ed1e85
             engine.getState().getListCharacters(0)[0]->setDodge(4,4);
 			unique_ptr<Command> ptr_ac2(new Attack_Command(*engine.getState().getListCharacters(0)[0], *engine.getState().getListCharacters(1)[0]));
 
