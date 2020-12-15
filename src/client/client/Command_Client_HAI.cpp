@@ -11,8 +11,6 @@ using namespace render;
 using namespace engine;
 using namespace std;
 
-using namespace client;
-using namespace std;
 
 
 Command_Client_HAI::Command_Client_HAI() {
