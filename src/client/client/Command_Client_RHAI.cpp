@@ -25,11 +25,11 @@ Command_Client_RHAI::~Command_Client_RHAI(){
 }
 
 void Command_Client_RHAI::execute() {
-    std::vector<int> stats;
+    std::vector<int> stats(2);
+    srand(time(NULL));// Init random generator
     // Random_ai vs Random_ai
-    for (int i = 0; i<100; i++)
+    for (int i = 0; i<10; i++)
     {
-        srand(time(NULL));// Init random generator
 
         Engine myEngine; // No confusion to engine packgage
         myEngine.getState().setMode("random_ai");
@@ -54,9 +54,8 @@ void Command_Client_RHAI::execute() {
             if (myEngine.getState().getGameWinner()==1) stats[0] += 1;
             else stats[1] += 1;
         }
-
-        cout << "Heuristic AI victories : " << stats[0] << endl;
-        cout << "Random AI victories : " << stats[1] << endl;
-        cout << "Percentage win of Heuristic AI : " << stats[0]/(stats[0]+stats[1]) << endl;
     }
+    cout << "Heuristic AI victories : " << stats[0] << endl;
+    cout << "Random AI victories : " << stats[1] << endl;
+    cout << "Percentage win of Heuristic AI : " << 100*stats[0]/(stats[0]+stats[1]) << endl;
 }
