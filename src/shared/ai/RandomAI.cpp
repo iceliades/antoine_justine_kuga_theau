@@ -41,7 +41,8 @@ void RandomAI::run(engine::Engine& myEngine){
                 Position randPosToMove (selectedChar.getPosition().getNearPositions()[rand()%4]);
                 unique_ptr<Command> ptr_mv ( new Move_Command(selectedChar,randPosToMove));
                 myEngine.addCommand(move(ptr_mv));myEngine.update();
-                mvLeft=selectedChar.getMovementLeft();
+                //mvLeft=selectedChar.getMovementLeft();
+                mvLeft--;
 
             }
             
@@ -73,7 +74,8 @@ void RandomAI::run(engine::Engine& myEngine){
 
              }
 
-            mvLeft1=selectedChar.getMovementLeft();
+            //mvLeft1=selectedChar.getMovementLeft();
+            mvLeft1--;
         }
         unique_ptr<Command> ptr_ft1( new Finish_Turn_Command());
         myEngine.addCommand(move(ptr_ft1));myEngine.update();

@@ -85,3 +85,8 @@ void Engine::update()
 std::map<int, std::unique_ptr<Command>>& Engine::getCurrCommands (){
     return currCommands;
 }
+
+/*void Engine::setState(state::State& newState){
+    this->currState=newState;    
+
+}*/
