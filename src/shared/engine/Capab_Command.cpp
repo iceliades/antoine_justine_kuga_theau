@@ -30,7 +30,8 @@ using namespace engine;
 using namespace state;
 using namespace std;
 
-Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTarget, state::Position& refTargetedPos) : user(refUser), target(refTarget), targetedPos(refTargetedPos)
+Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTarget,
+	state::Position& refTargetedPos) : user(refUser), target(refTarget), targetedPos(refTargetedPos)
 {
 	Id = CAPAB;
 }

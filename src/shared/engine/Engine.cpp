@@ -55,6 +55,7 @@ void Engine::update()
     if (!currState.getEndGame())
     {
         cout << "Adding passive commands ..." << endl;
+        //if(currState.getMode()!="test")
         addPsvCommands();
         cout << "Executing commands from turn " << currState.getRound() << endl;
         
@@ -67,11 +68,13 @@ void Engine::update()
 			    usleep(200 * 1000); // for the test
         }
         // used iterator erase
-        map<int, std::unique_ptr<Command>>::iterator iterator;
-        for (iterator = currCommands.begin(); iterator != currCommands.end(); iterator++)
-        {
-            currCommands.erase(iterator);
-        }
+        currCommands.erase(currCommands.begin(),currCommands.end());
+        //map<int, std::unique_ptr<Command>>::iterator iterator;
+        //for (iterator = currCommands.begin(); iterator != currCommands.end(); iterator++)
+        //{
+        //    currCommands.erase(iterator);
+        //}
+
     }
     else
     {

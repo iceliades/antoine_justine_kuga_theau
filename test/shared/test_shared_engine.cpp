@@ -44,6 +44,8 @@ BOOST_AUTO_TEST_CASE(TestEngine)
         {
 			
 			// Init
+            BOOST_TEST_CHECKPOINT( "This is the init checkpoint" << "\n");
+            //cout << "This is the init checkpoint" << "\n";
 			Engine engine;
             engine.getState().setMode("test");
             engine.getState().initPlayers();
@@ -61,17 +63,24 @@ BOOST_AUTO_TEST_CASE(TestEngine)
 
 			std::map<int, std::unique_ptr<Command>>& curcmd =engine.getCurrCommands();
 			BOOST_CHECK_EQUAL(curcmd.size(),0);
+            BOOST_TEST_CHECKPOINT( "This is the PLayer 1 checkpoint" << "\n");
 			// Player 1
-				//select
+
+			    //select
 			Sel_Char_Command scc(*engine.getState().getListCharacters(0)[0]);
 			scc.setID(SELECT_CHAR);BOOST_CHECK_EQUAL(scc.getId(),SELECT_CHAR);
 			unique_ptr<Command> ptr_sc(new Sel_Char_Command(*engine.getState().getListCharacters(0)[0]));
-				// move
+
+			    // move
 			state::Position dest{p1x,++p1y};
-			unique_ptr<Command> ptr_m(new Move_Command(*engine.getState().getListCharacters(0)[0],dest));
-				// attack
-			unique_ptr<Command> ptr_ac(new Attack_Command(*engine.getState().getListCharacters(0)[0], *engine.getState().getListCharacters(1)[0]));
-				// Teleport
+			unique_ptr<Command> ptr_m(new Move_Command(*engine.getState().getListCharacters(0)[0]
+            ,dest));
+
+			    // attack
+			unique_ptr<Command> ptr_ac(new Attack_Command(*engine.getState().getListCharacters(0)[0],
+         *engine.getState().getListCharacters(1)[0]));
+
+			    // Teleport
 			state::Position telepos{++p1x,++p1y};
 			unique_ptr<Command> ptr_cap(new Capab_Command(*engine.getState().getListCharacters(0)[0]
 			,*engine.getState().getListCharacters(1)[0],telepos));
@@ -80,17 +89,20 @@ BOOST_AUTO_TEST_CASE(TestEngine)
 			engine.addCommand(move(ptr_m));
 			engine.addCommand(move(ptr_ac));
 			engine.addCommand(move(ptr_cap));
-			
-			//engine.addCommand(move(ptr_cw));
 			engine.update();
 
-							
+            BOOST_TEST_CHECKPOINT( "This is the Attacking 2 checkpoint" << "\n");
 				// Attacking 2
-			engine.getState().getListCharacters(0)[0]->setPrecision(15,15,15,15);// precision to 1
+
+			engine.getState().getListCharacters(0)[0]->setPrecision(0,0,0,0);// precision to 1
+
+
+			engine.getState().getListCharacters(0)[0]->setPrecision(1,1,1,1);// precision to 0
+
             engine.getState().getListCharacters(0)[0]->setDodge(4,4);
 			unique_ptr<Command> ptr_ac2(new Attack_Command(*engine.getState().getListCharacters(0)[0], *engine.getState().getListCharacters(1)[0]));
 
-			
+            BOOST_TEST_CHECKPOINT( "This is the Immobilized checkpoint" << "\n");
 				//Immobilized
 			engine.getState().getListCharacters(0)[0]->getCharWeap()->setTypeCapab(state::IMMOBIL);	
 			engine.getState().getListCharacters(0)[0]->setCapab(0,0);
@@ -100,7 +112,7 @@ BOOST_AUTO_TEST_CASE(TestEngine)
 			engine.addCommand(move(ptr_ac2));
 			engine.addCommand(move(ptr_cap_immobil));
 			engine.update();
-
+            BOOST_TEST_CHECKPOINT( "This is the SRAIN0 checkpoint" << "\n");
 				//SRAIN 0
 			engine.getState().getListCharacters(0)[0]->setCapab(0,0);
 			engine.getState().getListCharacters(0)[0]->getCharWeap()->setTypeCapab(state::SRAIN);
@@ -109,9 +121,9 @@ BOOST_AUTO_TEST_CASE(TestEngine)
 			engine.addCommand(move(ptr_cap_ra0));
 			engine.update();
 
-			
 
 
+            BOOST_TEST_CHECKPOINT( "This is the SRAIN1 checkpoint" << "\n");
 				//SRAIN 1
 			engine.getState().getListCharacters(0)[0]->setPrecision(15,15,15,15);// precision to 1
             engine.getState().getListCharacters(0)[0]->setDodge(8,8);// Dodge to 0
@@ -119,14 +131,16 @@ BOOST_AUTO_TEST_CASE(TestEngine)
 			engine.getState().getListCharacters(0)[0]->getCharWeap()->setTypeCapab(state::SRAIN);
 			unique_ptr<Command> ptr_cap_ra(new Capab_Command(*engine.getState().getListCharacters(0)[0]
 			,*engine.getState().getListCharacters(1)[0],telepos));
-						
+
+            BOOST_TEST_CHECKPOINT( "This is the Finish turn checkpoint" << "\n");
 				// Finish Turn
 			unique_ptr<Command> ptr_ftc(new Finish_Turn_Command());
-			engine.addCommand(move(ptr_cap_ra));
+			//engine.addCommand(move(ptr_cap_ra));
 			engine.addCommand(move(ptr_ftc));
-
 			engine.update();
 
+
+            BOOST_TEST_CHECKPOINT( "This is the dummytest checkpoint" << "\n");
 			engine.getState().getListCharacters(0)[0]->setStatus(state::DEATH);
 			engine.getState().getListCharacters(0)[1]->setStatus(state::DEATH);
 			engine.getState().getListCharacters(0)[2]->setStatus(state::DEATH);
