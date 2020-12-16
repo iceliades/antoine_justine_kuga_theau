@@ -15,12 +15,12 @@ Caretaker::~Caretaker(){
 
 }
 
-void Caretaker::addMemory(MementoState& memento){
-    MementoState myState{memento};
+void Caretaker::addMemory(MemoryState& memory){
+    MemoryState myState{memory};
     savedMemories.push_back(myState);
 }
 
-MementoState& Caretaker::getMemory(int index){
+MemoryState& Caretaker::getMemory(int index){
     if (index<savedMemories.size() && index!=-1){
         return savedMemories[index];
     }
