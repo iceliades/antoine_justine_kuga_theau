@@ -17,15 +17,16 @@ void RandomAI::run(engine::Engine& myEngine){
 
     int targetPlayerID= (this->getNbplayers()==2)? 1:2;
 
+    // random Selection of the character
     int randomCharSelected = selectCharacter(myEngine.getState());
-    // always select someone
-
     Character &selectedChar = *myEngine.getState().getListCharacters(this->getNbplayers()-1)[randomCharSelected];
     unique_ptr<engine::Command> selectCommand(new Sel_Char_Command(selectedChar));
     myEngine.addCommand(move(selectCommand));myEngine.update();
 
     // ennemy character in range ?
     if(selectedChar.allowedAttackTarget(myEngine.getState()).size() > 0){
+
+        // random selection of target in range
         int random = selectedChar.allowedAttackTarget(myEngine.getState())[rand() %
                 (selectedChar.allowedAttackTarget(myEngine.getState()).size())];
         Character& targetChar= *myEngine.getState().getListCharacters(targetPlayerID-1)[random];
@@ -36,21 +37,18 @@ void RandomAI::run(engine::Engine& myEngine){
 
         if (rand()%2){ // Choose randomly to move or not
             int mvLeft= selectedChar.getMovementLeft();
+            
+            // move until mouvement left =0
             while (mvLeft>0)
             {   
                 Position randPosToMove (selectedChar.getPosition().getNearPositions()[rand()%4]);
                 unique_ptr<Command> ptr_mv ( new Move_Command(selectedChar,randPosToMove));
                 myEngine.addCommand(move(ptr_mv));myEngine.update();
-                //mvLeft=selectedChar.getMovementLeft();
                 mvLeft--;
 
             }
             
         }
-
-        unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
-        myEngine.addCommand(move(ptr_ft));myEngine.update();
-        
 
     }else{
 
@@ -77,13 +75,15 @@ void RandomAI::run(engine::Engine& myEngine){
             //mvLeft1=selectedChar.getMovementLeft();
             mvLeft1--;
         }
+    
+    }
         unique_ptr<Command> ptr_ft1( new Finish_Turn_Command());
         myEngine.addCommand(move(ptr_ft1));myEngine.update();
 
-    }
-
 }
 
+
+// Return tab of index of all alive character
 int RandomAI::selectCharacter (state::State& state){
     std::vector<int> posibleIndex;
 

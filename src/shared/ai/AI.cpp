@@ -6,7 +6,7 @@ using namespace std;
 
 
  AI::AI(int nbplayers){
-    this->nbplayers = nbplayers;
+    this->nbplayers = nbplayers; // playerID
 }
 
 int AI::getNbplayers (){

@@ -48,7 +48,6 @@ void Move_Command::exec(state::State &state)
                 // TODO refresh to the base move quantity for each character if the are not death.
                 
                 cout << "The character " << targetedChar.getName() << " has been moved to (" << targetedPos.getX() << ", " << targetedPos.getY() << ")" << endl;
-                cout << "The character has " << targetedChar.getMovementLeft() << "Movement left" << endl;
             }
             else cout << "The character " << targetedChar.getName() << " not allowed to move in that position" << endl;
         }

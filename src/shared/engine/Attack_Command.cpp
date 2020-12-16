@@ -15,10 +15,7 @@ Attack_Command::Attack_Command(Character& refAttacker, Character& refTarget) : a
 
 void Attack_Command::exec(state::State& curState)
 {
-	cout << attacker.getName() << "is trying to attack" << target.getName() << endl;
-	cout << "Actual health of " << target.getName() << ": " << target.getHealth() << endl;
-
-
+	cout << attacker.getName() << "is Attacking" << target.getName() << endl;
 	/*Setting the probabilities*/
 	int pre(attacker.getPrecision()), dod(target.getDodge());
 	random_device         rdev{};
@@ -56,7 +53,7 @@ void Attack_Command::exec(state::State& curState)
 				cout<<"\n";
 			}
 			
-					
+				
 		}else{
 			cout<<"You can't attack this element sorry buddy"<<endl;;
 		}

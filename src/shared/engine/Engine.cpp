@@ -28,13 +28,13 @@ void Engine::addPsvCommands()
         // find largest priority
         priority = currCommands.rbegin()->first + 1;
 
-    // passive commands...
+    // passive command
     unique_ptr<Command> ptr_cw(new Check_Win_Command());
     addCommand(move(ptr_cw), priority++);
     
 }
 
-
+// add command with priority of excution
 void Engine::addCommand(std::unique_ptr<Command> ptr_cmd, int priority)
 {
     if (priority == -1)
@@ -69,12 +69,6 @@ void Engine::update()
         }
         // used iterator erase
         currCommands.erase(currCommands.begin(),currCommands.end());
-        //map<int, std::unique_ptr<Command>>::iterator iterator;
-        //for (iterator = currCommands.begin(); iterator != currCommands.end(); iterator++)
-        //{
-        //    currCommands.erase(iterator);
-        //}
-
     }
     else
     {

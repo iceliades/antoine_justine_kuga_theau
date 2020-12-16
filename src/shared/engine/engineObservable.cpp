@@ -16,6 +16,7 @@ void engineObservable::registerObserver(engineObserver* obs){
 	observers.push_back(obs);
 }
 
+// For client network 
 void engineObservable::notifyUpdate(){
 	for(auto observer : observers){
 		observer->engineUpdating();

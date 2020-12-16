@@ -44,14 +44,14 @@ void Command_Client_PHAI::execute() {
     // for now hard code for keyboard listener
     // For player 1;
     int indexChar;
-    //int indexTargetChar;
+
     std::vector<unique_ptr<Character>>& playerCharList= myEngine.getState().getListCharacters(0);
 
 
     while (window.isOpen()){
         sf::Event event;
         if( booting){
-            stateLayer.draw(window);
+            stateLayer.draw(window); // Display changes for the init
             myEngine.update();
             booting=false;
         }

@@ -107,8 +107,7 @@ void Capab_Command::exec (state::State& curState)
 				user.getPosition().setX(targetedPos.getX());
 				user.getPosition().setY(targetedPos.getY());
 				cout << "User teleported at " << user.getPosition().getX() << "," << user.getPosition().getY() << endl;
-				break;
-			
+				break;		
 		}
 	}
 }
