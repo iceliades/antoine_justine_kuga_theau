@@ -49,7 +49,8 @@ void RandomAI::run(engine::Engine& myEngine){
         }
 
         unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
-        myEngine.addCommand(move(ptr_ft));myEngine.update();
+        myEngine.addCommand(move(ptr_ft));
+        myEngine.update();
         
 
     }else{
