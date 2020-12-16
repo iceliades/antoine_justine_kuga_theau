@@ -78,19 +78,25 @@ BOOST_AUTO_TEST_CASE(TestRandomAI)
                 }
             }
 
+            BOOST_TEST_CHECKPOINT("This is where the fun begins");
+            std::vector<Position> Pos_Characters_AI_1(3);
+            Pos_Characters_AI_1[0] = myEngine.getState().getListCharacters(randomAi1.getNbplayers()-1)[0]->getPosition();
+            Pos_Characters_AI_1[1] = myEngine.getState().getListCharacters(randomAi1.getNbplayers()-1)[1]->getPosition();
+            Pos_Characters_AI_1[2] = myEngine.getState().getListCharacters(randomAi1.getNbplayers()-1)[2]->getPosition();
 
-            auto Characters_AI_1 = myEngine.getState().getListCharacters(randomAi1.getNbplayers());
 
             randomAi1.run(myEngine);
 
-
-            BOOST_CHECK_EQUAL(Characters_AI_1,myEngine.getState().getListCharacters(randomAi1.getNbplayers()));
+            BOOST_CHECK_EQUAL(Pos_Characters_AI_1[0].equals(myEngine.getState().getListCharacters(randomAi1.getNbplayers())[0]->getPosition()),false);
+            BOOST_CHECK_EQUAL(Pos_Characters_AI_1[1].equals(myEngine.getState().getListCharacters(randomAi1.getNbplayers())[1]->getPosition()),false);
+            BOOST_CHECK_EQUAL(Pos_Characters_AI_1[2].equals(myEngine.getState().getListCharacters(randomAi1.getNbplayers())[2]->getPosition()),false);
+            /*BOOST_CHECK_EQUAL(Characters_AI_1,myEngine.getState().getListCharacters(randomAi1.getNbplayers()));
             BOOST_CHECK_EQUAL(Characters_AI_1[0]->getPosition().equals(myEngine.getState()
                 .getListCharacters(randomAi1.getNbplayers())[0]->getPosition()),false);
             BOOST_CHECK_EQUAL(Characters_AI_1[1]->getPosition().equals(myEngine.getState()
                 .getListCharacters(randomAi1.getNbplayers())[1]->getPosition()),false);
             BOOST_CHECK_EQUAL(Characters_AI_1[2]->getPosition().equals(myEngine.getState()
-                .getListCharacters(randomAi1.getNbplayers())[2]->getPosition()),false);
+                .getListCharacters(randomAi1.getNbplayers())[2]->getPosition()),false);*/
 
 
 
