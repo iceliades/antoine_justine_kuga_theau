@@ -8,10 +8,10 @@ using namespace state;
 using namespace client;
 
 MemoryState::MemoryState(state::State& myState){
-    state->myState;
+    memory = myState;
 }
 
 state::State& MemoryState::chargeState(){
-    return state;
+    return memory;
 }
 
