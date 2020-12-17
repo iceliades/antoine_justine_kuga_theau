@@ -8,7 +8,6 @@ using namespace state;
 using namespace client;
 
 Caretaker::Caretaker(){
-
 }
 
 Caretaker::~Caretaker(){
