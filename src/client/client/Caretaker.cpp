@@ -8,10 +8,11 @@ using namespace state;
 using namespace client;
 
 Caretaker::Caretaker(){
+    savedMemories = std::vector<MemoryState> {};
 }
 
 Caretaker::~Caretaker(){
-
+    delete &savedMemories;
 }
 
 void Caretaker::addMemory(MemoryState& memory){
@@ -24,4 +25,8 @@ MemoryState& Caretaker::getMemory(int index){
         return savedMemories[index];
     }
     return savedMemories[savedMemories.size()-1];
+}
+
+std::vector<MemoryState> Caretaker::getSavedMemories(){
+    return savedMemories;
 }
