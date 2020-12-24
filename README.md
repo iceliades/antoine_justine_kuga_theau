@@ -93,6 +93,7 @@ Heuristic AI vs Heuristic AI
 Player vs Heuristic AI
 ```bash
 ./bin/client player_vs_hai
+```
 ## 3.final Advanced AI
 
 ## 4.1 Multi threading
