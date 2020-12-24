@@ -8,7 +8,7 @@ using namespace state;
 using namespace client;
 
 Caretaker::Caretaker(){
-    savedMemories = std::vector<MemoryState> {};
+    this->savedMemories = std::vector<MemoryState> {};
 }
 
 Caretaker::~Caretaker(){
@@ -28,5 +28,5 @@ MemoryState& Caretaker::getMemory(int index){
 }
 
 std::vector<MemoryState> Caretaker::getSavedMemories(){
-    return savedMemories;
+    return this->savedMemories;
 }
