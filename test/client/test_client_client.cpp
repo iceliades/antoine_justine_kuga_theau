@@ -28,11 +28,25 @@ namespace client{
                 std::vector<MemoryState> vectNull = {};
 
                 BOOST_TEST(base == vectNull);
+                
+                state::State myState;
+                MemoryState memory(myState);
+                care->addMemory(memory);
 
+                vectNull.push_back(myState);
+                BOOST_TEST(base == vectNull);
+
+            }
+//--------------------------------------------------- MemoryState -------------------------------------------------------
+  
+            {
+                state::State state;
+                MemoryState memState(state);
+
+                BOOST_TEST(state == memState.chargeState());
 
                 
             }
-            
  
         
 
