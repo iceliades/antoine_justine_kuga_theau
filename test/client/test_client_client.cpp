@@ -23,8 +23,9 @@ namespace client{
             {
                 // Caretaker
                 
-                Caretaker care();
-                std::vector<MemoryState> base = care->&getSavedMemories();
+                Caretaker *care;
+                std::vector<MemoryState> base = care->getSavedMemories();
+                std::vector<MemoryState> vectNull = {};
 
                 BOOST_TEST(base == vectNull);
 
