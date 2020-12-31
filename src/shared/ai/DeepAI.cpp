@@ -3,13 +3,14 @@
 using namespace std;
 using namespace ai;
 
-DeepAI::DeepAI(engine::Engine& myEngine, int nbPlayers){
 
+DeepAI::DeepAI(engine::Engine& myEngine, int nbPlayers) :  PlayerNumber(nbPlayers),CurrState(myEngine.getState()){
+    //this->CurrState = myEngine.getState();
 }
 
 
 DeepAI::~DeepAI(){
-    delete currState;
+    delete &CurrState;
 }
 
 
