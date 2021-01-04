@@ -27,7 +27,8 @@ namespace client{
                 std::vector<MemoryState> base = care->getSavedMemories();
                 std::vector<MemoryState> vectNull = {};
 
-                //BOOST_TEST(base == vectNull); // You can't test it just like that bruh
+                //for (int i=0;i<vectNull.size();i++){
+                //BOOST_TEST(base[i] == vectNull[i]); // You can't test it just like that bruh
                                                 // You either look that they have the same reference
                                                 // or test some of their attributes to be the same
                 
