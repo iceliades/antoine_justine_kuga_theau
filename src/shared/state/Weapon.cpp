@@ -36,8 +36,6 @@ Weapon::Weapon(WeaponID id){
             
         case STRAP:
             Dammages=9; MinRange=3; MaxRange=5; typeCapab=TELEPORT; break;
-        default:
-            break;
 
     }
 
@@ -67,4 +65,6 @@ void Weapon::setMinRange(float prtm){
 void Weapon::setOwner(std::string Nom){
     Owner=Nom;
 }
-
+void Weapon::setTypeCapab(CapabID typeCapab){
+    this->typeCapab= typeCapab;
+}

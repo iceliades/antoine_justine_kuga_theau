@@ -30,7 +30,7 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
             int tileNumber = map[i][j]->getTileCode();
 
             int tx= tileNumber%(texture.getSize().x/ cellWidth);
-            int ty= tileNumber/(texture.getSize().x/ cellHeight );
+            int ty= tileNumber/(texture.getSize().x/ cellHeight);
             sf::Vertex* quad = &quads[vertexArrayIndex*4];
             vertexArrayIndex++;
             quad[0].position = sf::Vector2f(j*cellWidth, i*cellHeight);
@@ -64,7 +64,6 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
                     }
                 }
                 // for now need to change by for players
-                // will change by a for on player
                 for (auto &charac : curState.getListCharacters(1)){
                     if (charac->getStatus() == SELECTED && charac->getMovementLeft() > 0){
                         
@@ -124,6 +123,7 @@ bool TextureArea::loadTextures(state::State& curState,render::TileSet& textureTi
 
                     }
                 }
+                //curState.getCursor().setTileCode(2);
             }
 
 
@@ -195,11 +195,19 @@ bool TextureArea::loadCharacters(state::State& curState, render::TileSet& textur
                 quad[2].texCoords = sf::Vector2f((tx + 1) * cellWidth, (ty + 1) * cellHeight);
                 quad[3].texCoords = sf::Vector2f(tx * cellWidth, (ty + 1) * cellHeight);
                 
-                /*Color color = (state.getCharacters()[i]->getPlayerOwner() == 1) ? Color(0,0,255) : Color(255,0,0);
-                quad[0].color = color;
-                quad[1].color = color;
-                quad[2].color = color;
-                quad[3].color = color;*/             
+                if( curState.getMode()=="PlayervsAI"){
+                    Color color = (curState.getListCharacters(j)[i]->getPlayerID()==1)? Color(0,0,int(255-j*80)) : Color(255-j*80,0,0);
+                    quad[0].color = color;
+                    quad[1].color = color;
+                    quad[2].color = color;
+                    quad[3].color = color;
+            
+                    
+                }
+                
+
+                
+                          
 
 
             }

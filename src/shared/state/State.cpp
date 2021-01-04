@@ -10,7 +10,7 @@ State::State():cursor(10,10,3){ // call a specific constructor
     round=1;
     endGame=false;
     curPlayerID=1;
-    nbOfPlayers=1;
+    nbOfPlayers=2;
     curAction=IDLE;
     gameWinner=0;
 
@@ -31,8 +31,15 @@ void State::initMapCell(){
 
     int nbWidthTile= 26;
     int nbHeightTile=24;
+    std::string path;
+    if( mode=="test")
+        path="../../../res/textures/map.csv";
+    else
+        path="res/textures/map.csv";
 
-    std::ifstream file("res/textures/map.csv",ios::in);
+    std::ifstream file(path,ios::in);
+ 
+    
     std::string content, line, tile_code;
     int map_tile_code[nbWidthTile*nbHeightTile]; // width*height
 
@@ -124,7 +131,7 @@ void State::initCharacters(){
     }
     cursor.setPosition(listPlayers[0]->getListCharacters()[0]->getPosition());
 }
-
+/*
 void State::deletePlayer(Player& player){
     for(unsigned int i=0; i<listPlayers.size(); i++){
         if(listPlayers[i]->getId() == player.getId() ){
@@ -132,6 +139,7 @@ void State::deletePlayer(Player& player){
         }
     }
 }
+*/
 
 
 // A character has been selected

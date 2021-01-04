@@ -30,5 +30,4 @@ namespace state {
         return (typeid(other).name()==name && position.equals(other.getPosition()));
     }
     
-
 }

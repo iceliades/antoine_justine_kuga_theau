@@ -31,7 +31,7 @@ void Check_Win_Command::exec(state::State &state)
 
 
     if (p1nbDeathChar==state.getListCharacters(0).size()){
-        winnedID=1;
+        winnedID=2;
         state.setEndGame(true);
         state.setGameWinner(winnedID);
         StateEvent se{StateEventID::ENDGAME};
@@ -41,7 +41,7 @@ void Check_Win_Command::exec(state::State &state)
         cout << "\n";
     }
     else if (p2nbDeathChar==state.getListCharacters(1).size()){
-        winnedID=2;
+        winnedID=1;
         state.setEndGame(true);
         state.setGameWinner(winnedID);
         StateEvent se{StateEventID::ENDGAME};

@@ -75,10 +75,25 @@ Engine automatic display
 ```bash
 ./bin/client engine
 ```
-## 2.final Random AI
+## 2. Random AI
+Random AI vs Random AI 
+```bash
+./bin/client random_ai
+```
+Player vs RandomAI 
+```bash
+./bin/client player_vs_rai
+```
 
 ## 3.1 Heuristic AI
-
+Heuristic AI vs Heuristic AI 
+```bash
+./bin/client heuristic_ai
+```
+Player vs Heuristic AI
+```bash
+./bin/client player_vs_hai
+```
 ## 3.final Advanced AI
 
 ## 4.1 Multi threading

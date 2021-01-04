@@ -57,16 +57,16 @@ void Engine::update()
         cout << "Adding passive commands ..." << endl;
         addPsvCommands();
         cout << "Executing commands from turn " << currState.getRound() << endl;
-        //default event
+        
         StateEvent stateEvent(ALLCHANGED);
         for (size_t i = 0; i < currCommands.size(); i++)
         {
             currCommands[i]->exec(currState);
             currState.notifyObservers(stateEvent, currState);
             if (currState.getMode()=="engine")
-			    usleep(200 * 1000);
+			    usleep(200 * 1000); // for the test
         }
-        // clean using iterator
+        // used iterator erase
         map<int, std::unique_ptr<Command>>::iterator iterator;
         for (iterator = currCommands.begin(); iterator != currCommands.end(); iterator++)
         {

@@ -8,8 +8,8 @@ using namespace state;
 
 Player::Player(int id ){
     Id= id; 
-    Name= "Player" + to_string(id);
-    
+    Name= "Player";
+
 }
 Player::Player(int id, std::string name){
     Id= id; 
@@ -20,7 +20,7 @@ Player::~Player(){}
 
 // getters and setters
 int Player::getId(){ return Id;}
-std::string Player::getName(){return Name;}
+std::string Player::getName(){return Name+to_string(Id);}
 void Player::setName(std::string nm){ Name=nm;}
 void Player::setID(int id){Id=id;}
 
@@ -36,7 +36,7 @@ void Player::addCharacter(std::unique_ptr<Character> ptr_character){
 }
 
 
-
+/*
 void Player::deleteCharacter(Character& character){
     for(unsigned int i=0; i<listCharacters.size(); i++){
         // Can be optimized
@@ -45,4 +45,5 @@ void Player::deleteCharacter(Character& character){
         }
     }
 }
+*/
 

@@ -149,6 +149,8 @@ void Character::setCapused(bool use) {Capused = use;}
 
 void Character::setCapab(int val, int pos) {this->Capab[pos] = val;}
 
+void Character::setAttacked(bool used){ Attacked=used;}
+
 //------------------------------------------------- Getters ------------------------------------------------------------
 CharacterTypeID Character::getTypeID() {
     return TypeID;
@@ -210,7 +212,7 @@ Direction Character::getDirection(){
 
 
 bool Character::getCapused() {return Capused;}
-
+bool Character::getAttacked(){ return Attacked;}
 
 //----------------------------------------------------- Misc -----------------------------------------------------------
 bool Character::isMapCell(){
@@ -219,35 +221,44 @@ bool Character::isMapCell(){
 
 void Character::addCapab(int compt)
 {
-	Capab.push_back(move(compt));
+	Capab.push_back(compt);
 }
 
 std::vector<Position> Character::allowedMove(State& state){
     
     std::vector<Position> allowedPos;
 
-    for (int y=0; y<=MovementLeft;y++){
-        for (int x=y-MovementLeft; x<=MovementLeft-y;x++){
+    // New version optimized
+    std::vector<std::vector<unique_ptr<MapCell>>>& myMap= state.getMap();
+    for (int y=0; y<=this->MovementLeft;y++){
+        for (int x=y-this->MovementLeft; x<=this->MovementLeft-y;x++){
             Position pos(this->position.getX()+x,this->position.getY()+y);
-            allowedPos.push_back(pos);
+            if(pos.getX()>=0 && pos.getY()>=0 && pos.getX()<myMap[0].size() && pos.getY()<myMap.size()){
+                if(myMap[pos.getY()][pos.getX()]->isOccupied(state)==false && myMap[pos.getY()][pos.getX()]->isSpace() )
+                    allowedPos.push_back(pos);
+            }
+                  
             if (y !=0){
                 Position posMirror(this->position.getX()+x,this->position.getY()-y);
-                allowedPos.push_back(posMirror);
+                if(posMirror.getX()>=0 && posMirror.getY()>=0 && posMirror.getX()<myMap[0].size() && posMirror.getY()<myMap.size()){
+                    if(myMap[posMirror.getY()][posMirror.getX()]->isOccupied(state)==false && myMap[posMirror.getY()][posMirror.getX()]->isSpace() )
+                        allowedPos.push_back(posMirror);
+                }                   
             }
         }
     }
-
-    for (unsigned int indexPos=0; indexPos<allowedPos.size();indexPos++){
+    
+  /*  for (unsigned int indexPos=0; indexPos<allowedPos.size();indexPos++){
         if (allowedPos[indexPos].getX()<0 || allowedPos[indexPos].getY()<0
         || allowedPos[indexPos].getX()>state.getMap()[0].size()
         || allowedPos[indexPos].getY()>state.getMap().size())
             allowedPos.erase(allowedPos.begin()+indexPos);
 
         for (auto &line: state.getMap()){
-            if( line[0]->getPosition().getY() != allowedPos[indexPos].getY())
+            if( line[0]->getPosition().getY() != allowedPos[indexPos].getY())   // comment for now bc some bug to fix
                 continue;
             for (auto &mapCell: line){
-                if (mapCell->getPosition().getX() != allowedPos[indexPos].getX())
+                if (mapCell->getPosition().getX() != allowedPos[indexPos].getX())  // comment for now bc some bug to fix
                     continue;
                 if (mapCell->getPosition().equals(allowedPos[indexPos])
                 &&(mapCell->isSpace()==false || mapCell->isOccupied(state) !=-1) )
@@ -255,28 +266,58 @@ std::vector<Position> Character::allowedMove(State& state){
 
             }
         }         
-    }
+    }*/
 
     return allowedPos;
 }
 
 
-// Return all the positon the character is allowed to ttack
+// Return all the positions the character is allowed to attack
 std::vector<Position> Character::allowedAttackPos(State &state){
    vector<Position> allowedAttackPos;
    int maxRange= this->charWeap->getMaxRange();
+
+   std::vector<std::vector<unique_ptr<MapCell>>>& myMap= state.getMap();
    for (int y=0; y<=maxRange;y++){
         for (int x=y-maxRange; x<=maxRange-y;x++){
             if (y==0 && x==0) // exclude character Position
                 continue;
             Position pos(position.getX()+x,position.getY()+y);
-            allowedAttackPos.push_back(pos);
+            if(pos.getX()>=0 && pos.getY()>=0 && pos.getX()<myMap[0].size() && pos.getY()<myMap.size()){
+                if(myMap[pos.getY()][pos.getX()]->isOccupiedbyAlly(state)==false && myMap[pos.getY()][pos.getX()]->isSpace() )
+                    allowedAttackPos.push_back(pos);
+            }
+            
             if (y !=0){
                 Position posMirror(position.getX()+x,position.getY()-y);
-                allowedAttackPos.push_back(posMirror);
+                if(posMirror.getX()>=0 && posMirror.getY()>=0 && posMirror.getX()<myMap[0].size() && posMirror.getY()<myMap.size()){
+                    if(myMap[posMirror.getY()][posMirror.getX()]->isOccupiedbyAlly(state)==false && myMap[posMirror.getY()][posMirror.getX()]->isSpace() )
+                        allowedAttackPos.push_back(posMirror);
+                }            
             }
         }
     }
+    /*
+    for (unsigned int indexPos=0; indexPos<allowedAttackPos.size();indexPos++){
+        if (allowedAttackPos[indexPos].getX()<0 || allowedAttackPos[indexPos].getY()<0
+        || allowedAttackPos[indexPos].getX()>state.getMap()[0].size()
+        || allowedAttackPos[indexPos].getY()>state.getMap().size())
+            allowedAttackPos.erase(allowedAttackPos.begin()+indexPos);
+
+        for (auto &line: state.getMap()){
+            if( line[0]->getPosition().getY() != allowedAttackPos[indexPos].getY())
+                continue;
+            for (auto &mapCell: line){
+                if (mapCell->getPosition().getX() != allowedAttackPos[indexPos].getX())
+                    continue;
+                if (mapCell->getPosition().equals(allowedAttackPos[indexPos])
+                &&(mapCell->isSpace()==false || mapCell->isOccupiedbyAlly(state)))
+                    allowedAttackPos.erase(allowedAttackPos.begin()+indexPos);
+
+            }
+        }         
+    }*/
+
     return allowedAttackPos;
 }
 
@@ -289,7 +330,8 @@ std::vector<int> Character::allowedAttackTarget (State& state){
         if( state.getCurPlayerID()!=(i+1)){
             for (unsigned int j=0; j< state.getListCharacters(i).size();j++){
                 Character& charac = *state.getListCharacters(i)[j];
-                if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
+                //if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
+                if(charac.getStatus() !=DEATH ){
                     for (unsigned int pos=0; pos<charallowedAttackPos.size(); pos++){
                         if(charallowedAttackPos[pos].equals(charac.getPosition())){
                             posibleCharIndexes.push_back(j);// return the index of the character

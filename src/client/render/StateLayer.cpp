@@ -10,24 +10,31 @@ using namespace std;
 using namespace state;
 
 
-StateLayer::StateLayer(state::State& myState, sf::RenderWindow& window):window(window),currentState(myState){
+StateLayer::StateLayer(state::State& myState, sf::RenderWindow& window,std::string mode):window(window),currentState(myState){
    
+    if(mode=="test")
+        resPath="../../../res/textures/";
+    else
+        resPath="res/textures/";
     
-    font.loadFromFile("res/textures/arial.ttf");
+    font.loadFromFile(resPath+"arial.ttf");
 
-   TileSet tileSetMap(MAPTILESET);
-   unique_ptr<TileSet>ptr_mapTileset(new TileSet(tileSetMap));
-   tileSets.push_back(move(ptr_mapTileset));
+   //TileSet tileSetMap(MAPTILESET,mode);
+   unique_ptr<TileSet>ptr_mapTileset(new TileSet(MAPTILESET,mode));
+   
    //screenWidth=myState.getMap()[0].size()*tileSetMap.getCellWidth();
    //screenHeight=myState.getMap().size()*tileSetMap.getCellHeight();
 
+   //TileSet tileSetCharacters(CHARTILESET,mode);
+   unique_ptr<TileSet>ptr_charTileset(new TileSet(CHARTILESET,mode));
+   
 
-   TileSet tileSetCharacters(CHARTILESET);
-   unique_ptr<TileSet>ptr_charTileset(new TileSet(tileSetCharacters));
+   //TileSet tileSetCursor(CURSORTILESET,mode);
+   unique_ptr<TileSet>ptr_cursorTileset(new TileSet(CURSORTILESET,mode));
+
+    
+   tileSets.push_back(move(ptr_mapTileset));
    tileSets.push_back(move(ptr_charTileset));
-
-   TileSet tileSetCursor(CURSORTILESET);
-   unique_ptr<TileSet>ptr_cursorTileset(new TileSet(CURSORTILESET));
    tileSets.push_back(move(ptr_cursorTileset));
    
 
@@ -104,8 +111,7 @@ void StateLayer::stateChanged(const state::StateEvent &stateEvent, state::State 
 }
 
 void StateLayer::displayText (){
-
-
+ 
     sf::VertexArray right_rectangle(sf::Quads, 4);
 	right_rectangle[0].position = sf::Vector2f(32*26.f, 0.f);
 	right_rectangle[1].position = sf::Vector2f(32*26+500.f, 0.f);
@@ -118,9 +124,66 @@ void StateLayer::displayText (){
     right_rectangle[3].color = sf::Color::Black;
     window.draw(right_rectangle);
 
+    sf::VertexArray bottom_rectangle(sf::Quads, 4);
+	right_rectangle[0].position = sf::Vector2f(0.f, 32*24.f);
+	right_rectangle[1].position = sf::Vector2f(32*26.f+500.f, 32*24.f);
+	right_rectangle[2].position = sf::Vector2f(32*26.f+500.f, 32*24+100.f);
+	right_rectangle[3].position = sf::Vector2f(0.f, 32*24+100.f);
+    right_rectangle[0].color = sf::Color::White;
+    right_rectangle[1].color = sf::Color::Black;
+    right_rectangle[2].color = sf::Color::White;
+    right_rectangle[3].color = sf::Color::Black;
+    window.draw(bottom_rectangle);
+
+    sf::Text Info;
+    Info.setPosition(450.f+10.f,32*24.f+40.f);Info.setFont(font);Info.setFillColor(sf::Color::Red);
+    Info.setString("THIS RENDER AND KEYS ONLY FOR NOW UNTIL CLIENT UPDATE AND USE OF CURSOR");Info.setCharacterSize(20);window.draw(Info);
+
+    sf::Text arrow;
+    arrow.setPosition(0.f+10.f,32*24.f+10.f);arrow.setFont(font);
+    arrow.setString("MOVE: ARROW");arrow.setCharacterSize(20);window.draw(arrow);
+    sf::Text att;
+    att.setPosition(500.f+10.f,32*24.f+10.f);att.setFont(font);
+    att.setString("ATTACK_MODE: A");att.setCharacterSize(20);window.draw(att);
+
+    sf::Text skip;
+    skip.setPosition(250.f+10.f,32*24.f+10.f);skip.setFont(font);
+    skip.setString("FINISH TURN: S");skip.setCharacterSize(20);window.draw(skip);
+    sf::Text tselect;
+    tselect.setPosition(0.f+10.f,32*24.f+45.f);tselect.setFont(font);
+    tselect.setString("SELECT:  I -> 1   |  O -> 2   |  P-> 3 ");tselect.setCharacterSize(20);window.draw(tselect);
+    sf::Text tattack;
+    tattack.setPosition(0.f+10.f,32*24.f+70.f);tattack.setFont(font);
+    tattack.setString("TARGET:  K -> 1  |  L -> 2  |  M-> 3");tattack.setCharacterSize(20);window.draw(tattack);
+
+    for(unsigned int i=0; i<currentState.getListPlayers().size(); i++){
+        for (unsigned int j=0; j<currentState.getListCharacters(i).size();j++){
+            if( currentState.getListCharacters(i)[j]->getStatus()!=DEATH){
+                state::Character& mychar=*currentState.getListCharacters(i)[j];
+                sf::Text textchar;
+                textchar.setPosition(32*mychar.getPosition().getX(),32*mychar.getPosition().getY()+10.f);
+                textchar.setFont(font);textchar.setCharacterSize(10);textchar.setString(std::to_string(j+1));
+                if(currentState.getMode()=="random_ai"){
+                    if(i==0){
+                        textchar.setFillColor(sf::Color::Blue);
+                    }else if(i==1)
+                    {
+                        textchar.setFillColor(sf::Color::Red);
+                     }
+                }
+                
+                
+                window.draw(textchar);
+            }
+            
+        }
+    }
+
+
+
 
     sf::Texture logo;
-    logo.loadFromFile("res/textures/zorglub.png");
+    logo.loadFromFile(resPath+"zorglub.png");
     sf::Sprite spritelogo;
     spritelogo.setPosition(32*26.f+50.f, 0.f);
     spritelogo.setTexture(logo,true);
@@ -161,24 +224,24 @@ void StateLayer::displayText (){
         sf::Texture logo;
         switch (charac->getTypeID()){
             case (CROOK) :
-                 logo.loadFromFile("res/textures/bandit.png");
+                 logo.loadFromFile(resPath+"bandit.png");
             break;
             case (KNIGHT) :
-                logo.loadFromFile("res/textures/chevalier.png");
+                logo.loadFromFile(resPath+"chevalier.png");
             break;
             case (ELF) :
-                logo.loadFromFile("res/textures/elfe.png");
+                logo.loadFromFile(resPath+"elfe.png");
             break;
             case (NATIVE) :
-                logo.loadFromFile("res/textures/indien.png");
+                logo.loadFromFile(resPath+"indien.png");
             break;
             case (DWARF) :
-                logo.loadFromFile("res/textures/nain.png");
+                logo.loadFromFile(resPath+"nain.png");
             break;
             case (PIRATE) :
-                logo.loadFromFile("res/textures/pirate.png");
+                logo.loadFromFile(resPath+"pirate.png");
             case (TROLL):
-                logo.loadFromFile("res/textures/troll.png");
+                logo.loadFromFile(resPath+"troll.png");
             
             default:
                 break;
@@ -194,7 +257,7 @@ void StateLayer::displayText (){
     }
 
     sf::Texture vslogo;
-    vslogo.loadFromFile("res/textures/vs.png");
+    vslogo.loadFromFile(resPath+"vs.png");
     sf::Sprite vsSprite;
     vsSprite.setPosition(32*26.f+220.f,300.f);
     vsSprite.setTexture(vslogo,true);
@@ -237,24 +300,24 @@ void StateLayer::displayText (){
         
         switch (charac->getTypeID()){
             case (CROOK) :
-                 logo.loadFromFile("res/textures/bandit.png");
+                 logo.loadFromFile(resPath+"bandit.png");
             break;
             case (KNIGHT) :
-                logo.loadFromFile("res/textures/chevalier.png");
+                logo.loadFromFile(resPath+"chevalier.png");
             break;
             case (ELF) :
-                logo.loadFromFile("res/textures/elfe.png");
+                logo.loadFromFile(resPath+"elfe.png");
             break;
             case (NATIVE) :
-                logo.loadFromFile("res/textures/indien.png");
+                logo.loadFromFile(resPath+"indien.png");
             break;
             case (DWARF) :
-                logo.loadFromFile("res/textures/nain.png");
+                logo.loadFromFile(resPath+"nain.png");
             break;
             case (PIRATE) :
-                logo.loadFromFile("res/textures/pirate.png");
+                logo.loadFromFile(resPath+"pirate.png");
             case (TROLL):
-                logo.loadFromFile("res/textures/troll.png");
+                logo.loadFromFile(resPath+"troll.png");
             
             default:
                 break;

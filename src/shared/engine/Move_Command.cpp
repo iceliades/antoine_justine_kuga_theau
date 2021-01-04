@@ -26,7 +26,7 @@ void Move_Command::exec(state::State &state)
         {
             for (auto &pos: targetedChar.allowedMove(state))
             {
-                if (pos.equals(targetedPos))         {
+                if (pos.equals(targetedPos)){
                     allowed = true;
                     break;
                 }
@@ -50,11 +50,9 @@ void Move_Command::exec(state::State &state)
                 cout << "The character " << targetedChar.getName() << " has been moved to (" << targetedPos.getX() << ", " << targetedPos.getY() << ")" << endl;
                 cout << "The character has " << targetedChar.getMovementLeft() << "Movement left" << endl;
             }
-            else
-                cout << "The character " << targetedChar.getName() << " not allowed to move in that position" << endl;
+            else cout << "The character " << targetedChar.getName() << " not allowed to move in that position" << endl;
         }
-        else
-            cout <<"NO MOVEMENT LEFT" << endl;
+        else cout <<"NO MOVEMENT LEFT" << endl;
     }
     cout << "\n";
 }

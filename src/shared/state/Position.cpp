@@ -37,44 +37,27 @@ namespace state {
 
         vector<Position> result;
 
-        Position front{this->getX(), this->getY() + 1};
-        Position back{this->getX(), this->getY() - 1};
-        Position left{this->getX() - 1, this->getY()};
-        Position right{this->getX() + 1, this->getY()};
-
-        // coin en bas à gauche
-        if (this->getY() == 0){
-            if (this->getX() == 0){
-                left.setX(0);
-                left.setY(0);
-            }
-            if (this->getX() == 26){
-                right.setX(0);
-                right.setY(0);
-            }
-            back.setX(0);
-            back.setY(0);
-        }
-
-        if (this->getY() == 24){
-            if (this->getX() == 0){
-                left.setX(0);
-                left.setY(0);
-            }
-            if (this->getX() == 26){
-                right.setX(0);
-                right.setY(0);
-            }
-            front.setX(0);
-            front.setY(0);
-        }
+        Position south{this->getX(), this->getY() + 1};
+        Position north{this->getX(), this->getY() - 1};
+        Position west{this->getX() - 1, this->getY()};
+        Position east{this->getX() + 1, this->getY()};
 
 
 
-        result.push_back(move(front));
-        result.push_back(move(right));
-        result.push_back(move(back));
-        result.push_back(move(left));
+        if(this->getX()==0)
+            west.setX(0);
+        if( this->getY()==0)
+            north.setY(0);
+        if(  this->getY()==23) // for now hard coded 23 for map size
+            south.setY(23);
+        if( this->getX()==25)
+            east.setX(25);
+
+
+        result.push_back(move(south));
+        result.push_back(move(east));
+        result.push_back(move(north));
+        result.push_back(move(west));
 
         return result;
     }
