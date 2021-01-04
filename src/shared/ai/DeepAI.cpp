@@ -4,7 +4,8 @@ using namespace std;
 using namespace ai;
 
 
-DeepAI::DeepAI(engine::Engine& myEngine, int nbPlayers) :  PlayerNumber(nbPlayers),CurrState(myEngine.getState()){
+DeepAI::DeepAI(engine::Engine& myEngine, int nbPlayers) :  PlayerNumber(nbPlayers),
+CurrState(myEngine.getState()){
     //this->CurrState = myEngine.getState();
 }
 
@@ -15,7 +16,7 @@ DeepAI::~DeepAI(){
 
 
 
-void DeepAI:run(engine::Engine& myEngine){
+void DeepAI::run(engine::Engine& myEngine){
 
     
 }
