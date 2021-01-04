@@ -1,11 +1,14 @@
 #include "DeepAI.h"
+#include "state.h"
+#include "engine.h"
 
 using namespace std;
 using namespace ai;
 
 
-DeepAI::DeepAI(engine::Engine& myEngine, int nbPlayers) :  PlayerNumber(nbPlayers),
-CurrState(myEngine.getState()){
+
+DeepAI::DeepAI(engine::Engine& engine, int nbPlayers) :  PlayerNumber(nbPlayers),CurrState(engine.getState()){
+
     //this->CurrState = myEngine.getState();
 }
 
