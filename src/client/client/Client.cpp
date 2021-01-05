@@ -17,6 +17,8 @@ using namespace client;
 
 bool canRunEngine = false;
 bool runFunctionCalled = true;
+bool once = true;
+
 void threadEngine(Engine *ptr)
 {
     while (runFunctionCalled)
@@ -66,8 +68,8 @@ void Client::run()
             once = false;
         }
 
-        aiTeamA->run(engine);
-        aiTeamB->run(engine);
+        ai_1->run(engine);
+        ai_2->run(engine);
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -75,7 +77,7 @@ void Client::run()
             if (event.type == sf::Event::Closed)
             {
                 window.close();
-                engine.getState().setEnd(true);
+                engine.getState().setEndGame(true);
                 cout << "\tWindow closed" << endl;
                 break;
             }
