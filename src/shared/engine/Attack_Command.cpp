@@ -65,9 +65,9 @@ void Attack_Command::exec(state::State& curState)
 Json::Value Attack_Command::serialize (){
     Json::Value myCommand;
 	myCommand["id"] = Id;
-	myCommand["player"] = attacker.getPlayerID();
-	myCommand["attacker"] = attacker.getIndex();
-	myCommand["target"] = target.getIndex();
+	myCommand["player_id"] = attacker.getPlayerID();
+	myCommand["attacker_index"] = attacker.getIndex();
+	myCommand["target_index"] = target.getIndex();
 	
 	return myCommand;
     
