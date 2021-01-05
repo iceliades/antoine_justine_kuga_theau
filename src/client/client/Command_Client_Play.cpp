@@ -52,35 +52,35 @@ void Command_Client_Play::execute(){
         }
         for(unsigned int i=0;i<cmd["CommandArray"].size();i++){
 
-            if(cmd["CommandArray"][i]["x"].asUInt()==engine::SELECT_CHAR ) {
+            if(cmd["CommandArray"][i]["id"].asUInt()==engine::SELECT_CHAR ) {
                     engine::Sel_Char_Command scc{*myEngine.getState().
-                getListCharacters(cmd["CommandArray"][i]["id"].asUInt()-1)[cmd["CommandArray"][i]["target"].asUInt()]};
+                getListCharacters(cmd["CommandArray"][i]["player"].asUInt()-1)[cmd["CommandArray"][i]["target_index"].asUInt()]};
                 unique_ptr<engine::Command> ptr_select(new engine::Sel_Char_Command(scc));
                 myEngine.addCommand(move(ptr_select));
                 myEngine.update();
             }                 
-            else if(cmd["CommandArray"][i]["x"].asUInt()==engine::MOVE ) {
-                pos.setX(cmd["CommandArray"][i]["xDestination"].asUInt());
-                pos.setY(cmd["CommandArray"][i]["yDestination"].asUInt());
+            else if(cmd["CommandArray"][i]["id"].asUInt()==engine::MOVE ) {
+                pos.setX(cmd["CommandArray"][i]["x"].asUInt());
+                pos.setY(cmd["CommandArray"][i]["y"].asUInt());
                 engine::Move_Command deplacement(*myEngine.getState().
-                getListCharacters(cmd["CommandArray"][i]["id"].asUInt()-1)[cmd["CommandArray"][i]["target"].asUInt()], pos);
+                getListCharacters(cmd["CommandArray"][i]["player"].asUInt()-1)[cmd["CommandArray"][i]["target_index"].asUInt()], pos);
                 unique_ptr<engine::Command> ptr_deplacement(new engine::Move_Command(deplacement));
                 myEngine.addCommand(move(ptr_deplacement));
                 myEngine.update();
             }
-            else if(cmd["CommandArray"][i]["x"].asUInt()==engine::ATTACK ) {
-                int targetPID= (cmd["CommandArray"][i]["id"].asUInt()==2)?1:2;
+            else if(cmd["CommandArray"][i]["id"].asUInt()==engine::ATTACK ) {
+                int targetPID= (cmd["CommandArray"][i]["player_id"].asUInt()==2)?1:2;
                 engine::Attack_Command attack(*myEngine.getState().
-                getListCharacters(cmd["CommandArray"][i]["id"].asUInt()-1)[cmd["CommandArray"][i]["attacker"].asUInt()],
-                    *myEngine.getState().getListCharacters(targetPID-1)[cmd["CommandArray"][i]["target"].asUInt()]);
+                getListCharacters(cmd["CommandArray"][i]["id"].asUInt()-1)[cmd["CommandArray"][i]["attacker_index"].asUInt()],
+                    *myEngine.getState().getListCharacters(targetPID-1)[cmd["CommandArray"][i]["target_index"].asUInt()]);
                 unique_ptr<engine::Command> ptr_attack(new engine::Attack_Command(attack));
                 myEngine.addCommand(move(ptr_attack));
                 myEngine.update();
             }
-            else if(cmd["CommandArray"][i]["x"].asUInt()==engine::CAPAB ){
+            else if(cmd["CommandArray"][i]["id"].asUInt()==engine::CAPAB ){
 
             }
-            else if(cmd["CommandArray"][i]["x"].asUInt()==engine::FINISH_TURN ){
+            else if(cmd["CommandArray"][i]["id"].asUInt()==engine::FINISH_TURN ){
                 engine::Finish_Turn_Command finish;
                 unique_ptr<engine::Command> ptr_finish(new engine::Finish_Turn_Command(finish));
                 myEngine.addCommand(move(ptr_finish));

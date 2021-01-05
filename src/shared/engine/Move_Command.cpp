@@ -62,7 +62,7 @@ Json::Value Move_Command::serialize (){
     Json::Value myCommand;
 	myCommand["id"] = Id;
 
-
+    myCommand["player"]= targetedChar.getPlayerID();
 	myCommand["target_index"] = targetedChar.getIndex();
 	myCommand["x"] = targetedPos.getX();
 	myCommand["y"] = targetedPos.getY();
