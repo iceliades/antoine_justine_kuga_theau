@@ -29,41 +29,38 @@ int main(int argc, char const *argv[])
         else if (strcmp(argv[1], "record") == 0)
         {
 
-            std::string commands_file = "replay.txt";
+            std::string commands_file = "res/record/replay.txt";
 
-            engine::Engine engine{"monEnregistrementDeJeu"};
+            engine::Engine myEngine;
 
-            engine.setEnableRecord(true);
-            engine.getState().initMapCell();
-            engine.getState().initCharacters();
+            myEngine.setEnableRecord(true);
+            myEngine.getState().initPlayers();
+            myEngine.getState().initCharacters();
+            myEngine.getState().initMapCell();
 
-            ai::HeuristicAI AI_1(engine, 1);
-            ai::HeuristicAI AI_2(engine, 2);
+            ai::HeuristicAI AI_1(myEngine, 1);
+            ai::HeuristicAI AI_2(myEngine, 2);
 
             cout << "<<< Record >>>" << endl;
 
-            cout << "On enregistre une minute de jeu (IA contre IA) dans le fichier " << commands_file << endl;
-            cout << "On utilise deux IA heuristiques" << endl;
+            cout << "HAi vs HAI" << commands_file << endl;
             sleep(2);
-
             cout << "<<< Début de l'enregistrement >>>" << endl;
-
-
-
-
 
             // On joue une minute de jeu
             clock_t time;
             while (time=clock()/CLOCKS_PER_SEC <=60){
                 // joueur1
-                if (engine.getState().getRound() % 2 != 0)
+                if(myEngine.getState().getEndGame())
+                    break;
+                if (myEngine.getState().getRound() % 2 != 0)
                 {
-                    AI_1.run(engine);
+                    AI_1.run(myEngine);
                 }
                 // joueur2
                 else
                 {
-                    AI_2.run(engine);
+                    AI_2.run(myEngine);
                 }
             }
             cout << "<<< Fin de l'enregistrement >>>" << endl;
@@ -73,7 +70,7 @@ int main(int argc, char const *argv[])
             std::ofstream written_file(commands_file, ios::out | ios::trunc);
             if (written_file){
 
-                Json::Value record = engine.getRecord();
+                Json::Value record = myEngine.getRecord();
                 cout << record << endl;
 
                 // Ecriture dans le fichier du tableau de commandes de cette partie
@@ -89,3 +86,4 @@ int main(int argc, char const *argv[])
             }
         }
     }
+}

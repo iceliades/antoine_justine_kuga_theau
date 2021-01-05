@@ -28,7 +28,7 @@ void Command_Client_Play::execute(){
     myEngine.getState().registerObserver(ptr_stateLayer);
 
     state::Position pos;
-    std::string replayPath="res/replay.txt";
+    std::string replayPath="res/record/replay.txt";
     bool booting=true;
     sf::Event event;
 
@@ -44,17 +44,17 @@ void Command_Client_Play::execute(){
     cmdFile.close();
     
 
-    while (window.isOpen()){
+    if(window.isOpen()){
         sf::Event event;
         if( booting){
             stateLayer.draw(window);
             booting=false;
         }
         for(unsigned int i=0;i<cmd["CommandArray"].size();i++){
-
+            
             if(cmd["CommandArray"][i]["id"].asUInt()==engine::SELECT_CHAR ) {
                     engine::Sel_Char_Command scc{*myEngine.getState().
-                getListCharacters(cmd["CommandArray"][i]["player"].asUInt()-1)[cmd["CommandArray"][i]["target_index"].asUInt()]};
+                getListCharacters(cmd["CommandArray"][i]["player_id"].asUInt()-1)[cmd["CommandArray"][i]["target_index"].asUInt()]};
                 unique_ptr<engine::Command> ptr_select(new engine::Sel_Char_Command(scc));
                 myEngine.addCommand(move(ptr_select));
                 myEngine.update();
@@ -63,7 +63,7 @@ void Command_Client_Play::execute(){
                 pos.setX(cmd["CommandArray"][i]["x"].asUInt());
                 pos.setY(cmd["CommandArray"][i]["y"].asUInt());
                 engine::Move_Command deplacement(*myEngine.getState().
-                getListCharacters(cmd["CommandArray"][i]["player"].asUInt()-1)[cmd["CommandArray"][i]["target_index"].asUInt()], pos);
+                getListCharacters(cmd["CommandArray"][i]["player_id"].asUInt()-1)[cmd["CommandArray"][i]["target_index"].asUInt()], pos);
                 unique_ptr<engine::Command> ptr_deplacement(new engine::Move_Command(deplacement));
                 myEngine.addCommand(move(ptr_deplacement));
                 myEngine.update();
@@ -91,10 +91,16 @@ void Command_Client_Play::execute(){
                 
         }
         
-        while (window.pollEvent(event)){
-            if (event.type == sf::Event::Closed){
-                window.close();
-            }
+        cout << "END OF 1 MIN RECORD"<<endl;
+        // END WAITING TO BE CLOSED
+        while(1){
+            while(window.pollEvent(event)){
+                if (event.type == sf::Event::Closed){
+                 window.close();
+                 break;
+                }
+            } 
+             
         }
     }
 
