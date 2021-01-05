@@ -14,7 +14,7 @@ using namespace engine;
 using namespace render;
 using namespace std;
 using namespace client;
-
+/*
 bool canRunEngine = false;
 bool runFunctionCalled = true;
 void threadEngine(Engine *ptr)
@@ -83,4 +83,4 @@ void Client::run()
     }
     runFunctionCalled = false;
     th.join();
-}
+}*/
