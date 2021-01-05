@@ -9,3 +9,4 @@ engine::CommandID Command::getId(){
 void Command::setID(CommandID id){
 	Id = id;
 }
+

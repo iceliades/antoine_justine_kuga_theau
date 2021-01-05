@@ -55,3 +55,18 @@ void Move_Command::exec(state::State &state)
     }
     cout << "\n";
 }
+
+
+// Ajout de la fonction serialize
+Json::Value Move_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+
+
+	myCommand["target_index"] = targetedChar.getIndex();
+	myCommand["x"] = targetedPos.getX();
+	myCommand["y"] = targetedPos.getY();
+
+	return myCommand;
+    
+}

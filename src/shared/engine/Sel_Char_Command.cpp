@@ -25,3 +25,19 @@ void Sel_Char_Command::exec(state::State &state)
     cout << "\n";
 
 }
+
+
+// Ajout de la fonction serialize
+Json::Value Sel_Char_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+
+	myCommand["player_id"] = targetedChar.getPlayerID();
+	
+
+	myCommand["target_index"] = targetedChar.getIndex();
+
+
+	return myCommand;
+    
+}

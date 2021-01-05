@@ -52,3 +52,12 @@ void Check_Win_Command::exec(state::State &state)
     }
     
 }
+
+// Ajout de la fonction serialize
+Json::Value Check_Win_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+	
+    return myCommand;
+    
+}
