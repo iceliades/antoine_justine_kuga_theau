@@ -3,17 +3,15 @@
 #include <iostream>
 #include <unistd.h>
 
+
+
 using namespace state;
 using namespace engine;
 using namespace std;
 
-Engine::Engine(){
-    
-}
+Engine::Engine(){}
 
-Engine::~Engine()
-{
-}
+Engine::~Engine(){}
 
 state::State& Engine::getState()
 {
@@ -47,7 +45,15 @@ void Engine::addCommand(std::unique_ptr<Command> ptr_cmd, int priority)
             priority = 0;
         }
     }
+    if (enableRecord && ptr_cmd->getId() != CHECK_WIN){
+		Json::Value newCommand = ptr_cmd->serialize();
+		record["CommandArray"][record["Size"].asUInt()] = newCommand;
+		record["Size"] = record["Size"].asUInt() + 1;
+
+	}
+
     currCommands[priority] = move(ptr_cmd);
+
 }
 
 void Engine::update()
@@ -84,3 +90,26 @@ std::map<int, std::unique_ptr<Command>>& Engine::getCurrCommands (){
     this->currState=newState;    
 
 }*/
+
+// ******************** Record ***********************//
+
+
+void Engine::setEnableRecord(bool enableRecord){
+    this->enableRecord = enableRecord;
+}
+
+bool Engine::getEnableRecord()
+{
+    return this->enableRecord;
+}
+
+Json::Value Engine::getRecord() 
+{
+	return record;
+}
+
+
+
+
+
+
