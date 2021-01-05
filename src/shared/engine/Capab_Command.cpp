@@ -112,6 +112,19 @@ void Capab_Command::exec (state::State& curState)
 	}
 }
 
+// Ajout de la fonction serialize
+Json::Value Capab_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+	myCommand["player"] = user.getPlayerID();
+	myCommand["attacker"] = user.getIndex();
+	myCommand["target"] = target.getIndex();
+	myCommand["x"] = target.getPosition().getX();
+	myCommand["y"] = target.getPosition().getY();
+
+	return myCommand;
+    
+}
 
 
 
