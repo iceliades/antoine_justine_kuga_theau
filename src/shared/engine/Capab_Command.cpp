@@ -116,9 +116,9 @@ void Capab_Command::exec (state::State& curState)
 Json::Value Capab_Command::serialize (){
     Json::Value myCommand;
 	myCommand["id"] = Id;
-	myCommand["player"] = user.getPlayerID();
-	myCommand["attacker"] = user.getIndex();
-	myCommand["target"] = target.getIndex();
+	myCommand["player_id"] = user.getPlayerID();
+	myCommand["attacker_index"] = user.getIndex();
+	myCommand["target_index"] = target.getIndex();
 	myCommand["x"] = target.getPosition().getX();
 	myCommand["y"] = target.getPosition().getY();
 
