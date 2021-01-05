@@ -33,7 +33,8 @@ void threadEngine(Engine *ptr)
     }
 }
 
-Client::Client(sf::RenderWindow &window, std::string mode) : window(window),engine(mode){
+Client::Client(sf::RenderWindow &window, std::string mode) : window(window)//,engine(mode)
+{
     this->mode = mode;
 
     std::string map_path = (mode == "test") ? "../../../res/map_v0.txt" : "res/map_v0.txt";
@@ -88,4 +89,17 @@ void Client::run()
     }
     runFunctionCalled = false;
     th.join();
+}
+
+void Client::engineUpdating() {
+    canRunEngine = true;
+    usleep(150000);
+}
+
+void Client::engineUpdated() {
+
+}
+
+const std::string Client::getMode() {
+    return mode;
 }
