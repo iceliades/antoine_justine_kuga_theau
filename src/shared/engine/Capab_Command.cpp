@@ -36,6 +36,10 @@ Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTar
 	Id = CAPAB;
 }
 
+Capab_Command::~Capab_Command() {
+
+}
+
 
 void Capab_Command::exec (state::State& curState)
 {

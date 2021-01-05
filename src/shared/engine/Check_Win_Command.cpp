@@ -13,6 +13,10 @@ Check_Win_Command::Check_Win_Command()
 
 }
 
+Check_Win_Command::~Check_Win_Command() {
+
+}
+
 void Check_Win_Command::exec(state::State &state)
 {
 

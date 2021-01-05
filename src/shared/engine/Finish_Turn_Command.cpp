@@ -10,6 +10,7 @@ Finish_Turn_Command::Finish_Turn_Command (){
     Id = FINISH_TURN;
 
 }
+Finish_Turn_Command::~Finish_Turn_Command() {}
 
 void Finish_Turn_Command::exec (state::State& state){
 

@@ -11,7 +11,7 @@ Move_Command::Move_Command (state::Character& refTargetedChar, state::Position& 
 {
     Id = MOVE;
 }
-
+Move_Command::~Move_Command() {}
 
 
 void Move_Command::exec(state::State &state)
