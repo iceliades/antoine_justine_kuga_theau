@@ -14,9 +14,12 @@ using namespace engine;
 using namespace render;
 using namespace std;
 using namespace client;
+using namespace ai;
 
 bool canRunEngine = false;
 bool runFunctionCalled = true;
+bool once = true;
+
 void threadEngine(Engine *ptr)
 {
     while (runFunctionCalled)
@@ -30,12 +33,14 @@ void threadEngine(Engine *ptr)
     }
 }
 
-Client::Client(sf::RenderWindow &window, std::string mode) {
+Client::Client(sf::RenderWindow &window, std::string mode) : window(window),engine(mode){
     this->mode = mode;
 
     std::string map_path = (mode == "test") ? "../../../res/map_v0.txt" : "res/map_v0.txt";
     engine.getState().initMapCell();
     engine.getState().initCharacters();
+    ai_1 = new HeuristicAI(engine, 1); 
+    ai_2 = new HeuristicAI(engine,2);
     engine.registerObserver(this);
     //engine.multithread = true;
 
@@ -66,8 +71,8 @@ void Client::run()
             once = false;
         }
 
-        aiTeamA->run(engine);
-        aiTeamB->run(engine);
+        ai_1->run(engine);
+        ai_2->run(engine);
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -75,7 +80,7 @@ void Client::run()
             if (event.type == sf::Event::Closed)
             {
                 window.close();
-                engine.getState().setEnd(true);
+                engine.getState().setEndGame(true);
                 cout << "\tWindow closed" << endl;
                 break;
             }

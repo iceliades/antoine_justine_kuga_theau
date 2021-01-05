@@ -45,7 +45,7 @@ int main(int argc,char* argv[])
     MethodMap["hai_vs_rai"] = (ICommand_Client*)new Command_Client_RHAI();
     MethodMap["autre"] = (ICommand_Client*)new Command_Client_Autre();
     //MethodMap["caretaker"] = (ICommand_Client*)new Caretaker();
-    MethodMap["play"] = (ICommand_Client*)new Command_Client_Play();
+    //MethodMap["play"] = (ICommand_Client*)new Command_Client_Play();
 
 
 
