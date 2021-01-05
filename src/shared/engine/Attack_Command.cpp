@@ -12,6 +12,10 @@ Attack_Command::Attack_Command(Character& refAttacker, Character& refTarget) : a
 	Id = ATTACK;	
 }
 
+Attack_Command::~Attack_Command() {
+
+}
+
 
 void Attack_Command::exec(state::State& curState)
 {

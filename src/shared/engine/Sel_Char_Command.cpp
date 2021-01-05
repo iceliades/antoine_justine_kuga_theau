@@ -11,6 +11,7 @@ Sel_Char_Command::Sel_Char_Command(state::Character& refTargetedChar) : targeted
     Id = SELECT_CHAR;
 }
 
+
 Sel_Char_Command::~Sel_Char_Command(){};
 
 void Sel_Char_Command::exec(state::State &state)
