@@ -15,7 +15,8 @@ using namespace render;
 using namespace std;
 using namespace client;
 
-
+bool canRunEngine = false;
+bool runFunctionCalled = true;
 void threadEngine(Engine *ptr)
 {
     while (runFunctionCalled)
@@ -35,6 +36,51 @@ Client::Client(sf::RenderWindow &window, std::string mode) {
     std::string map_path = (mode == "test") ? "../../../res/map_v0.txt" : "res/map_v0.txt";
     engine.getState().initMapCell();
     engine.getState().initCharacters();
+    engine.registerObserver(this);
+    //engine.multithread = true;
 
 
+}
+
+void Client::run()
+{
+    StateLayer stateLayer(engine.getState(), window);
+    stateLayer.initTextureArea(engine.getState());
+
+    StateLayer *ptr_stateLayer = &stateLayer;
+    engine.getState().registerObserver(ptr_stateLayer);
+    sf::Music backMusic;
+    std::string music = (mode == "test") ? "../../../res/epic_music.wav" : "res/epic_music.wav";
+    if (backMusic.openFromFile(music))
+    {
+        backMusic.setVolume(40);
+        backMusic.setLoop(true);
+        backMusic.play();
+    }
+    std::thread th(threadEngine, &engine);
+    while (!engine.getState().getEndGame())
+    {
+        if (once)
+        {
+            stateLayer.draw(window);
+            once = false;
+        }
+
+        aiTeamA->run(engine);
+        aiTeamB->run(engine);
+
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+                engine.getState().setEnd(true);
+                cout << "\tWindow closed" << endl;
+                break;
+            }
+        }
+    }
+    runFunctionCalled = false;
+    th.join();
 }
