@@ -58,3 +58,13 @@ void Finish_Turn_Command::exec (state::State& state){
      cout << "\n";
 
 }
+
+// Ajout de la fonction serialize
+Json::Value Finish_Turn_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+
+
+	return myCommand;
+    
+}
