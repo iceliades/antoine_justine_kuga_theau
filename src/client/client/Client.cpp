@@ -16,30 +16,30 @@ using namespace std;
 using namespace client;
 using namespace ai;
 
-bool canRunEngine = false;
-bool runFunctionCalled = true;
-bool once = true;
+bool runEngine = false;
+bool runThread = true;
+bool booting = true;
 
 void threadEngine(Engine *ptr)
 {
-    while (runFunctionCalled)
+    while (runThread)
     {
-        usleep(1000);
-        if (canRunEngine)
+        usleep(1000); // not overcharge cpu
+        if (runEngine)
         {
             ptr->update();
-            canRunEngine = false;
+            runEngine = false;
         }
     }
 }
 
-Client::Client(sf::RenderWindow &window, std::string mode) : window(window)//,engine(mode)
+Client::Client(sf::RenderWindow &window, std::string mode) : window(window)
 {
     this->mode = mode;
-
-    std::string map_path = (mode == "test") ? "../../../res/map_v0.txt" : "res/map_v0.txt";
-    engine.getState().initMapCell();
+    engine.getState().setMode(mode);
+    engine.getState().initPlayers();
     engine.getState().initCharacters();
+    engine.getState().initMapCell();
     ai_1 = new HeuristicAI(engine, 1); 
     ai_2 = new HeuristicAI(engine,2);
     engine.registerObserver(this);
@@ -55,21 +55,13 @@ void Client::run()
 
     StateLayer *ptr_stateLayer = &stateLayer;
     engine.getState().registerObserver(ptr_stateLayer);
-    sf::Music backMusic;
-    std::string music = (mode == "test") ? "../../../res/epic_music.wav" : "res/epic_music.wav";
-    if (backMusic.openFromFile(music))
-    {
-        backMusic.setVolume(40);
-        backMusic.setLoop(true);
-        backMusic.play();
-    }
     std::thread th(threadEngine, &engine);
     while (!engine.getState().getEndGame())
     {
-        if (once)
+        if (booting)
         {
             stateLayer.draw(window);
-            once = false;
+            booting = false;
         }
 
         ai_1->run(engine);
@@ -87,18 +79,16 @@ void Client::run()
             }
         }
     }
-    runFunctionCalled = false;
+    runThread = false;
     th.join();
 }
 
 void Client::engineUpdating() {
-    canRunEngine = true;
+    runEngine = true;
     usleep(150000);
 }
 
-void Client::engineUpdated() {
-
-}
+void Client::engineUpdated() {};
 
 const std::string Client::getMode() {
     return mode;
