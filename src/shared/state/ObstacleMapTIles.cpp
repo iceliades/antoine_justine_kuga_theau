@@ -25,4 +25,7 @@ void ObstacleMapTiles::setObstacleTilesID(ObstacleMapTilesID id){
     typeID= id;
 }
 
+ObstacleMapTiles* ObstacleMapTiles::clone(){
+    return new ObstacleMapTiles(*this);
+}
 
