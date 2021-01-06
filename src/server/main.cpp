@@ -82,7 +82,7 @@ int main(int argc, char const *argv[])
 
             }
             else{
-                cerr << "Impossible d'ouvrir le fichier des commandes enregistrées pour l'ecriture" << endl;
+                cerr << "Impossible d'ouvrir le fichier pour l'ecriture" << endl;
             }
         }
     }
