@@ -20,3 +20,7 @@ void SpaceMapTiles::setSpaceMapTilesID(SpaceMapTilesID id){
     typeID= id;
 }
 
+SpaceMapTiles* SpaceMapTiles::clone(){
+    return new SpaceMapTiles(*this);
+}
+

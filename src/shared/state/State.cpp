@@ -131,15 +131,7 @@ void State::initCharacters(){
     }
     cursor.setPosition(listPlayers[0]->getListCharacters()[0]->getPosition());
 }
-/*
-void State::deletePlayer(Player& player){
-    for(unsigned int i=0; i<listPlayers.size(); i++){
-        if(listPlayers[i]->getId() == player.getId() ){
-            listPlayers.erase(listPlayers.begin() + i);
-        }
-    }
-}
-*/
+
 
 
 // A character has been selected
@@ -179,9 +171,11 @@ std::vector<std::unique_ptr<Character>>& State::getListCharacters (int playerID)
     return listPlayers[playerID]->getListCharacters();
 }
 
-  std::vector<std::vector<std::unique_ptr<MapCell>>>& State::getMap (){
+std::vector<std::vector<std::unique_ptr<MapCell>>>& State::getMap (){
       return map;
   }
+
+
 
 
 

@@ -11,7 +11,7 @@ Move_Command::Move_Command (state::Character& refTargetedChar, state::Position& 
 {
     Id = MOVE;
 }
-
+Move_Command::~Move_Command() {}
 
 
 void Move_Command::exec(state::State &state)
@@ -54,4 +54,19 @@ void Move_Command::exec(state::State &state)
         else cout <<"NO MOVEMENT LEFT" << endl;
     }
     cout << "\n";
+}
+
+
+// Ajout de la fonction serialize
+Json::Value Move_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+
+    myCommand["player_id"]= targetedChar.getPlayerID();
+	myCommand["target_index"] = targetedChar.getIndex();
+	myCommand["x"] = targetedPos.getX();
+	myCommand["y"] = targetedPos.getY();
+
+	return myCommand;
+    
 }

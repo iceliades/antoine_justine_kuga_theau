@@ -10,6 +10,7 @@ Finish_Turn_Command::Finish_Turn_Command (){
     Id = FINISH_TURN;
 
 }
+Finish_Turn_Command::~Finish_Turn_Command() {}
 
 void Finish_Turn_Command::exec (state::State& state){
 
@@ -57,4 +58,12 @@ void Finish_Turn_Command::exec (state::State& state){
      cout << endl << "Turn Changed: Current PLAYER ID " <<state.getCurPlayerID()<< endl;
      cout << "\n";
 
+}
+
+// Ajout de la fonction serialize
+Json::Value Finish_Turn_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+	return myCommand;
+    
 }

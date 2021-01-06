@@ -98,6 +98,12 @@ Player vs Heuristic AI
 
 ## 4.1 Multi threading
 
+Threading with music and 2 Heuristic Ais dueling
+
+```
+./bin/client demo_thread_hai
+```
+
 ## Report
 
 Nothing to see here move along.

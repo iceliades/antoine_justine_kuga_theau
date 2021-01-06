@@ -35,3 +35,7 @@ void Cursor::setVisible(bool visibility){
 Position& Cursor::getLastPosition(){
     return lastPosition; // return a ref
 }
+
+Cursor* Cursor::clone(){
+    return new Cursor(*this);
+}

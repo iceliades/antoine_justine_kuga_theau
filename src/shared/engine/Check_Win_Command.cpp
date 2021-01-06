@@ -13,6 +13,10 @@ Check_Win_Command::Check_Win_Command()
 
 }
 
+Check_Win_Command::~Check_Win_Command() {
+
+}
+
 void Check_Win_Command::exec(state::State &state)
 {
 
@@ -50,5 +54,14 @@ void Check_Win_Command::exec(state::State &state)
         cout << endl << "THE GAME WINNER IS THE PLAYER No " << winnedID << endl;
         cout << "\n";
     }
+    
+}
+
+// Ajout de la fonction serialize
+Json::Value Check_Win_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+	
+    return myCommand;
     
 }

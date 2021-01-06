@@ -5,11 +5,15 @@
 
 
 
+
 using namespace state;
 using namespace engine;
 using namespace std;
 
-Engine::Engine(){}
+Engine::Engine(){
+    record["len"]=0;
+    record["cmds"]="";
+}
 
 Engine::~Engine(){}
 

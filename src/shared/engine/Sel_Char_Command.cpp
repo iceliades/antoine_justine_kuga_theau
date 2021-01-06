@@ -11,6 +11,7 @@ Sel_Char_Command::Sel_Char_Command(state::Character& refTargetedChar) : targeted
     Id = SELECT_CHAR;
 }
 
+
 Sel_Char_Command::~Sel_Char_Command(){};
 
 void Sel_Char_Command::exec(state::State &state)
@@ -24,4 +25,20 @@ void Sel_Char_Command::exec(state::State &state)
     cout << endl << "THE SELECTED CHARACTER IS "<<targetedChar.getName() << endl;
     cout << "\n";
 
+}
+
+
+// Ajout de la fonction serialize
+Json::Value Sel_Char_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+
+	myCommand["player_id"] = targetedChar.getPlayerID();
+	
+
+	myCommand["target_index"] = targetedChar.getIndex();
+
+
+	return myCommand;
+    
 }

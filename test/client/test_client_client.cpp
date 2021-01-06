@@ -17,7 +17,7 @@ namespace client{
             BOOST_CHECK(1);
         }
     
-    BOOST_AUTO_TEST_CASE(TestClient)
+/*    BOOST_AUTO_TEST_CASE(TestClient)
         {   
 //--------------------------------------------------- Caretaker -------------------------------------------------------
             {
@@ -59,6 +59,6 @@ namespace client{
 
 
 
-        }
+        }*/
 
 }
