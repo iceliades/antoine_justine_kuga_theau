@@ -48,7 +48,7 @@ void Command_Client_Rollback::execute() {
         for(int i=0;i<nbRoundToRollback;i++){
             mem= new MemoryState(mem->loadState(myEngine.getState()));
             ct.addMemory(*mem);
-            
+            cout<< i<<endl;
             if(!myEngine.getState().getEndGame()){
                 if(myEngine.getState().getCurPlayerID()==1)
                     hai1.run(myEngine);
