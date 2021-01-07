@@ -57,8 +57,8 @@ void Command_Client_Rollback::execute() {
             }
 
         }
-        for(int i=ct.getSavedMemories().size()-1;i>0;i++){
-           mem->recover(ct.getSavedMemories()[i].getMemory());
+        for(int i=ct.getSavedMemories().size()-1;i>0;i--){
+           mem->recover(ct.getMemory(i).getMemoryState());
         }
     }
 

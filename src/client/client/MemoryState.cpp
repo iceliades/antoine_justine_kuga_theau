@@ -14,7 +14,7 @@ MemoryState::MemoryState(state::State& myState):memory(myState){
 MemoryState::~MemoryState() {
     //delete memory;
 }
-state::State& MemoryState::getMemory(){
+state::State& MemoryState::getMemoryState(){
     return memory;
 }
 
@@ -80,7 +80,7 @@ void MemoryState::recover(state::State& myState){
         }
 
     }
-    // curState clear map
+    /*// curState clear map
     myState.getMap().clear();
     for(auto& line : memory.getMap()){
         vector<unique_ptr<MapCell>> clonedLine;
@@ -106,6 +106,6 @@ void MemoryState::recover(state::State& myState){
     myState.setMode(memory.getMode());
     myState.setRound(memory.getRound());
     myState.setCurPlayerID(memory.getCurPlayerID());
-    myState.setGameWinner(memory.getGameWinner());
+    myState.setGameWinner(memory.getGameWinner());*/
 
 }
