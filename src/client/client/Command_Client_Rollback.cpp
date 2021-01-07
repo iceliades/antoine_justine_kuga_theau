@@ -33,22 +33,22 @@ void Command_Client_Rollback::execute() {
     myEngine.getState().registerObserver(ptr_stateLayer);
     
     bool booting=true;
-    Caretaker ct;
+    //
     MemoryState* mem= new MemoryState(myEngine.getState());
     ai::HeuristicAI hai1(myEngine,1);
     ai::HeuristicAI hai2(myEngine,2);
-    int nbRoundToRollback=6; // each player will play 3 time
+    int nbRoundToRollback=3; // each player will play 3 time
     if (window.isOpen()){
         sf::Event event;
         if( booting){
             stateLayer.draw(window);
             booting=false;
         }
-        
+        Caretaker ct;
         for(int i=0;i<nbRoundToRollback;i++){
             mem= new MemoryState(mem->loadState(myEngine.getState()));
             ct.addMemory(*mem);
-            cout<< i<<endl;
+
             if(!myEngine.getState().getEndGame()){
                 if(myEngine.getState().getCurPlayerID()==1)
                     hai1.run(myEngine);
@@ -58,7 +58,7 @@ void Command_Client_Rollback::execute() {
 
         }
         for(int i=ct.getSavedMemories().size()-1;i>0;i++){
-            mem->recover(myEngine.getState());
+           mem->recover(ct.getSavedMemories()[i].getMemory());
         }
     }
 

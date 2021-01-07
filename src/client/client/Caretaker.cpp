@@ -12,7 +12,7 @@ Caretaker::Caretaker(){
 }
 
 Caretaker::~Caretaker(){
-    delete &savedMemories;
+
 }
 
 void Caretaker::addMemory(MemoryState& memory){
@@ -27,6 +27,6 @@ MemoryState& Caretaker::getMemory(int index){
     return savedMemories[savedMemories.size()-1];
 }
 
-std::vector<MemoryState> Caretaker::getSavedMemories(){
+std::vector<MemoryState>& Caretaker::getSavedMemories(){
     return this->savedMemories;
 }

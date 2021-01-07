@@ -14,6 +14,9 @@ MemoryState::MemoryState(state::State& myState):memory(myState){
 MemoryState::~MemoryState() {
     //delete memory;
 }
+state::State& MemoryState::getMemory(){
+    return memory;
+}
 
 MemoryState MemoryState::loadState(state::State& myState){
     State* s = new State();
