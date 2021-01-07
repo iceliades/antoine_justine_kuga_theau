@@ -96,9 +96,19 @@ Player vs Heuristic AI
 ```
 ## 3.final Advanced AI
 
+Command for record and save in the replay.txt
+```bash
+./bin/server record
+```
+
+Command to play the record 
+```bash
+./bin/client play
+```
+
 ## 4.1 Multi threading
 
-Threading with music and 2 Heuristic Ais dueling
+Threading with music and 2 Heuristic AIs dueling
 
 ```
 ./bin/client demo_thread_hai
