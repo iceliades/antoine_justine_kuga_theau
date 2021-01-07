@@ -54,5 +54,22 @@ int DeepAI::min_r_minimax(Node& node, int depth){
     return min;
 }
 
+Node& DeepAI::rec_minimax(Node& root, int depth){
+    int bestval = -10000;
+    Node best = new Node(this->currState);
+
+    for (int i = 0; i < root.getChildren().size(); i++)
+    {
+        int moveval = max_r_minimax(&root.getChildren()[i],depth);
+        
+        if (moveval > bestval)
+        {
+            bestval = moveval;
+            best = root.getChildren()[i];
+        }
+    }
+
+    return &best;
+} 
 
 
