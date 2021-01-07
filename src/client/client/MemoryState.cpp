@@ -74,13 +74,15 @@ void MemoryState::recover(state::State& myState){
     // characters
     for(unsigned int i=0; i<memory.getListPlayers().size();i++){
         myState.getListCharacters(i).clear(); // clear curState
+        myState.initPlayers();
         for(unsigned int j=0; j<memory.getListCharacters(i).size();j++){
-            unique_ptr<Character> newChar(new Character(*memory.getListCharacters(i)[j]));
+            cout<<memory.getListCharacters(i)[j]->getName()<<endl;
+            unique_ptr<Character> newChar(new Character(*memory.getListCharacters(i)[j]->clone()));
             myState.getListCharacters(i).push_back(move(newChar));
         }
 
     }
-    /*// curState clear map
+    // curState clear map
     myState.getMap().clear();
     for(auto& line : memory.getMap()){
         vector<unique_ptr<MapCell>> clonedLine;
@@ -106,6 +108,6 @@ void MemoryState::recover(state::State& myState){
     myState.setMode(memory.getMode());
     myState.setRound(memory.getRound());
     myState.setCurPlayerID(memory.getCurPlayerID());
-    myState.setGameWinner(memory.getGameWinner());*/
+    myState.setGameWinner(memory.getGameWinner());
 
 }

@@ -145,6 +145,103 @@ bool State::ifStelected(){
     return false;
 }
 
+CopyState State::save(){
+
+    State* s = new State();
+    s->initPlayers();
+    //copyState.recover()= new State();
+    
+    // save Character
+    for(unsigned int i=0; i<listPlayers.size();i++){
+        for(unsigned int j=0; j<this->getListCharacters(i).size();j++){
+            unique_ptr<Character> newChar(new Character(*this->getListCharacters(i)[j]->clone()));
+            s->getListCharacters(i).push_back(move(newChar));
+        }
+    }
+
+    // save map
+    for(auto& line : this->getMap()){
+        vector<unique_ptr<MapCell>> clonedLine;
+        for(auto& cell : line){
+            if(cell->isSpace()){
+                SpaceMapTiles* smc = ((SpaceMapTiles*)cell.get())->clone();
+                unique_ptr<MapCell> upmc(new SpaceMapTiles(*smc));
+                clonedLine.push_back(move(upmc));
+            } else {
+                ObstacleMapTiles* omc = ((ObstacleMapTiles*)cell.get())->clone();
+                unique_ptr<MapCell> upmc(new ObstacleMapTiles(*omc));
+                clonedLine.push_back(move(upmc));
+            }
+        }
+        s->getMap().push_back(move(clonedLine));
+    }
+
+    
+
+    s->getCursor().setPosition(this->getCursor().getPosition());
+    s->getCursor().setTileCode(this->getCursor().getTileCode());
+    s->getCursor().setVisible(this->getCursor().getVisible());
+    s->setCurAction(this->getCurAction());
+    s->setEndGame(this->getEndGame());
+    s->setMode(this->getMode());
+    s->setRound(this->getRound());
+    s->setCurPlayerID(this->getCurPlayerID());
+    s->setGameWinner(this->getGameWinner());
+    
+    for (size_t i = 0; i < observers.size(); i++)
+    {
+        s->registerObserver(observers[i]);
+    }
+    CopyState cs{*s};
+    return cs;
+
+}
+
+
+
+void State::load(CopyState& copyState){
+    
+    // characters    
+    listPlayers[0]->getListCharacters().clear();
+    listPlayers[1]->getListCharacters().clear();
+
+    for(unsigned int i=0; i<copyState.recover().getListPlayers().size();i++){
+        for(unsigned int j=0; j<copyState.recover().getListCharacters(0).size();j++){
+            unique_ptr<Character> newChar(new Character(*copyState.recover().getListCharacters(i)[j]->clone()));
+            listPlayers[i]->getListCharacters().push_back(move(newChar));
+        }
+    }
+    // curState clear map
+    this->getMap().clear();
+    for(auto& line : copyState.recover().getMap()){
+        vector<unique_ptr<MapCell>> clonedLine;
+        for(auto& cell : line){
+            if(cell->isSpace()){
+                SpaceMapTiles* smc = ((SpaceMapTiles*)cell.get())->clone();
+                unique_ptr<MapCell> upmc(new SpaceMapTiles(*smc));
+                clonedLine.push_back(move(upmc));
+            } else {
+                ObstacleMapTiles* omc = ((ObstacleMapTiles*)cell.get())->clone();
+                unique_ptr<MapCell> upmc(new ObstacleMapTiles(*omc));
+                clonedLine.push_back(move(upmc));
+            }
+        }
+        this->getMap().push_back(move(clonedLine));
+    }
+  
+    this->setCurAction(copyState.recover().getCurAction());
+    this->getCursor().setPosition(copyState.recover().getCursor().getPosition());
+    this->getCursor().setTileCode(copyState.recover().getCursor().getTileCode());
+    this->getCursor().setVisible(copyState.recover().getCursor().getVisible());
+    this->setEndGame(copyState.recover().getEndGame());
+    this->setMode(copyState.recover().getMode());
+    this->setRound(copyState.recover().getRound());
+    this->setCurPlayerID(copyState.recover().getCurPlayerID());
+    this->setGameWinner(copyState.recover().getGameWinner());
+
+}
+
+
 // setters and getters
 
 void State::setRound(int newRound){ round= newRound;}
