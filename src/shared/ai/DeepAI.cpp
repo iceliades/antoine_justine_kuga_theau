@@ -6,7 +6,7 @@ using namespace std;
 using namespace ai;
 
 
-
+/*
 DeepAI::DeepAI(engine::Engine& engine, int nbPlayers, int depth) :  PlayerNumber(nbPlayers),CurrState(engine.getState()),depth(depth){
 
     //this->CurrState = myEngine.getState();
@@ -72,4 +72,4 @@ Node& DeepAI::rec_minimax(Node& root, int depth){
     return best;
 }
 
-
+*/

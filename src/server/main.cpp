@@ -65,7 +65,9 @@ int main(int argc, char const *argv[])
             }
             cout << "<<< Fin de l'enregistrement >>>" << endl;
 
-            
+            cout << "<<< ###############################################################" << endl;
+            cout << " ENREGISTREMENT DANS LE FICHIER REPLAY.TXT "<<endl;
+            cout << "<<< ###############################################################" << endl;
             // Ouverture du fichier en ecriture en effacant son contenu à l'ouverture
             std::ofstream written_file(commands_file, ios::out | ios::trunc);
             if (written_file){

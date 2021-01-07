@@ -30,7 +30,7 @@ Command_Client_Thread::Command_Client_Thread() {
 }
 void Command_Client_Thread::execute() {
 
-    sf::RenderWindow window(sf::VideoMode((25 * 32) + 256, (20 * 32) + 32, 32), "map");
+    sf::RenderWindow window(sf::VideoMode(32*26+500,32*24), "Zorglub");
 
     client::Client client(window,"game");
 
