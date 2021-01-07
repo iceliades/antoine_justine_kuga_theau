@@ -17,3 +17,7 @@ void const Observable::notifyObservers (const StateEvent& stateEvent, State& sta
         observer->stateChanged(stateEvent,state);
     }
 }
+
+std::vector<Observer*>&  Observable::getObservers(){
+    return observers;
+}
