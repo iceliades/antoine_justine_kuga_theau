@@ -307,5 +307,7 @@ std::vector<int> Character::allowedAttackTarget (State& state){
     return posibleCharIndexes;
 }
 
-
+Character* Character::clone(){
+    return new Character(*this);
+}
 
