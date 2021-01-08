@@ -9,6 +9,7 @@
 using namespace client;
 using namespace engine;
 using namespace render;
+using namespace ai;
 using namespace std;
 
 
