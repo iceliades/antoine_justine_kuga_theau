@@ -10,6 +10,7 @@
 using namespace client;
 using namespace engine;
 using namespace render;
+using namespace ai;
 using namespace std;
 
 
@@ -40,44 +41,31 @@ void Command_Client_Rollback::execute() {
     ai::HeuristicAI hai2{myEngine,2};
     int nbRoundToRollback=6; // each player will play 3 time
     int index=0;
-    while(window.isOpen()){
+    //std::vector<state::CopyState> cs;
+    if(window.isOpen()){
         sf::Event event;
         if( booting){
             stateLayer.draw(window);
             booting=false;
         }
-        
-        //for(int i=0;i<nbRoundToRollback;i++){
-           /* state::CopyState cs{myEngine.getState().save()};
-            mems.add(cs);
 
+        for(int i=0;i<nbRoundToRollback;i++) {
+            state::CopyState cs{myEngine.getState().save()};
+            mems.add(cs);
             if(!myEngine.getState().getEndGame()){
                 if(myEngine.getState().getCurPlayerID()==1)
                     hai1.run(myEngine);
                 else
                     hai2.run(myEngine);
-            }*/
-        while(window.pollEvent(event)){
-            if (event.type == sf::Event::Closed)
-                    window.close();
-            else if(event.type == sf::Event::KeyPressed){
-                 state::CopyState cs{myEngine.getState().save()};
-                mems.add(cs);
-                if (myEngine.getState().getRound() == nbRoundToRollback-index)
-                {
-                    myEngine.getState().load(mems.get(index));
-                    index++;
-                }
-                if (myEngine.getState().getEndGame() == false && myEngine.getState().getCurPlayerID() == 1)
-                    hai1.run(myEngine);
-
-                else if (myEngine.getState().getEndGame() == false && myEngine.getState().getCurPlayerID() == 2)
-                    hai2.run(myEngine);
             }
-           
 
-        }
-       
+            }
+
+        for(int j=1; j<nbRoundToRollback+1;j++){
+            myEngine.getState().load(mems.get(nbRoundToRollback-j));
+            myEngine.update();
+            usleep(1000000);
+        }       
     }
 
 }
