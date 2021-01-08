@@ -209,7 +209,8 @@ void State::load(CopyState& copyState){
         for(unsigned int j=0; j<copyState.recover().getListCharacters(0).size();j++){
             unique_ptr<Character> newChar(new Character(*copyState.recover().getListCharacters(i)[j]->clone()));
             Weapon *w = new Weapon(newChar->getCharWeap()->getTypeWeapon());
-            newChar->setCharWeap(w);
+            w->setDammages(newChar->getCharWeap()->getDammages());
+            newChar->setCharWeap(w);  
             listPlayers[i]->getListCharacters().push_back(move(newChar));
         }
     }
