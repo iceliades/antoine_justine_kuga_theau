@@ -65,30 +65,7 @@ void Command_Client_Rollback::execute() {
             myEngine.getState().load(mems.get(nbRoundToRollback-j));
             myEngine.update();
             usleep(1000000);
-        }
-        /*while(window.pollEvent(event)){
-            if (event.type == sf::Event::Closed)
-                    window.close();
-            else if(event.type == sf::Event::KeyPressed){
-                state::CopyState cs{myEngine.getState().save()};
-                //cs.push_back(myEngine.getState().save());
-                mems.add(cs);
-                if (myEngine.getState().getRound() == nbRoundToRollback-index)
-                {
-                    myEngine.getState().load(mems.get(index));
-                    index++;
-                }
-                if (myEngine.getState().getEndGame() == false && myEngine.getState().getCurPlayerID() == 1)
-                    hai1.run(myEngine);
-
-                else if (myEngine.getState().getEndGame() == false && myEngine.getState().getCurPlayerID() == 2)
-                    hai2.run(myEngine);
-
-            }
-           
-
-        }*/
-       
+        }       
     }
 
 }
