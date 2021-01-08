@@ -8,6 +8,7 @@ bool MapCell::isMapCell(){
     return true;
 }
 
+// For Moving exclude Cell Occupied
 bool MapCell::isOccupied (State& state){
     
     
@@ -25,7 +26,7 @@ bool MapCell::isOccupied (State& state){
 
 }
 
-
+// For attack exclude only Allies
 bool MapCell::isOccupiedbyAlly(State& state){
     
      

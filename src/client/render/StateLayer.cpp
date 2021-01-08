@@ -19,17 +19,8 @@ StateLayer::StateLayer(state::State& myState, sf::RenderWindow& window,std::stri
     
     font.loadFromFile(resPath+"arial.ttf");
 
-   //TileSet tileSetMap(MAPTILESET,mode);
    unique_ptr<TileSet>ptr_mapTileset(new TileSet(MAPTILESET,mode));
-   
-   //screenWidth=myState.getMap()[0].size()*tileSetMap.getCellWidth();
-   //screenHeight=myState.getMap().size()*tileSetMap.getCellHeight();
-
-   //TileSet tileSetCharacters(CHARTILESET,mode);
    unique_ptr<TileSet>ptr_charTileset(new TileSet(CHARTILESET,mode));
-   
-
-   //TileSet tileSetCursor(CURSORTILESET,mode);
    unique_ptr<TileSet>ptr_cursorTileset(new TileSet(CURSORTILESET,mode));
 
     
@@ -43,6 +34,7 @@ StateLayer::StateLayer(state::State& myState, sf::RenderWindow& window,std::stri
 StateLayer::~StateLayer(){};
 
 
+// Texturres Area (Characters,Cursor,Space,Obstacles)
 void StateLayer::initTextureArea(state::State& myState){
     TextureArea map;
     map.loadTextures(myState,*tileSets[0],myState.getMap()[0].size(),myState.getMap().size());
@@ -84,6 +76,7 @@ void StateLayer::draw(sf::RenderWindow &window)
     window.display();
 }
 
+// Observes State event
 void StateLayer::stateChanged(const state::StateEvent &stateEvent, state::State &state)
 {
     if (stateEvent.stateEventID == StateEventID::ALLCHANGED)
@@ -110,6 +103,7 @@ void StateLayer::stateChanged(const state::StateEvent &stateEvent, state::State 
     
 }
 
+// Some stuf to display in Render
 void StateLayer::displayText (){
  
     sf::VertexArray right_rectangle(sf::Quads, 4);

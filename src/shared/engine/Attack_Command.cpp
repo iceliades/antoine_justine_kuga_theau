@@ -12,14 +12,15 @@ Attack_Command::Attack_Command(Character& refAttacker, Character& refTarget) : a
 	Id = ATTACK;	
 }
 
+Attack_Command::~Attack_Command() {
+
+}
+
 
 void Attack_Command::exec(state::State& curState)
 {
-	cout << attacker.getName() << "is trying to attack" << target.getName() << endl;
-	cout << "Actual health of " << target.getName() << ": " << target.getHealth() << endl;
-
-
-	/*Setting the probabilities*/
+	cout << attacker.getName() << "is Attacking" << target.getName() << endl;
+	//Setting the probabilities
 	int pre(attacker.getPrecision()), dod(target.getDodge());
 	random_device         rdev{};
 	default_random_engine generator(rdev());
@@ -56,12 +57,24 @@ void Attack_Command::exec(state::State& curState)
 				cout<<"\n";
 			}
 			
-					
+				
 		}else{
 			cout<<"You can't attack this element sorry buddy"<<endl;;
 		}
 	}	
 
+}
+
+// Ajout de la fonction serialize
+Json::Value Attack_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+	myCommand["player_id"] = attacker.getPlayerID();
+	myCommand["attacker_index"] = attacker.getIndex();
+	myCommand["target_index"] = target.getIndex();
+	
+	return myCommand;
+    
 }
 
 

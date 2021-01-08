@@ -42,8 +42,6 @@ namespace state {
         Position west{this->getX() - 1, this->getY()};
         Position east{this->getX() + 1, this->getY()};
 
-
-
         if(this->getX()==0)
             west.setX(0);
         if( this->getY()==0)

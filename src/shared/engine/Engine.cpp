@@ -3,17 +3,19 @@
 #include <iostream>
 #include <unistd.h>
 
+
+
+
 using namespace state;
 using namespace engine;
 using namespace std;
 
 Engine::Engine(){
-    
+    record["len"]=0;
+    record["cmds"]="";
 }
 
-Engine::~Engine()
-{
-}
+Engine::~Engine(){}
 
 state::State& Engine::getState()
 {
@@ -28,13 +30,13 @@ void Engine::addPsvCommands()
         // find largest priority
         priority = currCommands.rbegin()->first + 1;
 
-    // passive commands...
+    // passive command
     unique_ptr<Command> ptr_cw(new Check_Win_Command());
     addCommand(move(ptr_cw), priority++);
     
 }
 
-
+// add command with priority of excution
 void Engine::addCommand(std::unique_ptr<Command> ptr_cmd, int priority)
 {
     if (priority == -1)
@@ -47,7 +49,15 @@ void Engine::addCommand(std::unique_ptr<Command> ptr_cmd, int priority)
             priority = 0;
         }
     }
+    if (enableRecord && ptr_cmd->getId() != CHECK_WIN){
+		Json::Value newCommand = ptr_cmd->serialize();
+		record["CommandArray"][record["Size"].asUInt()] = newCommand;
+		record["Size"] = record["Size"].asUInt() + 1;
+
+	}
+
     currCommands[priority] = move(ptr_cmd);
+
 }
 
 void Engine::update()
@@ -55,6 +65,7 @@ void Engine::update()
     if (!currState.getEndGame())
     {
         cout << "Adding passive commands ..." << endl;
+        //if(currState.getMode()!="test")
         addPsvCommands();
         cout << "Executing commands from turn " << currState.getRound() << endl;
         
@@ -67,11 +78,7 @@ void Engine::update()
 			    usleep(200 * 1000); // for the test
         }
         // used iterator erase
-        map<int, std::unique_ptr<Command>>::iterator iterator;
-        for (iterator = currCommands.begin(); iterator != currCommands.end(); iterator++)
-        {
-            currCommands.erase(iterator);
-        }
+        currCommands.erase(currCommands.begin(),currCommands.end());
     }
     else
     {
@@ -82,3 +89,31 @@ void Engine::update()
 std::map<int, std::unique_ptr<Command>>& Engine::getCurrCommands (){
     return currCommands;
 }
+
+/*void Engine::setState(state::State& newState){
+    this->currState=newState;    
+
+}*/
+
+// ******************** Record ***********************//
+
+
+void Engine::setEnableRecord(bool enableRecord){
+    this->enableRecord = enableRecord;
+}
+
+bool Engine::getEnableRecord()
+{
+    return this->enableRecord;
+}
+
+Json::Value Engine::getRecord() 
+{
+	return record;
+}
+
+
+
+
+
+

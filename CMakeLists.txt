@@ -99,7 +99,7 @@ if(${MACHINE_ENSEA})
 endif()
 find_package(SFML 2 COMPONENTS graphics network window system)
 if(NOT ${MACHINE_ENSEA})
-  set(SFML_LIBRARIES sfml-graphics sfml-network sfml-window sfml-system)
+  set(SFML_LIBRARIES sfml-audio sfml-graphics sfml-network sfml-window sfml-system)
 endif()
 
 # Find library libmicrohttpd
@@ -112,7 +112,7 @@ find_library(
 # Add source subdirectories
 add_subdirectory(src/shared)
 add_subdirectory(src/client)
-#add_subdirectory(src/server)
+add_subdirectory(src/server)
 
 # Rapport generation
 add_subdirectory(rapport)

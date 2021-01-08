@@ -30,9 +30,14 @@ using namespace engine;
 using namespace state;
 using namespace std;
 
-Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTarget, state::Position& refTargetedPos) : user(refUser), target(refTarget), targetedPos(refTargetedPos)
+Capab_Command::Capab_Command(state::Character& refUser, state::Character& refTarget,
+	state::Position& refTargetedPos) : user(refUser), target(refTarget), targetedPos(refTargetedPos)
 {
 	Id = CAPAB;
+}
+
+Capab_Command::~Capab_Command() {
+
 }
 
 
@@ -106,12 +111,24 @@ void Capab_Command::exec (state::State& curState)
 				user.getPosition().setX(targetedPos.getX());
 				user.getPosition().setY(targetedPos.getY());
 				cout << "User teleported at " << user.getPosition().getX() << "," << user.getPosition().getY() << endl;
-				break;
-			
+				break;		
 		}
 	}
 }
 
+// Ajout de la fonction serialize
+Json::Value Capab_Command::serialize (){
+    Json::Value myCommand;
+	myCommand["id"] = Id;
+	myCommand["player_id"] = user.getPlayerID();
+	myCommand["attacker_index"] = user.getIndex();
+	myCommand["target_index"] = target.getIndex();
+	myCommand["x"] = target.getPosition().getX();
+	myCommand["y"] = target.getPosition().getY();
+
+	return myCommand;
+    
+}
 
 
 

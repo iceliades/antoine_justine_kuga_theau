@@ -42,7 +42,12 @@ int main(int argc,char* argv[])
     MethodMap["engine"] = (ICommand_Client*)new Command_Client_Engine();
     MethodMap["heuristic_ai"] = (ICommand_Client*)new Command_Client_HAI();
     MethodMap["player_vs_hai"] = (ICommand_Client*)new Command_Client_PHAI();
+    MethodMap["hai_vs_rai"] = (ICommand_Client*)new Command_Client_RHAI();
     MethodMap["autre"] = (ICommand_Client*)new Command_Client_Autre();
+    MethodMap["rollback"] = (ICommand_Client*)new Command_Client_Rollback();
+    MethodMap["play"] = (ICommand_Client*)new Command_Client_Play();
+    //MethodMap["deep_ai"] = (ICommand_Client*)new Command_Client_DeepAi();
+    MethodMap["thread"] = (ICommand_Client*)new Command_Client_Thread();
 
 
 
@@ -53,7 +58,13 @@ int main(int argc,char* argv[])
             MethodMap[string(argv[1])]->execute();
         }
     }else{
-        cout << "Give me something processable a.k.a hello/state/render/engine/random_ai/player_vs_rai" << endl;
+        cout << "Give me something processable a.k.a hello/state/render/engine/random_ai/player_vs_rai/play" << endl;
+    }
+
+    if (argc<1){
+
+
+        
     }
     return 0;
 }

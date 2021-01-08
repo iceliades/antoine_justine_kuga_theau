@@ -14,7 +14,9 @@ The object of the game is to be the last to survive.
 
 ### Depedencies to install
 In order to get the game running  you will need to install some package on your Linux environment; in a terminal:
-Git 
+
+Git
+
 ```bash
 sudo apt install git
 ```
@@ -51,6 +53,7 @@ cd build
 clean
 cmake .. && make
 (+ cmd in next chapters)
+<<<<<<< HEAD
 ```
 
 ## 1.1 Development environment
@@ -63,6 +66,69 @@ Hello World dislay
 Unit test
 ```bash
 make unittest
+=======
+```
+
+## 1.1 Development environment
+The recommended environment to use and install this project is a linux distribution of your choosing. Preferably Ubuntu 16.04 and upwards.  
+Hello World dislay
+```bash
+./bin/client hello
+```
+## 1.final Game state
+Unit test
+```bash
+make unittest
+```
+## 2.1 Render
+Render automatic display
+```bash
+./bin/client render
+```
+
+## 2.2 Engine
+Engine automatic display
+```bash
+./bin/client engine
+```
+## 2. Random AI
+Random AI vs Random AI
+```bash
+./bin/client random_ai
+```
+Player vs RandomAI
+```bash
+./bin/client player_vs_rai
+```
+
+## 3.1 Heuristic AI
+Heuristic AI vs Heuristic AI
+```bash
+./bin/client heuristic_ai
+```
+Player vs Heuristic AI
+```bash
+./bin/client player_vs_hai
+```
+## 3.final Advanced AI
+
+Command for record and save in the replay.txt
+```bash
+./bin/server record
+```
+
+Command to play the record 
+```bash
+./bin/client play
+```
+
+## 4.1 Multi threading
+
+Threading with music and 2 Heuristic AIs dueling
+
+```
+./bin/client demo_thread_hai
+>>>>>>> dev
 ```
 ## 2.1 Render
 Render automatic display
@@ -108,4 +174,3 @@ Nothing to see here move along.
 * [Justine](www.linkedin.com/in/justine-charlet-0512 )
 * [Kuga](https://github.com/Kuga23/)
 * [Theau](https://github.com/iceliades/)
-

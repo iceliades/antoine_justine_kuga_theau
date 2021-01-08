@@ -65,7 +65,7 @@ void Command_Client_PAI::execute() {
     // for now hard code for keyboard listener
     // For player 1;
     int indexChar;
-    //int indexTargetChar;
+
     std::vector<unique_ptr<Character>>& playerCharList= myEngine.getState().getListCharacters(0);
 
 

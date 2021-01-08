@@ -42,7 +42,9 @@ Weapon::Weapon(WeaponID id){
 
 }
 
-Weapon::~Weapon(){}
+Weapon::~Weapon(){
+
+}
 
 // getters
 int Weapon::getDammages(){ return Dammages;}
@@ -50,7 +52,7 @@ float Weapon::getMinRange(){return MinRange;}
 float Weapon::getMaxRange(){return MaxRange;}
 CapabID Weapon::getCType(){return typeCapab;}
 std::string Weapon::getOwner(){return Owner;}
-
+WeaponID Weapon::getTypeWeapon() const {return typeWeapon;}
 //setters
 void Weapon::setDammages(int dmg){
     Dammages=dmg;

@@ -218,17 +218,19 @@ bool Character::getAttacked(){ return Attacked;}
 bool Character::isMapCell(){
     return false;
 }
-
+// Capab vector of coold down for the capactiy of character
+// expected to have 2 capacity but for now 1
 void Character::addCapab(int compt)
 {
 	Capab.push_back(compt);
 }
 
+// return all allowed Positions 
 std::vector<Position> Character::allowedMove(State& state){
     
     std::vector<Position> allowedPos;
 
-    // New version optimized
+    // New version optimized 
     std::vector<std::vector<unique_ptr<MapCell>>>& myMap= state.getMap();
     for (int y=0; y<=this->MovementLeft;y++){
         for (int x=y-this->MovementLeft; x<=this->MovementLeft-y;x++){
@@ -248,26 +250,6 @@ std::vector<Position> Character::allowedMove(State& state){
         }
     }
     
-  /*  for (unsigned int indexPos=0; indexPos<allowedPos.size();indexPos++){
-        if (allowedPos[indexPos].getX()<0 || allowedPos[indexPos].getY()<0
-        || allowedPos[indexPos].getX()>state.getMap()[0].size()
-        || allowedPos[indexPos].getY()>state.getMap().size())
-            allowedPos.erase(allowedPos.begin()+indexPos);
-
-        for (auto &line: state.getMap()){
-            if( line[0]->getPosition().getY() != allowedPos[indexPos].getY())   // comment for now bc some bug to fix
-                continue;
-            for (auto &mapCell: line){
-                if (mapCell->getPosition().getX() != allowedPos[indexPos].getX())  // comment for now bc some bug to fix
-                    continue;
-                if (mapCell->getPosition().equals(allowedPos[indexPos])
-                &&(mapCell->isSpace()==false || mapCell->isOccupied(state) !=-1) )
-                    allowedPos.erase(allowedPos.begin()+indexPos);
-
-            }
-        }         
-    }*/
-
     return allowedPos;
 }
 
@@ -297,30 +279,10 @@ std::vector<Position> Character::allowedAttackPos(State &state){
             }
         }
     }
-    /*
-    for (unsigned int indexPos=0; indexPos<allowedAttackPos.size();indexPos++){
-        if (allowedAttackPos[indexPos].getX()<0 || allowedAttackPos[indexPos].getY()<0
-        || allowedAttackPos[indexPos].getX()>state.getMap()[0].size()
-        || allowedAttackPos[indexPos].getY()>state.getMap().size())
-            allowedAttackPos.erase(allowedAttackPos.begin()+indexPos);
-
-        for (auto &line: state.getMap()){
-            if( line[0]->getPosition().getY() != allowedAttackPos[indexPos].getY())
-                continue;
-            for (auto &mapCell: line){
-                if (mapCell->getPosition().getX() != allowedAttackPos[indexPos].getX())
-                    continue;
-                if (mapCell->getPosition().equals(allowedAttackPos[indexPos])
-                &&(mapCell->isSpace()==false || mapCell->isOccupiedbyAlly(state)))
-                    allowedAttackPos.erase(allowedAttackPos.begin()+indexPos);
-
-            }
-        }         
-    }*/
-
     return allowedAttackPos;
 }
 
+// Get all Character In Character Weapon Range
 std::vector<int> Character::allowedAttackTarget (State& state){
     
     vector<int> posibleCharIndexes;
@@ -330,7 +292,6 @@ std::vector<int> Character::allowedAttackTarget (State& state){
         if( state.getCurPlayerID()!=(i+1)){
             for (unsigned int j=0; j< state.getListCharacters(i).size();j++){
                 Character& charac = *state.getListCharacters(i)[j];
-                //if(charac.getPlayerID() != this->PlayerID && charac.getStatus() !=DEATH ){
                 if(charac.getStatus() !=DEATH ){
                     for (unsigned int pos=0; pos<charallowedAttackPos.size(); pos++){
                         if(charallowedAttackPos[pos].equals(charac.getPosition())){
@@ -346,5 +307,7 @@ std::vector<int> Character::allowedAttackTarget (State& state){
     return posibleCharIndexes;
 }
 
-
+Character* Character::clone(){
+    return new Character(*this);
+}
 
