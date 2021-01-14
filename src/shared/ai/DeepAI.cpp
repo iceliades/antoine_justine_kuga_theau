@@ -26,7 +26,7 @@ DeepAI::~DeepAI(){
 
 
 void DeepAI::run(engine::Engine& myEngine){
-    State bestState= rec_minimax(myEngine.getState(),1);
+    State& bestState= rec_minimax(myEngine.getState(),depth);
     CopyState cs(bestState);
     myEngine.getState().load(cs);
     myEngine.update();

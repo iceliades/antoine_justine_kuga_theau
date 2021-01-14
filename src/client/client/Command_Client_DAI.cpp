@@ -1,4 +1,4 @@
-#include "Command_Client_HAI.h"
+#include "Command_Client_DAI.h"
 #include "state.h"
 #include "render.h"
 #include "engine.h"
@@ -17,8 +17,9 @@ Command_Client_DAI::Command_Client_DAI() {
 }
 Command_Client_DAI::~Command_Client_DAI(){
 }
+
 void Command_Client_DAI::execute() {
-    // Random_ai vs Random_ai
+   // Random_ai vs Random_ai
 
     srand(time(NULL));// Init random generator
 
@@ -39,9 +40,9 @@ void Command_Client_DAI::execute() {
     bool booting=true;
 
     // Init ai
-    ai::DeepAI deepai(myEngine,1);
+    ai::DeepAI deepai(myEngine,2,1);
     ai::RandomAI randomAi;
-    randomAi.setNbplayers(2); // PLayer ID 2
+    randomAi.setNbplayers(1); // PLayer ID 2
 
 
     while (window.isOpen()){
@@ -51,7 +52,7 @@ void Command_Client_DAI::execute() {
             myEngine.update();
             booting=false;
         }
-        if(myEngine.getState().getCurPlayerID()==1){
+        if(myEngine.getState().getCurPlayerID()==2){
             if(myEngine.getState().getEndGame()==false)
                 deepai.run(myEngine);
         }else
