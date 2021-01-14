@@ -46,7 +46,7 @@ int main(int argc,char* argv[])
     MethodMap["autre"] = (ICommand_Client*)new Command_Client_Autre();
     MethodMap["rollback"] = (ICommand_Client*)new Command_Client_Rollback();
     MethodMap["play"] = (ICommand_Client*)new Command_Client_Play();
-    //MethodMap["deep_ai"] = (ICommand_Client*)new Command_Client_DeepAi();
+    MethodMap["deep_ai"] = (ICommand_Client*)new Command_Client_DAI();
     MethodMap["thread"] = (ICommand_Client*)new Command_Client_Thread();
 
 
