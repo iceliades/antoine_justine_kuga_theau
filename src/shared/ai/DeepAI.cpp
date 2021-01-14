@@ -1,10 +1,16 @@
 #include "DeepAI.h"
 #include "state.h"
 #include "engine.h"
+#include <iostream>
+#include <stdlib.h>
+#include <unistd.h>
+#include <queue>
+#include <list>
 
 using namespace std;
 using namespace ai;
-
+using namespace state;
+using namespace engine;
 
 /*
 DeepAI::DeepAI(engine::Engine& engine, int nbPlayers, int depth) :  PlayerNumber(nbPlayers),CurrState(engine.getState()),depth(depth){
@@ -96,7 +102,7 @@ std::list<state::SpaceMapTiles> DeepAI::FindPath (state::SpaceMapTiles& src, sta
         if (!done )//&& currCell.isSpace())
         {
             // FInding available cells to continue path
-            std::vector<SpaceMapTiles> nears = findSpaceNeighbours(currCell, currState,target);
+            std::vector<SpaceMapTiles> nears = findSpaceNeighbours(currCell,this->CurrState,target);
 
             for (auto& near : nears)
             {
@@ -124,7 +130,7 @@ std::list<state::SpaceMapTiles> DeepAI::FindPath (state::SpaceMapTiles& src, sta
     return first; // no path to target hopefully won't return this
 }
 
-vector<SpaceMapTiles> DeepAI::findSpaceNeighbours(SpaceMapTiles& currCell, State& currState,state::SpaceMapTiles& target)
+vector<state::SpaceMapTiles> DeepAI::findSpaceNeighbours(SpaceMapTiles& currCell, state::State& currState,state::SpaceMapTiles& target)
 {
     vector<Position> posNearCell = currCell.getPosition().getNearPositions();
     vector<SpaceMapTiles> nears;
