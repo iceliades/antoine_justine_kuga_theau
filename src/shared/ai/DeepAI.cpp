@@ -12,73 +12,83 @@ using namespace ai;
 using namespace state;
 using namespace engine;
 
-/*
-DeepAI::DeepAI(engine::Engine& engine, int nbPlayers, int depth) :  PlayerNumber(nbPlayers),CurrState(engine.getState()),depth(depth){
+
+DeepAI::DeepAI(engine::Engine& engine, int nbPlayers, int depth) :  nbplayers(nbPlayers),myEngine(engine),depth(depth){
 
     //this->CurrState = myEngine.getState();
 }
 
 
 DeepAI::~DeepAI(){
-    delete &CurrState;
+
 }
 
 
 
 void DeepAI::run(engine::Engine& myEngine){
-
+    State bestState= rec_minimax(myEngine.getState(),1);
+    CopyState cs(bestState);
+    myEngine.getState().load(cs);
+    myEngine.update();
 }
 
 
- int DeepAI::max_r_minimax(Node& node, int depth){
-    if (node.getValue() != 0) return node.getValue();
-
+ int DeepAI::max_r_minimax(state::State& root, int depth){
+    if (getValue(root) != 0 || depth==0) return getValue(root);
     int max = 0;
-
-    for (size_t i = 0; i < node.getChildren().size(); i++)
+   
+    MemoryStates ms= getChildren(root);
+    for (size_t i = 0; i < ms.getSize(); i++)
     {
-        Node& child = node.getChildren()[i];
-        int value = min_r_minimax(child, depth--);
+        
+        state::CopyState& child =ms.get(i);
+        int value = min_r_minimax(child.recover(), depth--);
         if (value > max) max = value;
     }
     return max;
 }
 
-int DeepAI::min_r_minimax(Node& node, int depth){
-    if (node.getValue() != 0) return node.getValue();
+int DeepAI::min_r_minimax(state::State& root, int depth){
+    if (getValue(root) != 0 || depth==0) return getValue(root);
 
     int min = 0;
 
-    for (size_t i = 0; i < node.getChildren().size(); i++)
+    MemoryStates ms= getChildren(root);
+    for (size_t i = 0; i < ms.getSize(); i++)
     {
-        Node& child = node.getChildren()[i];
-        int   value = max_r_minimax(child,depth--);
+        state::CopyState& child =ms.get(i);
+        int   value = max_r_minimax(child.recover(),depth--);
         if (value < min) min = value;
     }
     return min;
 }
 
-Node& DeepAI::rec_minimax(Node& root, int depth){
+state::State& DeepAI::rec_minimax(state::State& root, int depth){
     int bestval = -10000;
-    Node best(this->CurrState);
+    //CopyState best(this->myEngine.getState());
+    std::queue<CopyState> myqueue;
 
-    for (int i = 0; i < root.getChildren().size(); i++)
-    {
-        int moveval = max_r_minimax(root.getChildren()[i],depth);
+    MemoryStates ms = getChildren(root);
+    for (int i = 0; i < ms.getSize(); i++)
+    {   
+        CopyState cs= ms.get(i);
+        int moveval = max_r_minimax(cs.recover(),depth);
         
         if (moveval > bestval)
         {
             bestval = moveval;
-            //best = root.getChildren()[i];
+            if(!myqueue.empty()){
+                myqueue.pop();     
+            }
+            myqueue.push(cs);         
         }
     }
-
-    return best;
+    
+    return myqueue.front().recover();
 }
 
-*/
 
-std::list<state::SpaceMapTiles> DeepAI::FindPath (state::SpaceMapTiles& src, state::SpaceMapTiles& target)
+std::list<state::SpaceMapTiles> DeepAI::FindPath (state::SpaceMapTiles& src, state::SpaceMapTiles& target,state::State& myState)
 {
     std::list<state::SpaceMapTiles> explored;
     queue<std::list<state::SpaceMapTiles>> paths;
@@ -102,7 +112,7 @@ std::list<state::SpaceMapTiles> DeepAI::FindPath (state::SpaceMapTiles& src, sta
         if (!done )//&& currCell.isSpace())
         {
             // FInding available cells to continue path
-            std::vector<SpaceMapTiles> nears = findSpaceNeighbours(currCell,this->CurrState,target);
+            std::vector<SpaceMapTiles> nears = findSpaceNeighbours(currCell,myState,target);
 
             for (auto& near : nears)
             {
@@ -205,32 +215,38 @@ std::pair<int,int> DeepAI::selectCharacter(state::State& curState){
 }
 
 state::MemoryStates DeepAI::getChildren(state::State& currState){
+    
 
+    CopyState cs (currState);
+    engine::Engine myEngine;
+    myEngine.getState().load(cs);
+
+    
     MemoryStates children;
-    std::vector<std::unique_ptr<Character>>& chars = currState.getListCharacters(currState.getCurPlayerID());
+    std::vector<std::unique_ptr<Character>>& chars = myEngine.getState().getListCharacters(myEngine.getState().getCurPlayerID()-1);
     
     
-    int targetPlayerID= (currState.getCurPlayerID())==2)? 1:2;
+    int targetPlayerID= (myEngine.getState().getCurPlayerID()==2)? 1:2;
     // A revoir
-    std::pair<int,int> charIndex = selectCharacter(currState);
+    std::pair<int,int> charIndex = selectCharacter(myEngine.getState());
 
     for (int i = 0; i < chars.size(); i++)
     {
         // ennemy character in range ?
-        if(chars[i].allowedAttackTarget(engine.getState()).size() > 0){
+        if(chars[i]->allowedAttackTarget(myEngine.getState()).size() > 0){
             
             // Select The target with the less Health
-            Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
-            unique_ptr<Command> ptr_ac(new Attack_Command(selectedChar,targetChar));
-            engine.addCommand(move(ptr_ac)); engine.update();
+            Character& targetChar= *myEngine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
+            unique_ptr<Command> ptr_ac(new Attack_Command(*chars[i],targetChar));
+            myEngine.addCommand(move(ptr_ac)); myEngine.update();
 
             if (rand()%2){ // Choose randomly to move or not for now not important
-                int mvLeft= selectedChar.getMovementLeft();
+                int mvLeft= chars[i]->getMovementLeft();
                 while (mvLeft>0)
                 {   
-                    Position randPosToMove (selectedChar.getPosition().getNearPositions()[rand()%4]);
-                    unique_ptr<Command> ptr_mv ( new Move_Command(selectedChar,randPosToMove));
-                    engine.addCommand(move(ptr_mv));engine.update();
+                    Position randPosToMove (chars[i]->getPosition().getNearPositions()[rand()%4]);
+                    unique_ptr<Command> ptr_mv ( new Move_Command(*chars[i],randPosToMove));
+                    myEngine.addCommand(move(ptr_mv));myEngine.update();
                     mvLeft--;
 
                 }
@@ -239,18 +255,18 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
     
         }else{
 
-            int mvLeft= selectedChar.getMovementLeft();
+            int mvLeft= chars[i]->getMovementLeft();
             int nextPosInPath=0;
 
             //Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
-            Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
+            Character& targetChar= *myEngine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
             
             // temporary definition fo cells -> nodes for bfs
-            SpaceMapTiles src(Sand,selectedChar.getPosition().getX(),selectedChar.getPosition().getY(),0);
+            SpaceMapTiles src(Sand,chars[i]->getPosition().getX(),chars[i]->getPosition().getY(),0);
             SpaceMapTiles targ(Sand,targetChar.getPosition().getX(),targetChar.getPosition().getY(),0);
 
             // the best path to target
-            list<SpaceMapTiles> pathlist= FindPath(src,targ);
+            list<SpaceMapTiles> pathlist= FindPath(src,targ,myEngine.getState());
             vector<SpaceMapTiles> path;
             for(auto& node: pathlist){
                 path.push_back(node);
@@ -260,17 +276,17 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
                 // move until mvLeft
                 SpaceMapTiles cellToGo= path[nextPosInPath];
                 Position pos{cellToGo.getPosition().getX(),cellToGo.getPosition().getY()};
-                unique_ptr<Command> ptr_mv1 ( new Move_Command(selectedChar,pos));
-                engine.addCommand(move(ptr_mv1));engine.update();
+                unique_ptr<Command> ptr_mv1 ( new Move_Command(*chars[i],pos));
+                myEngine.addCommand(move(ptr_mv1));myEngine.update();
                 
                 // if Allow target in Range attack him
-                if(selectedChar.allowedAttackTarget(engine.getState()).size() > 0){
+                if(chars[i]->allowedAttackTarget(myEngine.getState()).size() > 0){
                     
-                    Character &targetToAttack = *engine.getState().getListCharacters
+                    Character &targetToAttack = *myEngine.getState().getListCharacters
                     (targetPlayerID-1)[charIndex.second];
-                    unique_ptr<Command> atkCmd(new Attack_Command(selectedChar, targetToAttack));
-                    engine.addCommand(move(atkCmd));
-                    engine.update();break; // End of turn
+                    unique_ptr<Command> atkCmd(new Attack_Command(*chars[i], targetToAttack));
+                    myEngine.addCommand(move(atkCmd));
+                    myEngine.update();break; // End of turn
 
                 }
 
@@ -281,9 +297,9 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
         }
 
         unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
-        engine.addCommand(move(ptr_ft));engine.update();
+        myEngine.addCommand(move(ptr_ft));myEngine.update();
 
-        CopyState copy(currState);
+        CopyState copy(myEngine.getState().save());
         children.add(copy);
     }
 
@@ -291,12 +307,14 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
 }
 
 int DeepAI::getValue(state::State& currState){
-    std::vector<std::unique_ptr<Character>>& char_p1 = currState.getListCharacters(0)
-    std::vector<std::unique_ptr<Character>>& char_p2 = currState.getListCharacters(1)
+
+    int tarPlayerID= (nbplayers==2)?1:2;
+    std::vector<std::unique_ptr<Character>>& charac = currState.getListCharacters(nbplayers-1);
+    std::vector<std::unique_ptr<Character>>& ennemy = currState.getListCharacters(tarPlayerID-1);
     int res = 0;
-
-    for (size_t i = 0; i < char_p1.size(); i++) value += char_p1[i]->getHealth();
-    for (size_t i = 0; i < char_p2.size(); i++) value -= char_p2[i]->getHealth();
-
+  
+    for (size_t i = 0; i < charac.size(); i++) res += charac[i]->getHealth();
+    for (size_t i = 0; i < ennemy.size(); i++) res -= ennemy[i]->getHealth();
+    
     return res;
 }

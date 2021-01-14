@@ -18,3 +18,7 @@ void MemoryStates::add(CopyState& copyState){
 CopyState& MemoryStates::get(int index){
     return memoryStates[index];
 }
+
+unsigned int MemoryStates::getSize(){
+    return memoryStates.size();
+}
