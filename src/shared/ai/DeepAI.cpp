@@ -26,8 +26,8 @@ DeepAI::~DeepAI(){
 
 
 void DeepAI::run(engine::Engine& myEngine){
-    State& bestState= rec_minimax(myEngine.getState(),depth);
-    CopyState cs{bestState.save()};
+
+    CopyState cs{rec_minimax(myEngine.getState(),depth).save()};
     myEngine.getState().load(cs);
     myEngine.update();
 }
@@ -218,28 +218,30 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
     
 
     CopyState cs (currState.save());
-    //engine::Engine myEngine;
-    myEngine.getState().load(cs);
-    myEngine.getState().setMode("children_dai");
+    engine::Engine newEngine;
+    newEngine.getState().initPlayers();
+    newEngine.getState().initMapCell();
+    newEngine.getState().load(cs);
+   // myEngine.getState().setMode("children_dai");
 
     
     MemoryStates children;
-    std::vector<std::unique_ptr<Character>>& chars = myEngine.getState().getListCharacters(myEngine.getState().getCurPlayerID()-1);
+    std::vector<std::unique_ptr<Character>>& chars = newEngine.getState().getListCharacters(newEngine.getState().getCurPlayerID()-1);
     
     
-    int targetPlayerID= (myEngine.getState().getCurPlayerID()==2)? 1:2;
+    int targetPlayerID= (newEngine.getState().getCurPlayerID()==2)? 1:2;
     // A revoir
-    std::pair<int,int> charIndex = selectCharacter(myEngine.getState());
+    std::pair<int,int> charIndex = selectCharacter(newEngine.getState());
 
     for (int i = 0; i < chars.size(); i++)
     {
         // ennemy character in range ?
-        if(chars[i]->allowedAttackTarget(myEngine.getState()).size() > 0){
+        if(chars[i]->allowedAttackTarget(newEngine.getState()).size() > 0){
             
             // Select The target with the less Health
-            Character& targetChar= *myEngine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
+            Character& targetChar= *newEngine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
             unique_ptr<Command> ptr_ac(new Attack_Command(*chars[i],targetChar));
-            myEngine.addCommand(move(ptr_ac)); myEngine.update();
+            newEngine.addCommand(move(ptr_ac)); newEngine.update();
 
             if (rand()%2){ // Choose randomly to move or not for now not important
                 int mvLeft= chars[i]->getMovementLeft();
@@ -247,7 +249,7 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
                 {   
                     Position randPosToMove (chars[i]->getPosition().getNearPositions()[rand()%4]);
                     unique_ptr<Command> ptr_mv ( new Move_Command(*chars[i],randPosToMove));
-                    myEngine.addCommand(move(ptr_mv));myEngine.update();
+                    newEngine.addCommand(move(ptr_mv));newEngine.update();
                     mvLeft--;
 
                 }
@@ -260,14 +262,14 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
             int nextPosInPath=0;
 
             //Character& targetChar= *engine.getState().getListCharacters(targetPlayerID-1)[charIndex[1]];
-            Character& targetChar= *myEngine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
+            Character& targetChar= *newEngine.getState().getListCharacters(targetPlayerID-1)[charIndex.second];
             
             // temporary definition fo cells -> nodes for bfs
             SpaceMapTiles src(Sand,chars[i]->getPosition().getX(),chars[i]->getPosition().getY(),0);
             SpaceMapTiles targ(Sand,targetChar.getPosition().getX(),targetChar.getPosition().getY(),0);
 
             // the best path to target
-            list<SpaceMapTiles> pathlist= FindPath(src,targ,myEngine.getState());
+            list<SpaceMapTiles> pathlist= FindPath(src,targ,newEngine.getState());
             vector<SpaceMapTiles> path;
             for(auto& node: pathlist){
                 path.push_back(node);
@@ -278,16 +280,16 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
                 SpaceMapTiles cellToGo= path[nextPosInPath];
                 Position pos{cellToGo.getPosition().getX(),cellToGo.getPosition().getY()};
                 unique_ptr<Command> ptr_mv1 ( new Move_Command(*chars[i],pos));
-                myEngine.addCommand(move(ptr_mv1));myEngine.update();
+                newEngine.addCommand(move(ptr_mv1));newEngine.update();
                 
                 // if Allow target in Range attack him
-                if(chars[i]->allowedAttackTarget(myEngine.getState()).size() > 0){
+                if(chars[i]->allowedAttackTarget(newEngine.getState()).size() > 0){
                     
-                    Character &targetToAttack = *myEngine.getState().getListCharacters
+                    Character &targetToAttack = *newEngine.getState().getListCharacters
                     (targetPlayerID-1)[charIndex.second];
                     unique_ptr<Command> atkCmd(new Attack_Command(*chars[i], targetToAttack));
-                    myEngine.addCommand(move(atkCmd));
-                    myEngine.update();break; // End of turn
+                    newEngine.addCommand(move(atkCmd));
+                    newEngine.update();break; // End of turn
 
                 }
 
@@ -298,12 +300,12 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
         }
 
         unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
-        myEngine.addCommand(move(ptr_ft));myEngine.update();
+        newEngine.addCommand(move(ptr_ft));myEngine.update();
 
-        CopyState copy(myEngine.getState().save());
+        CopyState copy(newEngine.getState().save());
         children.add(copy);
     }
-    myEngine.getState().setMode("deep_ai");
+    //myEngine.getState().setMode("deep_ai");
 
     return children;
 }
