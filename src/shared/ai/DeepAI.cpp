@@ -42,7 +42,7 @@ void DeepAI::run(engine::Engine& myEngine){
     {
         
         state::CopyState& child =ms.get(i);
-        int value = min_r_minimax(child.recover(), depth--);
+        int value = min_r_minimax(child.recover(), --depth);
         if (value > max) max = value;
     }
     return max;
@@ -57,7 +57,7 @@ int DeepAI::min_r_minimax(state::State& root, int depth){
     for (size_t i = 0; i < ms.getSize(); i++)
     {
         state::CopyState& child =ms.get(i);
-        int   value = max_r_minimax(child.recover(),depth--);
+        int   value = max_r_minimax(child.recover(),--depth);
         if (value < min) min = value;
     }
     return min;
@@ -222,7 +222,7 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
     newEngine.getState().initPlayers();
     newEngine.getState().initMapCell();
     newEngine.getState().load(cs);
-   // myEngine.getState().setMode("children_dai");
+    newEngine.getState().setMode("children_dai");
 
     
     MemoryStates children;
@@ -231,10 +231,12 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
     
     int targetPlayerID= (newEngine.getState().getCurPlayerID()==2)? 1:2;
     // A revoir
-    std::pair<int,int> charIndex = selectCharacter(newEngine.getState());
+    
 
     for (int i = 0; i < chars.size(); i++)
     {
+        
+        std::pair<int,int> charIndex = selectCharacter(newEngine.getState());
         // ennemy character in range ?
         if(chars[i]->allowedAttackTarget(newEngine.getState()).size() > 0){
             
@@ -300,7 +302,7 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
         }
 
         unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
-        newEngine.addCommand(move(ptr_ft));myEngine.update();
+        newEngine.addCommand(move(ptr_ft));newEngine.update();
 
         CopyState copy(newEngine.getState().save());
         children.add(copy);

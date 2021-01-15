@@ -41,9 +41,9 @@ void Command_Client_DAI::execute() {
     bool booting=true;
 
     // Init ai
-    ai::DeepAI deepai(DAIEngine,2,1);
+    ai::DeepAI deepai(DAIEngine,1,1);
     ai::RandomAI randomAi;
-    randomAi.setNbplayers(1); // PLayer ID 2
+    randomAi.setNbplayers(2); // PLayer ID 2
 
 
     while (window.isOpen()){
@@ -53,7 +53,7 @@ void Command_Client_DAI::execute() {
             DAIEngine.update();
             booting=false;
         }
-        if(DAIEngine.getState().getCurPlayerID()==2){
+        if(DAIEngine.getState().getCurPlayerID()==1){
             if(DAIEngine.getState().getEndGame()==false)
                 deepai.run(DAIEngine);
         }else
