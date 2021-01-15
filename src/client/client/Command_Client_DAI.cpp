@@ -4,6 +4,7 @@
 #include "engine.h"
 #include "ai.h"
 #include <unistd.h>
+#include <iostream>
 
 using namespace client;
 using namespace state;
@@ -23,24 +24,24 @@ void Command_Client_DAI::execute() {
 
     srand(time(NULL));// Init random generator
 
-    Engine myEngine; // No confusion to engine packgage
-    myEngine.getState().setMode("random_ai");
-    myEngine.getState().initPlayers();
-    myEngine.getState().initCharacters();
-    myEngine.getState().initMapCell();
+    Engine DAIEngine; // No confusion to engine packgage
+    DAIEngine.getState().setMode("random_ai");
+    DAIEngine.getState().initPlayers();
+    DAIEngine.getState().initCharacters();
+    DAIEngine.getState().initMapCell();
 
 
     sf::RenderWindow window(sf::VideoMode(32*26+500,32*24), "Zorglub");
-    StateLayer stateLayer (myEngine.getState(),window);
-    stateLayer.initTextureArea(myEngine.getState());
+    StateLayer stateLayer (DAIEngine.getState(),window);
+    stateLayer.initTextureArea(DAIEngine.getState());
 
     StateLayer *ptr_stateLayer = &stateLayer;
-    myEngine.getState().registerObserver(ptr_stateLayer);
+    DAIEngine.getState().registerObserver(ptr_stateLayer);
 
     bool booting=true;
 
     // Init ai
-    ai::DeepAI deepai(myEngine,2,1);
+    ai::DeepAI deepai(DAIEngine,2,1);
     ai::RandomAI randomAi;
     randomAi.setNbplayers(1); // PLayer ID 2
 
@@ -49,20 +50,22 @@ void Command_Client_DAI::execute() {
         sf::Event event;
         if( booting){
             stateLayer.draw(window);
-            myEngine.update();
+            DAIEngine.update();
             booting=false;
         }
-        if(myEngine.getState().getCurPlayerID()==2){
-            if(myEngine.getState().getEndGame()==false)
-                deepai.run(myEngine);
+        if(DAIEngine.getState().getCurPlayerID()==2){
+            if(DAIEngine.getState().getEndGame()==false)
+                deepai.run(DAIEngine);
         }else
         {
-            if(myEngine.getState().getEndGame()==false)
-                randomAi.run(myEngine);
+            cout << "You are just before RAI execution" <<endl;
+            if(DAIEngine.getState().getEndGame()==false)
+                randomAi.run(DAIEngine);
+            cout << "You are just after RAI execution" <<endl;
         }
         // at the close event seems not working
         // will see later for use this
-        if(myEngine.getState().getEndGame()==true){
+        if(DAIEngine.getState().getEndGame()==true){
             window.close();
         }
             

@@ -201,9 +201,13 @@ CopyState State::save(){
 
 void State::load(CopyState& copyState){
     
-    // characters    
-    listPlayers[0]->getListCharacters().clear();
-    listPlayers[1]->getListCharacters().clear();
+    // characters
+    if(listPlayers[0]->getListCharacters().empty()==0){
+        listPlayers[0]->getListCharacters().clear();
+    }
+    if(listPlayers[1]->getListCharacters().empty()==0){
+        listPlayers[1]->getListCharacters().clear();
+    }
 
     for(unsigned int i=0; i<copyState.recover().getListPlayers().size();i++){
         for(unsigned int j=0; j<copyState.recover().getListCharacters(0).size();j++){
@@ -215,7 +219,9 @@ void State::load(CopyState& copyState){
         }
     }
     // curState clear map
-    this->getMap().clear();
+    if(getMap().empty()==0){
+        this->getMap().clear();
+        }
     for(auto& line : copyState.recover().getMap()){
         vector<unique_ptr<MapCell>> clonedLine;
         for(auto& cell : line){
