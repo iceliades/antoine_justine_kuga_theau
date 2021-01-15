@@ -26,15 +26,18 @@ DeepAI::~DeepAI(){
 
 
 void DeepAI::run(engine::Engine& myEngine){
-
+    int temporary = this->depth;
     CopyState cs{rec_minimax(myEngine.getState(),depth).save()};
     myEngine.getState().load(cs);
+    unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
+    myEngine.addCommand(move(ptr_ft));myEngine.update();
     myEngine.update();
+    this->depth = temporary;
 }
 
 
  int DeepAI::max_r_minimax(state::State& root, int depth){
-    if (getValue(root) != 0 || depth==0) return getValue(root);
+    if (getValue(root) != 0 || depth<=0) return getValue(root);
     int max = 0;
    
     MemoryStates ms= getChildren(root);
@@ -49,7 +52,7 @@ void DeepAI::run(engine::Engine& myEngine){
 }
 
 int DeepAI::min_r_minimax(state::State& root, int depth){
-    if (getValue(root) != 0 || depth==0) return getValue(root);
+    if (getValue(root) != 0 || depth<=0) return getValue(root);
 
     int min = 0;
 
@@ -218,6 +221,7 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
     
 
     CopyState cs (currState.save());
+    //myEngine.getState().load(cs);
     engine::Engine newEngine;
     newEngine.getState().initPlayers();
     newEngine.getState().initMapCell();
@@ -237,6 +241,8 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
     {
         
         std::pair<int,int> charIndex = selectCharacter(newEngine.getState());
+        unique_ptr<engine::Command> selectCommand(new Sel_Char_Command(*chars[i]));
+        newEngine.addCommand(move(selectCommand));newEngine.update();
         // ennemy character in range ?
         if(chars[i]->allowedAttackTarget(newEngine.getState()).size() > 0){
             
@@ -300,15 +306,15 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
             }
 
         }
-
+        /*if(i==chars.size()-1){
         unique_ptr<Command> ptr_ft( new Finish_Turn_Command());
         newEngine.addCommand(move(ptr_ft));newEngine.update();
-
+        }*/
         CopyState copy(newEngine.getState().save());
         children.add(copy);
+        newEngine.getState().load(cs);
     }
     //myEngine.getState().setMode("deep_ai");
-
     return children;
 }
 
