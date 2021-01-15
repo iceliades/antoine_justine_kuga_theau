@@ -218,7 +218,6 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
     
 
     CopyState cs (currState);
-    engine::Engine myEngine;
     myEngine.getState().load(cs);
 
     
