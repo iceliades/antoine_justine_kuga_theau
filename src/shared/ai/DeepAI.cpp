@@ -26,8 +26,8 @@ DeepAI::~DeepAI(){
 
 
 void DeepAI::run(engine::Engine& myEngine){
-    //State& bestState= rec_minimax(myEngine.getState(),depth);
-    CopyState cs{rec_minimax(myEngine.getState(),depth)};
+    State& bestState= rec_minimax(myEngine.getState(),depth);
+    CopyState cs{bestState.save()};
     myEngine.getState().load(cs);
     myEngine.update();
 }
@@ -217,7 +217,7 @@ std::pair<int,int> DeepAI::selectCharacter(state::State& curState){
 state::MemoryStates DeepAI::getChildren(state::State& currState){
     
 
-    CopyState cs (currState);
+    CopyState cs (currState.save());
     //engine::Engine myEngine;
     myEngine.getState().load(cs);
     myEngine.getState().setMode("children_dai");
