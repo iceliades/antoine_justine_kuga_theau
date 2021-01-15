@@ -43,7 +43,7 @@ int main(int argc,char* argv[])
     MethodMap["heuristic_ai"] = (ICommand_Client*)new Command_Client_HAI();
     MethodMap["player_vs_hai"] = (ICommand_Client*)new Command_Client_PHAI();
     MethodMap["hai_vs_rai"] = (ICommand_Client*)new Command_Client_RHAI();
-    MethodMap["autre"] = (ICommand_Client*)new Command_Client_Autre();
+    MethodMap["help"] = (ICommand_Client*)new Command_Client_Autre();
     MethodMap["rollback"] = (ICommand_Client*)new Command_Client_Rollback();
     MethodMap["play"] = (ICommand_Client*)new Command_Client_Play();
     MethodMap["deep_ai"] = (ICommand_Client*)new Command_Client_DAI();
@@ -53,7 +53,8 @@ int main(int argc,char* argv[])
 
     if(argc==2) {
         if(MethodMap.find(argv[1])==MethodMap.end()) {
-            MethodMap["autre"]->execute();
+            cout << "Cette commande est inexistante" <<endl;
+            MethodMap["help"]->execute();
         }else {
             MethodMap[string(argv[1])]->execute();
         }

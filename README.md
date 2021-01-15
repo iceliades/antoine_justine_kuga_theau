@@ -55,9 +55,10 @@ cmake .. && make
 
 ## 1.1 Development environment
 The recommended environment to use and install this project is a linux distribution of your choosing. Preferably Ubuntu 16.04 and upwards.  
-Hello World dislay
+###Basic commands
 ```bash
 ./bin/client hello
+./bin/client help
 ```
 ## 1.final Game state
 Unit test
@@ -111,7 +112,7 @@ Command to play the record
 Threading with music and 2 Heuristic AIs dueling
 
 ```
-./bin/client demo_thread_hai
+./bin/client thread
 ```
 
 ## Report
