@@ -26,8 +26,8 @@ DeepAI::~DeepAI(){
 
 
 void DeepAI::run(engine::Engine& myEngine){
-    State& bestState= rec_minimax(myEngine.getState(),depth);
-    CopyState cs(bestState);
+    //State& bestState= rec_minimax(myEngine.getState(),depth);
+    CopyState cs{rec_minimax(myEngine.getState(),depth)};
     myEngine.getState().load(cs);
     myEngine.update();
 }
@@ -218,8 +218,9 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
     
 
     CopyState cs (currState);
-    engine::Engine myEngine;
+    //engine::Engine myEngine;
     myEngine.getState().load(cs);
+    myEngine.getState().setMode("children_dai");
 
     
     MemoryStates children;
@@ -302,6 +303,7 @@ state::MemoryStates DeepAI::getChildren(state::State& currState){
         CopyState copy(myEngine.getState().save());
         children.add(copy);
     }
+    myEngine.getState().setMode("deep_ai");
 
     return children;
 }

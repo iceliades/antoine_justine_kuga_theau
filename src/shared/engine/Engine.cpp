@@ -73,7 +73,8 @@ void Engine::update()
         for (size_t i = 0; i < currCommands.size(); i++)
         {
             currCommands[i]->exec(currState);
-            currState.notifyObservers(stateEvent, currState);
+            if(!(currState.getMode()=="children_dai"))
+                currState.notifyObservers(stateEvent, currState);
             if (currState.getMode()=="engine")
 			    usleep(200 * 1000); // for the test
         }
