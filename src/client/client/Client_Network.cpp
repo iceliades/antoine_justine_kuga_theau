@@ -1,8 +1,8 @@
-/*#include "engine.h"
+#include "engine.h"
 #include "render.h"
 #include "state.h"
 #include "client.h"
-#include "Client_Network.h"
+//#include "Client_Network.h"
 #include "ai.h"
 #include <iostream>
 #include <unistd.h>
@@ -10,6 +10,7 @@
 #include <SFML/Audio.hpp>
 #include <thread>
 #include <pthread.h>
+
 using namespace state;
 using namespace engine;
 using namespace render;
@@ -34,8 +35,12 @@ void threadEngine(Engine *ptr)
     }
 }
 
-Client::Client_Network(int port, std::string &url, sf::RenderWindow &window, std::string mode) : window(window),mode(mode), url(url), 
+Client::Client_Network(int port, std::string &url, sf::RenderWindow &window, std::string mode)
 {
+    this->windows=windows;
+    this->mode=mode;
+    this->url=url;
+
     engine.getState().setMode(mode);
     engine.getState().initPlayers();
     engine.getState().initCharacters();
