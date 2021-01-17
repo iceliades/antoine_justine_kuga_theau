@@ -1,18 +1,37 @@
 #include "Game.h"
-
+#include <memory>
+#include <map>
+#include <vector>
+#include <set>
 
 using namespace server;
 using namespace std;
+using std::unique_ptr;
+using std::map;
+using std::vector;
+
+Game::Game (){}
+
+Player* Game::getPlayerById (int id){
+    auto it = players.find(id);
+    if (it == players.cend())
+        return nullptr;
+    return it->second.get();
+};
 
 
-Game::Game () : engine("myGame"){}
-
-Game::~Game(){
-    delete this->Players;
+void Game::removePlayer (int id){
+    auto it = players.find(id);
+    if (it == players.end())
+        return;
+    players.erase(it);
 }
 
-Player::Player(string name, bool free) : name(name), free(free)
-{
-}
 
+int Game::addPlayer (std::unique_ptr<Player> newPlayer){
+    int id = players.size();
+    players.insert(std::make_pair(id, std::move(newPlayer)));
+    id += 1;
+    return id;
+}
 
