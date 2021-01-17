@@ -11,22 +11,20 @@ AbstractService::AbstractService(const std::string& pattern)
 }
 
 AbstractService::~AbstractService() {
-    delete this->pattern;
+    //delete this->pattern;
 }
 
-const std::string& AbstractService::get() const {
-    return this->pattern;
-}
 
-HttpStatus AbstractService::get (Json::Value& out, int id)  {
+
+const HttpStatus AbstractService::get(Json::Value& out, int id)  {
     throw ServiceException(HttpStatus::NOT_IMPLEMENTED,"Not Implemented");
 }
 
-HttpStatus AbstractService::post (Json::Value& out,  Json::Value& in) {
+HttpStatus AbstractService::post (const Json::Value& in, int id,Json::Value& out) {
     throw ServiceException(HttpStatus::NOT_IMPLEMENTED,"Not Implemented");
 }
 
-HttpStatus AbstractService::put ( Json::Value& in, int id){
+HttpStatus AbstractService::put (Json::Value& out, const  Json::Value& in){
     throw ServiceException(HttpStatus::NOT_IMPLEMENTED,"Not Implemented");
 }
 
