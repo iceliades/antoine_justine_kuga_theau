@@ -4,7 +4,7 @@ using namespace std;
 using namespace server; 
 
 
-ServiceException::ServiceException(HttpStatus status, std::string& message){
+ServiceException::ServiceException(HttpStatus status, std::string message){
     switch(status){
         case OK :
         ; break;

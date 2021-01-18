@@ -7,11 +7,8 @@ using namespace server;
 
 
 
-void ServicesManager::registerService(unique_ptr<AbstractService> services){
-    services.push_back(std::move(services));
-}
 
-AbstractService const *ServicesManager::findService(const std::string& url){
+AbstractService *const ServicesManager::findService(const std::string &url) {
     for (auto &service : services){
         const string &pattern(service->getPattern());
         if (url.find(pattern) != 0 || (url.size() > pattern.size() && url[pattern.size()] != '/'))
@@ -21,7 +18,8 @@ AbstractService const *ServicesManager::findService(const std::string& url){
     return nullptr;
 }
 
-HttpStatus ServicesManager::queryService(std::string& out, std::string& in, std::string url, const std::string method){
+HttpStatus ServicesManager::queryService(std::string &out, const std::string &in, const std::string &url,
+                                         const std::string &method) {
     AbstractService *service = findService(url);
 
     if (!service) throw ServiceException(HttpStatus::NOT_FOUND, "Service " + url + " inconnu");
@@ -68,7 +66,7 @@ HttpStatus ServicesManager::queryService(std::string& out, std::string& in, std:
         if (!jsonReader.parse(in, jsonIn))
             throw ServiceException(HttpStatus::BAD_REQUEST, "Donnée erreur: " + jsonReader.getFormattedErrorMessages());
         Json::Value jsonOut;
-        HttpStatus status = service->post(jsonOut, jsonIn);
+        HttpStatus status = service->post(jsonOut, jsonIn); // missing an int
         out = jsonOut.toStyledString();
         return status;
     }
@@ -77,4 +75,8 @@ HttpStatus ServicesManager::queryService(std::string& out, std::string& in, std:
         return service->remove(id);
     }
     throw ServiceException(HttpStatus::BAD_REQUEST, "Method " + method + " invalide");
+}
+
+void ServicesManager::registerService(std::unique_ptr<AbstractService> service) {
+    services.push_back(std::move(service));
 }
