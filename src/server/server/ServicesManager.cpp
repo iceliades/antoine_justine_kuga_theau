@@ -66,7 +66,7 @@ HttpStatus ServicesManager::queryService(std::string &out, const std::string &in
         if (!jsonReader.parse(in, jsonIn))
             throw ServiceException(HttpStatus::BAD_REQUEST, "Donnée erreur: " + jsonReader.getFormattedErrorMessages());
         Json::Value jsonOut;
-        HttpStatus status = service->post(jsonOut, jsonIn); // missing an int
+        HttpStatus status = service->post(jsonOut, id, jsonIn); // missing an int
         out = jsonOut.toStyledString();
         return status;
     }
