@@ -9,25 +9,25 @@
 #include "state.h"
 #include "engine.h"
 #include "ai.h"
+#include "server.h"
 
 using namespace std;
 using namespace state;
 using namespace engine;
 using namespace ai;
+using namespace server;
 
 
 
 
 int main(int argc, char const *argv[])
 {
-    if (argc > 1)
-    {   
+    if (argc > 1){   
         // Test pour un Hello
         if (strcmp(argv[1], "Hello") == 0)
             cout << "Bonjour " << endl;
 
-        else if (strcmp(argv[1], "record") == 0)
-        {
+        else if (strcmp(argv[1], "record") == 0){
 
             std::string commands_file = "res/record/replay.txt";
 
@@ -87,5 +87,28 @@ int main(int argc, char const *argv[])
                 cerr << "Impossible d'ouvrir le fichier pour l'ecriture" << endl;
             }
         }
+        else if (strcmp(argv[1], "listen") == 0){
+            
+            try{
+                server::Game game;
+            
+                std::unique_ptr<AbstractService> ptr_versionService(new VersionService());
+
+                std::unique_ptr<AbstractService> ptr_playerService(new PlayerService(ref(game)));
+                
+                cout << "server is listening in port 80..." << endl << "press button to stop the server" << endl;
+                //(void)getc(stdin);
+                
+            }
+            catch (exception &e)
+            {
+                cerr << "Exception: " << e.what() << endl;
+            }
+
+
+        }
+
+
+        
     }
 }
