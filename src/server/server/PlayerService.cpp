@@ -1,6 +1,7 @@
 #include "PlayerService.h"
 #include "ServiceException.h"
 #include <memory>
+#include <iostream>
 
 using namespace server;
 using namespace std;
@@ -45,10 +46,11 @@ HttpStatus PlayerService::put(Json::Value &in, int id)
     return HttpStatus::OK;
 }
 
-HttpStatus PlayerService::post(Json::Value &out, int id, Json::Value &in) {
+HttpStatus PlayerService::post(Json::Value &out, Json::Value &in) {
+    cout << "Bonjour" << std::endl;
     if (game.getPlayers().size() >= 2)
         throw ServiceException(HttpStatus::OUT_OF_RESSOURCES, "Without free places to join");
-    
+    cout << "Au revoir" << std::endl;
     string name = in["name"].asString();
     bool free = in["free"].asBool();
     Player new_player(name, free);
