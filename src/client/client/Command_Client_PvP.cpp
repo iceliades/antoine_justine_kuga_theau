@@ -47,7 +47,7 @@ void Command_Client_PvP::execute()
     // For player 2;
     int indexChar2;
     bool alrdyattacked2 = 0;
-    std::vector<unique_ptr<Character>>& playerCharList2 = myEngine.getState().getListCharacters(2);
+    std::vector<unique_ptr<Character>>& playerCharList2 = myEngine.getState().getListCharacters(1);
 
     while (window.isOpen()){
         sf::Event event;
@@ -314,7 +314,7 @@ void Command_Client_PvP::execute()
                         {
                             unique_ptr<Command> ptr_ft(new Finish_Turn_Command());
                             myEngine.getState().setCurAction(IDLE);
-                            myEngine.addCommand(move(ptr_ft));myEngine.update();
+                            myEngine.addCommand(move(ptr_ft)); myEngine.update();
                         }
                     }
 
