@@ -10,7 +10,11 @@ using std::unique_ptr;
 using std::map;
 using std::vector;
 
-Game::Game (){}
+Game::Game (){
+
+}
+
+Game::~Game() {}
 
 Player* Game::getPlayerById (int id){
     auto it = players.find(id);

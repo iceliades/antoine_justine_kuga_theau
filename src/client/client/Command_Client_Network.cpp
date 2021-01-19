@@ -13,6 +13,10 @@ using namespace render;
 using namespace state;
 using namespace std;
 
+Command_Client_Network::Command_Client_Network() {}
+
+Command_Client_Network::~Command_Client_Network() {}
+
 void Command_Client_Network::execute() {
 
     string name;
