@@ -30,3 +30,7 @@ HttpStatus AbstractService::put(int id, Json::Value &in) {
 HttpStatus AbstractService::remove (int id) {
     throw ServiceException(HttpStatus::NOT_IMPLEMENTED,"Not Implemented");
 }
+
+const std::string & AbstractService::getPattern() const {
+    return pattern;
+}
