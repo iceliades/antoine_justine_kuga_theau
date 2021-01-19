@@ -12,6 +12,9 @@ using std::vector;
 
 Game::Game (){}
 
+
+Game::~Game() {}
+
 Player* Game::getIdPlayer (int id){
     auto it = players.find(id);
     if (it == players.cend())
