@@ -47,7 +47,7 @@ void Command_Client_PHAI::execute() {
 
     std::vector<unique_ptr<Character>>& playerCharList= myEngine.getState().getListCharacters(0);
 
-    bool alrdyattacked;
+    bool alrdyattacked = 0;
 
     while (window.isOpen()){
         sf::Event event;
@@ -184,14 +184,14 @@ void Command_Client_PHAI::execute() {
                         {
                             unique_ptr<Command> ptr_ft(new Finish_Turn_Command());
                             myEngine.getState().setCurAction(IDLE);
-                            myEngine.addCommand(move(ptr_ft));myEngine.update();
+                            myEngine.addCommand(move(ptr_ft));myEngine.update(); alrdyattacked = 0;
                         }
                     }
                 }
             }
 
             if(myEngine.getState().getCurPlayerID()==2 && myEngine.getState().getEndGame() == false)
-                heuristicAI.run(myEngine); alrdyattacked = 0;
+                heuristicAI.run(myEngine); 
 
         }
 
