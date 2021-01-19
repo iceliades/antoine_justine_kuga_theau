@@ -230,12 +230,12 @@ int main(int argc, char const *argv[])
                     printf("%s PORT\n", argv[0]);
                     return 1;
                 }
-
+                int port_id = 80;
                 d = MHD_start_daemon( // MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG | MHD_USE_POLL,
                     MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
                     // MHD_USE_THREAD_PER_CONNECTION | MHD_USE_DEBUG | MHD_USE_POLL,
                     // MHD_USE_THREAD_PER_CONNECTION | MHD_USE_DEBUG,
-                    8080,
+                    port_id,
                     NULL, NULL,
                     &handler, (void *)&servicesManager,
                     MHD_OPTION_NOTIFY_COMPLETED, request_completed, NULL,
@@ -243,7 +243,7 @@ int main(int argc, char const *argv[])
 
                 if (d == NULL)
                     return 1;
-                cout << "server is listening in port 8080..." << endl << "press any button to stop the server" << endl;
+                cout << "server is listening in port " << port_id << endl << "press any button to stop the server" << endl;
                 (void)getc(stdin);
                 MHD_stop_daemon(d);
             }

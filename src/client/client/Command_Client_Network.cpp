@@ -41,9 +41,10 @@ void Command_Client_Network::execute() {
     request1.setBody(me.toStyledString());
 
     sf::Http::Response response1 = http.sendRequest(request1);
-
+    cout << "The body :" << response1.getBody() << endl;
+    cout << "The status :" << response1.getStatus() << endl;
     Json::Reader jsonReader;
-    Json::Value rep1;
+    Json::Value rep1 ="";
     if (jsonReader.parse(response1.getBody(), rep1)) {
         int idPlayer = rep1["id"].asInt();
 
