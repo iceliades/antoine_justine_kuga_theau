@@ -61,7 +61,7 @@ int main(int argc,char* argv[])
             MethodMap[string(argv[1])]->execute();
         }
     }else{
-        cout << "Give me something processable a.k.a hello/state/render/engine/random_ai/player_vs_rai/play" << endl;
+        cout << "Give me something processable a.k.a hello/state/render/engine/random_ai/player_vs_rai/play/player_vs_player" << endl;
     }
 
     return 0;
