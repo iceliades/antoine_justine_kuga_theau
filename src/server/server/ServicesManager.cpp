@@ -57,7 +57,7 @@ HttpStatus ServicesManager::queryService(std::string &out, std::string &in, cons
         Json::Value jsonIn;
         if (!jsonReader.parse(in, jsonIn))
             throw ServiceException(HttpStatus::BAD_REQUEST, "Donnée erreur: " + jsonReader.getFormattedErrorMessages());
-        return service->put(jsonIn, id);
+        return service->put(id ,jsonIn);
     }
     else if (method == "POST"){
         Json::Reader jsonReader;
