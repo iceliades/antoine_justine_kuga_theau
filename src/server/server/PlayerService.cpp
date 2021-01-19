@@ -9,7 +9,7 @@ PlayerService::PlayerService(Game &game) : AbstractService("/player"), game(game
 {
 }
 
-const HttpStatus PlayerService::get(Json::Value &out, int id)
+HttpStatus PlayerService::get(Json::Value &out, int id)
 {
     if(id == -1){
         Json::Value playersArray(Json::arrayValue);
@@ -22,17 +22,17 @@ const HttpStatus PlayerService::get(Json::Value &out, int id)
         out["players"] = playersArray;
         return HttpStatus::OK;
     }
-    Player *player = game.getPlayerById(id);
+    Player *player = game.getIdPlayer(id);
     if (!player)
         throw ServiceException(HttpStatus::NOT_FOUND, "Invalid player id");
     out["name"] = player->name;
     out["free"] = player->free;
-    out["playerNumber"] = (game.getPlayers().begin()->first == id) ? 1 : 2;
     return HttpStatus::OK;
 }
 
-HttpStatus PlayerService::put(const Json::Value& in, Json::Value& out,int id){
-    Player *player = game.getPlayerById(id);
+HttpStatus PlayerService::put(Json::Value &in, int id)
+{
+    Player *player = game.getIdPlayer(id);
     if (!player)
         throw ServiceException(HttpStatus::NOT_FOUND, "Invalid player id");
     
@@ -41,15 +41,14 @@ HttpStatus PlayerService::put(const Json::Value& in, Json::Value& out,int id){
         playermod->name = in["name"].asString();
     if (in.isMember("free"))
         playermod->free = in["free"].asBool();
-    //game.modifyPlayer(id, std::move(playermod));
-    return HttpStatus::NO_CONTENT;
+    game.modifyPlayer(id, std::move(playermod));
+    return HttpStatus::OK;
 }
 
-HttpStatus PlayerService::post(Json::Value& in, int id, Json::Value& out){
-    if(in.isMember("player_id"))
-        return put(in, in["player_id"],id);
+HttpStatus PlayerService::post(Json::Value &out, int id, Json::Value &in) {
     if (game.getPlayers().size() >= 2)
         throw ServiceException(HttpStatus::OUT_OF_RESSOURCES, "Without free places to join");
+    
     string name = in["name"].asString();
     bool free = in["free"].asBool();
     Player new_player(name, free);
@@ -60,11 +59,11 @@ HttpStatus PlayerService::post(Json::Value& in, int id, Json::Value& out){
 
 HttpStatus PlayerService::remove(int id)
 {
-    Player *player = game.getPlayerById(id);
+    Player *player = game.getIdPlayer(id);
     
     if (!player)
         throw ServiceException(HttpStatus::NOT_FOUND, "Invalid player id");
     
     game.removePlayer(id);
-    return HttpStatus::NO_CONTENT;
+    return HttpStatus::OK;
 }

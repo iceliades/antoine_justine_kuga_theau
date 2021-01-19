@@ -5,7 +5,6 @@ using namespace server;
 
 
 ServiceException::ServiceException(HttpStatus status, std::string message):httpStatus(status),message(message){
-    
 
 }
 

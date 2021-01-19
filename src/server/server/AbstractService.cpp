@@ -5,8 +5,7 @@
 using namespace server;
 using namespace std;
 
-AbstractService::AbstractService(const std::string& pattern)
-{
+AbstractService::AbstractService(const std::string pattern) {
     this->pattern = pattern;
 }
 
@@ -16,18 +15,22 @@ AbstractService::~AbstractService() {
 
 
 
-const HttpStatus AbstractService::get(Json::Value& out, int id)  {
+HttpStatus AbstractService::get(Json::Value &out, int id) {
     throw ServiceException(HttpStatus::NOT_IMPLEMENTED,"Not Implemented");
 }
 
-HttpStatus AbstractService::post (const Json::Value& in, int id,Json::Value& out) {
+HttpStatus AbstractService::post(Json::Value &out, Json::Value &in) {
     throw ServiceException(HttpStatus::NOT_IMPLEMENTED,"Not Implemented");
 }
 
-HttpStatus AbstractService::put (Json::Value& out, const  Json::Value& in){
+HttpStatus AbstractService::put(int id, Json::Value &in) {
     throw ServiceException(HttpStatus::NOT_IMPLEMENTED,"Not Implemented");
 }
 
 HttpStatus AbstractService::remove (int id) {
     throw ServiceException(HttpStatus::NOT_IMPLEMENTED,"Not Implemented");
+}
+
+const std::string & AbstractService::getPattern() const {
+    return pattern;
 }
