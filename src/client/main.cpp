@@ -48,6 +48,7 @@ int main(int argc,char* argv[])
     MethodMap["play"] = (ICommand_Client*)new Command_Client_Play();
     MethodMap["deep_ai"] = (ICommand_Client*)new Command_Client_DAI();
     MethodMap["thread"] = (ICommand_Client*)new Command_Client_Thread();
+    MethodMap["network"] = (ICommand_Client*)new Command_Client_Network();
 
 
 
@@ -62,10 +63,5 @@ int main(int argc,char* argv[])
         cout << "Give me something processable a.k.a hello/state/render/engine/random_ai/player_vs_rai/play" << endl;
     }
 
-    if (argc<1){
-
-
-        
-    }
     return 0;
 }

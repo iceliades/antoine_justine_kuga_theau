@@ -1,13 +1,15 @@
-/*#include "engine.h"
+#include "engine.h"
 #include "render.h"
 #include "state.h"
 #include "client.h"
-//#include "Client_Network.h"
 #include "ai.h"
+#include "Client_Network.h"
+
 #include <iostream>
 #include <unistd.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Network.hpp>
 #include <thread>
 #include <pthread.h>
 
@@ -35,9 +37,9 @@ void threadEngine(Engine *ptr)
     }
 }
 
-Client::Client_Network(int port, std::string &url, sf::RenderWindow &window, std::string mode)
-{
-    this->windows=windows;
+Client_Network::Client_Network(int port, string &url, sf::RenderWindow &window, std::string mode) : window(window) {
+
+
     this->mode=mode;
     this->url=url;
 
@@ -45,90 +47,102 @@ Client::Client_Network(int port, std::string &url, sf::RenderWindow &window, std
     engine.getState().initPlayers();
     engine.getState().initCharacters();
     engine.getState().initMapCell();
-
-    ai_1 = new HeuristicAI(engine, 1); 
-    ai_2 = new DeepAI(engine, character);
-  
-
-
-    engine.multithread = true;
-
     
     engine.registerObserver(this);
 
 }
 
+void Client_Network::engineUpdated() {}
 
+void Client_Network::engineUpdating() {
 
+    for (size_t i = 0; i < engine.getCurrCommands().size(); i++)
+    {
+        Command *c = &(*engine.getCurrCommands()[i]);
+        //putServerCommand(c);
+    }
+    cout << "engine updating" << endl;
+    engine.update();
+    usleep(150000);
+}
 
+engine::Engine Client_Network::getEngine() {}
 
-// Getters
-
-std::string getMode(){
+std::string Client_Network::getMode() {
     return this->mode;
 }
 
-std::string getUrl(){
-    return this->url;
+sf::RenderWindow & Client_Network::getWindow() {
+    return window;
 }
-
-int getPort(){
-    return this->port;
-}
-
-engine::Engine getEngine(){
-    return this->engine;
-}
-
-getWindow(){
-    return this->window();
-}
-
 /*
+void Client_Network::run() {
 
-void Client::run()
-{
     StateLayer stateLayer(engine.getState(), window);
     stateLayer.initTextureArea(engine.getState());
 
     StateLayer *ptr_stateLayer = &stateLayer;
     engine.getState().registerObserver(ptr_stateLayer);
+    stateLayer.draw(window);
     std::thread th(threadEngine, &engine);
     while (!engine.getState().getEndGame())
     {
-        if (booting)
+        if (!engine.getState().getEndGame())
+        {
+            StateEvent e(ALLCHANGED);
+            engine.getState().notifyObservers(e, engine.getState());
+        }
+        if (display)
         {
             stateLayer.draw(window);
-            booting = false;
+            //cout << "Turn " << engine.getState().getTurn() << endl;
+            display = false;
         }
+        //playerAI->setPlayerNumber(character);
+        if (engine.getState().getTurnOwner() == character) // is my turn
+        {
+            // play
+            playerAI->run(engine);
+            sleep(2);
+        }
+        else
+        {
+            // while is not my turn, wait
+            sf::Http http(url, port);
+            sleep(1);
+            // get commands from opponent passing my player number (1 or 2)
+            sf::Http::Request request;
+            request.setMethod(sf::Http::Request::Get);
+            string uri = "/command";
+            request.setUri(uri);
+            request.setHttpVersion(1, 0);
+            Json::Reader jsonReader;
+            Json::Value commands;
 
-        ai_1->run(engine);
-        ai_2->run(engine);
+            sf::Http::Response response = http.sendRequest(request);
+            cout << response.getBody() << endl;
+            if (jsonReader.parse(response.getBody(), commands))
+            {
+                // get and apply opponent commands
+                getServerCommands(commands);
+            }
+        }
 
         sf::Event event;
         while (window.pollEvent(event))
         {
+            // Fermeture de la fenetre
             if (event.type == sf::Event::Closed)
             {
                 window.close();
-                engine.getState().setEndGame(true);
+                engine.getState().setEnd(true);
                 cout << "\tWindow closed" << endl;
                 break;
             }
         }
     }
-    runThread = false;
+
+    l2 = false;
     th.join();
-}
-
-void Client::engineUpdating() {
-    runEngine = true;
-    usleep(150000);
-}
-
-void Client::engineUpdated() {};
-
-const std::string Client::getMode() {
-    return mode;
 }
 */

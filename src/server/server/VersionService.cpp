@@ -4,9 +4,9 @@ using namespace std;
 using namespace server;
 
 
-VersionService::VersionService(){
+/*VersionService::VersionService(const std::string &pattern) {
     this->AbstractService("/version");
-}
+}*/
 
 HttpStatus const VersionService::get(Json::Value& out, int in){
     out["version"] = "0.1";
