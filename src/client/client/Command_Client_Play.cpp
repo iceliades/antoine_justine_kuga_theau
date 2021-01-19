@@ -95,13 +95,14 @@ void Command_Client_Play::execute(){
         // END WAITING TO BE CLOSED
         while(1){
             while(window.pollEvent(event)){
-                if (event.type == sf::Event::Closed){
+                if (event.type == sf::Event::KeyPressed){
                  window.close();
-                 break;
+                 goto this_bitch_done;
                 }
             } 
              
         }
+        this_bitch_done:;
     }
 
 }
