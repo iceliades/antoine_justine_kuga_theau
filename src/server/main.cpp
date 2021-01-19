@@ -6,6 +6,20 @@
 #include <time.h> // Pour compter une minute d'enregistrement
 #include <fstream> // Pour la gestion des fichiers
 
+
+
+#include <sstream>
+#include <map>
+#include <memory>
+
+#include <microhttpd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/types.h>
+#include <sys/select.h>
+
+
+
 #include "state.h"
 #include "engine.h"
 #include "ai.h"
@@ -89,23 +103,47 @@ int main(int argc, char const *argv[])
         }
         else if (strcmp(argv[1], "listen") == 0){
             
-            try{
-                server::Game game;
-            
-                std::unique_ptr<AbstractService> ptr_versionService(new VersionService());
+            {
+                VersionService versionService;
+                std::unique_ptr<AbstractService> ptr_versionService(new VersionService(versionService));
 
-                std::unique_ptr<AbstractService> ptr_playerService(new PlayerService(ref(game)));
-                
-                cout << "server is listening in port 80..." << endl << "press button to stop the server" << endl;
-                //(void)getc(stdin);
-                
+                ServicesManager servicesManager;
+                servicesManager.registerService(move(ptr_versionService));
+
+                Game game;
+
+                PlayerService playerService(std::ref(game));
+                std::unique_ptr<AbstractService> ptr_playerService(new PlayerService(playerService));
+
+                servicesManager.registerService(move(ptr_playerService));
+
+                struct MHD_Daemon *d;
+                if (argc != 2)
+                {
+                    printf("%s PORT\n", argv[0]);
+                    return 1;
+                }
+
+                d = MHD_start_daemon( // MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG | MHD_USE_POLL,
+                    MHD_USE_SELECT_INTERNALLY | MHD_USE_DEBUG,
+                    // MHD_USE_THREAD_PER_CONNECTION | MHD_USE_DEBUG | MHD_USE_POLL,
+                    // MHD_USE_THREAD_PER_CONNECTION | MHD_USE_DEBUG,
+                    8080,
+                    NULL, NULL,
+                    &handler, (void *)&servicesManager,
+                    MHD_OPTION_NOTIFY_COMPLETED, request_completed, NULL,
+                    MHD_OPTION_END);
+
+                if (d == NULL)
+                    return 1;
+                cout << "server is listening in port 8080..." << endl << "press any button to stop the server" << endl;
+                (void)getc(stdin);
+                MHD_stop_daemon(d);
             }
             catch (exception &e)
             {
                 cerr << "Exception: " << e.what() << endl;
             }
-
-
         }
 
 
