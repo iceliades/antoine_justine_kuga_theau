@@ -5,7 +5,7 @@
 using namespace server;
 using namespace std;
 
-AbstractService::AbstractService(const std::string pattern) {
+AbstractService::AbstractService(std::string pattern) {
     this->pattern = pattern;
 }
 

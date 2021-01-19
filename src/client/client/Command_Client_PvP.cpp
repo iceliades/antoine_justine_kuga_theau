@@ -22,7 +22,7 @@ void Command_Client_PvP::execute()
     srand(time(NULL));// Init random generator 
 
     Engine myEngine; // No confusion to engine packgage
-    myEngine.getState().setMode("PlayervsAI");
+    myEngine.getState().setMode("PlayervsPlayer");
     myEngine.getState().initPlayers();
     myEngine.getState().initCharacters();
     myEngine.getState().initMapCell();
@@ -301,7 +301,7 @@ void Command_Client_PvP::execute()
                         }
                         
                         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
-                            if(myEngine.getState().getCurAction()==ATTACKING&& !alrdyattacked2){
+                            if(myEngine.getState().getCurAction()==ATTACKING && !alrdyattacked2){
                                 unique_ptr<Command> ptr_ac2(new Attack_Command(*playerCharList2[indexChar2],
                                                                                *myEngine.getState().getListCharacters(0)[2]));
                                 myEngine.addCommand(move(ptr_ac2));myEngine.update();

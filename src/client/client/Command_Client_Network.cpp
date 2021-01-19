@@ -39,12 +39,12 @@ void Command_Client_Network::execute() {
     me["free"] = true;
 
     request1.setBody(me.toStyledString());
-
+    cout << "The body before sending the request:" << me.toStyledString() << endl;
     sf::Http::Response response1 = http.sendRequest(request1);
     cout << "The body :" << response1.getBody() << endl;
     cout << "The status :" << response1.getStatus() << endl;
     Json::Reader jsonReader;
-    Json::Value rep1 ="";
+    Json::Value rep1;
     if (jsonReader.parse(response1.getBody(), rep1)) {
         int idPlayer = rep1["id"].asInt();
 
