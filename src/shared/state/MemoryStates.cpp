@@ -22,3 +22,7 @@ CopyState& MemoryStates::get(int index){
 unsigned int MemoryStates::getSize(){
     return memoryStates.size();
 }
+
+void MemoryStates::pop(){
+    memoryStates.clear();
+}

@@ -41,7 +41,7 @@ void Command_Client_DAI::execute() {
     bool booting=true;
 
     // Init ai
-    ai::DeepAI deepai(DAIEngine,2,0);
+    ai::DeepAI deepai(DAIEngine,2,1);
     ai::RandomAI randomAi;
     randomAi.setNbplayers(1); // PLayer ID 2
 
@@ -54,15 +54,20 @@ void Command_Client_DAI::execute() {
             booting=false;
         }
         if(DAIEngine.getState().getCurPlayerID()==2){
+            cout<<"**********************BEFORE DEEP AI EXE************************"<<endl;
             if(DAIEngine.getState().getEndGame()==false)
                 deepai.run(DAIEngine);
+                usleep(500000);
+            cout<<"**********************AFTER DEEP AI EXE************************"<<endl;
         }else
         {
-            cout << "You are just before RAI execution" <<endl;
+            cout << "**********************You are just before RAI execution**********************" <<endl;
             if(DAIEngine.getState().getEndGame()==false)
                 randomAi.run(DAIEngine);
-            cout << "You are just after RAI execution" <<endl;
+            cout << "**********************You are just after RAI execution**********************" <<endl;
         }
+        StateEvent stateEvent(ALLCHANGED);
+        DAIEngine.getState().notifyObservers(stateEvent,DAIEngine.getState());
         // at the close event seems not working
         // will see later for use this
         if(DAIEngine.getState().getEndGame()==true){
