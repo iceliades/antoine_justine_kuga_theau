@@ -47,6 +47,7 @@ void Command_Client_PHAI::execute() {
 
     std::vector<unique_ptr<Character>>& playerCharList= myEngine.getState().getListCharacters(0);
 
+    bool alrdyattacked = 0;
 
     while (window.isOpen()){
         sf::Event event;
@@ -149,48 +150,48 @@ void Command_Client_PHAI::execute() {
                         }
                         
                         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)){
-                            if(myEngine.getState().getCurAction()==ATTACKING)
+                            if(myEngine.getState().getCurAction()==ATTACKING && !alrdyattacked)
                             {
                                 unique_ptr<Command> ptr_ac0(new Attack_Command(*playerCharList[indexChar],
                                                                                *myEngine.getState().getListCharacters(1)[0]));
                                 myEngine.addCommand(move(ptr_ac0));myEngine.update();
                                 myEngine.getState().setCurAction(IDLE);
-                                myEngine.update();
+                                myEngine.update(); alrdyattacked = 1;
                             }
                         }
                         
                         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
-                            if(myEngine.getState().getCurAction()==ATTACKING){
+                            if(myEngine.getState().getCurAction()==ATTACKING && !alrdyattacked){
                                 unique_ptr<Command> ptr_ac1(new Attack_Command(*playerCharList[indexChar],
                                                                                *myEngine.getState().getListCharacters(1)[1]));
                                 myEngine.addCommand(move(ptr_ac1));myEngine.update();
                                 myEngine.getState().setCurAction(IDLE);
-                                myEngine.update();
+                                myEngine.update(); alrdyattacked = 1;
                             }
                         }
                         
                         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
-                            if(myEngine.getState().getCurAction()==ATTACKING){
+                            if(myEngine.getState().getCurAction()==ATTACKING && !alrdyattacked){
                                 unique_ptr<Command> ptr_ac2(new Attack_Command(*playerCharList[indexChar],
                                                                                *myEngine.getState().getListCharacters(1)[2]));
                                 myEngine.addCommand(move(ptr_ac2));myEngine.update();
                                 myEngine.getState().setCurAction(IDLE);
-                                myEngine.update();
+                                myEngine.update(); alrdyattacked = 1;
                             }
                         }
-                        
+
                         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
                         {
                             unique_ptr<Command> ptr_ft(new Finish_Turn_Command());
                             myEngine.getState().setCurAction(IDLE);
-                            myEngine.addCommand(move(ptr_ft));myEngine.update();
+                            myEngine.addCommand(move(ptr_ft));myEngine.update(); alrdyattacked = 0;
                         }
                     }
                 }
             }
 
             if(myEngine.getState().getCurPlayerID()==2 && myEngine.getState().getEndGame() == false)
-                heuristicAI.run(myEngine);
+                heuristicAI.run(myEngine); 
 
         }
 
