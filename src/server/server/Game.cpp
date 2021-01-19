@@ -16,12 +16,12 @@ Game::Game (){
 
 Game::~Game() {}
 
-Player* Game::getPlayerById (int id){
+/*Player* Game::getPlayerById (int id){
     auto it = players.find(id);
     if (it == players.cend())
         return nullptr;
     return it->second.get();
-};
+};*/
 
 
 void Game::removePlayer (int id){
