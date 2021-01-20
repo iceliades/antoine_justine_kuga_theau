@@ -13,6 +13,7 @@ using std::vector;
 Game::Game (){}
 
 
+
 Game::~Game() {}
 
 Player* Game::getIdPlayer (int id){

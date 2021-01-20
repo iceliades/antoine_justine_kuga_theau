@@ -53,7 +53,7 @@ void Command_Client_PvP::execute()
         sf::Event event;
 
         // Display changes for the init
-        if(booting) stateLayer.draw(window); myEngine.update(); booting=false;
+        if(booting) {stateLayer.draw(window); myEngine.update(); booting=false;}
 
         while (window.pollEvent(event)){
             if (event.type == sf::Event::Closed) window.close();
@@ -283,7 +283,7 @@ void Command_Client_PvP::execute()
                             if(myEngine.getState().getCurAction()==ATTACKING && !alrdyattacked2)
                             {
                                 unique_ptr<Command> ptr_ac0(new Attack_Command(*playerCharList2[indexChar2],
-                                                                               *myEngine.getState().getListCharacters(1)[0]));
+                                                                               *myEngine.getState().getListCharacters(0)[0]));
                                 myEngine.addCommand(move(ptr_ac0));myEngine.update();
                                 myEngine.getState().setCurAction(IDLE);
                                 myEngine.update(); alrdyattacked2 = 1;
@@ -293,7 +293,7 @@ void Command_Client_PvP::execute()
                         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
                             if(myEngine.getState().getCurAction()==ATTACKING && !alrdyattacked2){
                                 unique_ptr<Command> ptr_ac1(new Attack_Command(*playerCharList2[indexChar2],
-                                                                               *myEngine.getState().getListCharacters(1)[1]));
+                                                                               *myEngine.getState().getListCharacters(0)[1]));
                                 myEngine.addCommand(move(ptr_ac1));myEngine.update();
                                 myEngine.getState().setCurAction(IDLE);
                                 myEngine.update(); alrdyattacked2 = 1;
@@ -303,7 +303,7 @@ void Command_Client_PvP::execute()
                         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)){
                             if(myEngine.getState().getCurAction()==ATTACKING && !alrdyattacked2){
                                 unique_ptr<Command> ptr_ac2(new Attack_Command(*playerCharList2[indexChar2],
-                                                                               *myEngine.getState().getListCharacters(1)[2]));
+                                                                               *myEngine.getState().getListCharacters(0)[2]));
                                 myEngine.addCommand(move(ptr_ac2));myEngine.update();
                                 myEngine.getState().setCurAction(IDLE);
                                 myEngine.update(); alrdyattacked2 = 1;
