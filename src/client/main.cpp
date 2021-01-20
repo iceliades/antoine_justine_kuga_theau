@@ -43,28 +43,26 @@ int main(int argc,char* argv[])
     MethodMap["heuristic_ai"] = (ICommand_Client*)new Command_Client_HAI();
     MethodMap["player_vs_hai"] = (ICommand_Client*)new Command_Client_PHAI();
     MethodMap["hai_vs_rai"] = (ICommand_Client*)new Command_Client_RHAI();
-    MethodMap["autre"] = (ICommand_Client*)new Command_Client_Autre();
+    MethodMap["help"] = (ICommand_Client*)new Command_Client_Autre();
     MethodMap["rollback"] = (ICommand_Client*)new Command_Client_Rollback();
     MethodMap["play"] = (ICommand_Client*)new Command_Client_Play();
-    //MethodMap["deep_ai"] = (ICommand_Client*)new Command_Client_DeepAi();
+    MethodMap["deep_ai"] = (ICommand_Client*)new Command_Client_DAI();
     MethodMap["thread"] = (ICommand_Client*)new Command_Client_Thread();
+    MethodMap["network"] = (ICommand_Client*)new Command_Client_Network();
+    //MethodMap["player_vs_player"] = (ICommand_Client*)new Command_Client_PvP();
 
 
 
     if(argc==2) {
         if(MethodMap.find(argv[1])==MethodMap.end()) {
-            MethodMap["autre"]->execute();
+            cout << "Cette commande est inexistante" <<endl;
+            MethodMap["help"]->execute();
         }else {
             MethodMap[string(argv[1])]->execute();
         }
     }else{
-        cout << "Give me something processable a.k.a hello/state/render/engine/random_ai/player_vs_rai/play" << endl;
+        cout << "Give me something processable a.k.a hello/state/render/engine/random_ai/player_vs_rai/play/player_vs_player" << endl;
     }
 
-    if (argc<1){
-
-
-        
-    }
     return 0;
 }

@@ -71,9 +71,10 @@ make unittest
 
 ## 1.1 Development environment
 The recommended environment to use and install this project is a linux distribution of your choosing. Preferably Ubuntu 16.04 and upwards.  
-Hello World dislay
+###Basic commands
 ```bash
 ./bin/client hello
+./bin/client help
 ```
 ## 1.final Game state
 Unit test
@@ -112,57 +113,38 @@ Player vs Heuristic AI
 ```
 ## 3.final Advanced AI
 
+rollback using CopyState as a clone state 
+./bin/rollback
+
+advanced AI vs Random_AI
+./bin/client deep_ai
+
+
+## 4.1 Multi threading
+
+Threading with music and 2 Heuristic AIs dueling
+./bin/client thread
+
 Command for record and save in the replay.txt
 ```bash
 ./bin/server record
 ```
-
 Command to play the record 
 ```bash
 ./bin/client play
 ```
 
-## 4.1 Multi threading
+## 4.2 Modularisation
 
-Threading with music and 2 Heuristic AIs dueling
-
-```
-./bin/client demo_thread_hai
->>>>>>> dev
-```
-## 2.1 Render
-Render automatic display
+API web : Create a Lobby
 ```bash
-./bin/client render
+./bin/server listen
+```
+Connect a client to the server
+```bash
+./bin/client network
 ```
 
-## 2.2 Engine
-Engine automatic display
-```bash
-./bin/client engine
-```
-## 2. Random AI
-Random AI vs Random AI 
-```bash
-./bin/client random_ai
-```
-Player vs RandomAI 
-```bash
-./bin/client player_vs_rai
-```
-
-## 3.1 Heuristic AI
-Heuristic AI vs Heuristic AI 
-```bash
-./bin/client heuristic_ai
-```
-Player vs Heuristic AI
-```bash
-./bin/client player_vs_hai
-```
-## 3.final Advanced AI
-
-## 4.1 Multi threading
 
 ## Report
 

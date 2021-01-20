@@ -1,0 +1,795 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage[french]{layout}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{subcaption}
+\DeclareGraphicsExtensions{.png}
+\usepackage{pdflscape}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+	\begin{figure}
+		\includegraphics[width = 0.2\textwidth]{Logo_ENSEA.svg.png}
+	\end{figure}
+
+	
+	\title{\textbf{Projet Zorglub}}
+	\author{\hline \\ CHARLET Justine, DESCATOIRE Théau \\ MONTMAUR Antoine,  SATHIAKUMAR Kugappiriyan \\ \\ \hline \\  \includegraphics[width = 0.6 \textwidth]{logo_zorglub.png} }
+	\date{\textbf{6 Octobre 2020}}
+
+	
+
+	
+	
+	\maketitle
+	\tableofcontents
+	
+	
+	\chapter{Objectif}
+	\section{Présentation générale}
+	Le Projet Logiciel Transverse (PLT) est un projet de 120h destiné à la conception d'un jeu vidéo de type tour par tour, avec un réseau multi joueur en ligne. Il fait intervenir la plupart des cours dispensés en Informatique et Systèmes à l'ENSEA : génie logiciel, algorithmique, programmation parallèle et web services. \\
+	\indent Au cours de ce projet, nous allons faire de la conception UML, réaliser un moteur d'affichage, créer une IA basique, une heuristique puis l'améliorer pour qu'elle soit performante, et enfin développer ce jeu en multijoueur, de façon à pouvoir jouer en ligne.
+
+
+	
+	\section{Outils pour la réalisation du jeu}
+	
+		Ce projet est développé en langage C++, très adapté pour les jeux vidéos. Nous avons décidé de travailler soit sous VM, soit sur un PC avec un environnement Linux. Le projet est développé sous Ubuntu 18.04. La bibliothèque SFML version 2.4.2 a été utilisé pour le rendu graphique . \\ \\
+
+		Nous avons créé un projet GIT en clonant le projet du GIT de M. Barès et nous avons créé une branche dev qui sera notre environnement avant l'implémentation finale qui sera merge dans la branche Master.
+		De plus, nous avons crée un projet Trello afin de mieux visualiser les tâches restantes et définir les rôles de chacun au sein du projet.
+	
+	
+
+	\section{Archétype du jeu}
+	L'objectif de notre projet est la réalisation d'un jeu vidéo de type tactical RPG (T-RPG), en tour par tour, basé sur le jeu Donjon de Naheulbeuk. 
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width = 0.5\columnwidth]{donjon.png}
+		\caption{Logo de Donjon de Naheulbeuk}
+	\end{figure}
+	
+	Le jeu est basé sur un PVP multijoueur ( pour l'instant 2 joueurs) qui possèderont chacun un nombre de personnages prédéfinis. Le vainqueur est le seul joueur ayant encore des personnages en vie.
+	
+	\section{Règles du jeu}
+	
+	
+	\subsection{Les personnages et leurs maps}
+	Nous avons créé nos propres personnages et nos propres règles.\\
+	Chaque joueur doit choisir une équipe de 3 personnages parmi les suivants : Elfe, Indien, Nain, Bandit, Chevalier, Troll et Pirate.  \\
+
+	\indent Le jeu comporte 7 maps représentant les 7 thèmes associés aux personnages : 
+	\begin{enumerate}
+		\item Jungle (elfe)
+		\item Plaine (indien)
+		\item Montagne (nain)
+		\item Forêt (bandit)
+		\item Château (chevalier)
+		\item Grotte (troll)
+		\item Bateau (pirate)
+	\end{enumerate}	
+	. \\ 
+	
+	
+	
+	
+	
+	\begin{figure*}[h]
+		\centering
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{elfe.png}
+			\caption{Elfe} 
+		\end{subfigure}
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{indien.png}
+			\caption{Indien}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{nain.png}
+			\caption{Nain}
+		\end{subfigure}
+		
+		
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{bandit.png}
+			\caption{Bandit} 
+		\end{subfigure}
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{chevalier.png}
+			\caption{Chevalier}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{troll.png}
+			\caption{Troll}
+		\end{subfigure}
+		
+		
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{pirate.png}
+			\caption{Pirate}
+		\end{subfigure}
+
+		\caption{Liste des personnages possibles}
+	\end{figure*}
+
+
+
+	. \\ \\ 
+	
+	\subsection{Les attributs principaux, secondaires et les compétences}
+	
+
+	\indent A chaque personnage est associé des attributs principaux et secondaires. La répartition des points pour chaque attribut principal se fait par un système d'achat de points:  
+
+	\begin{center}
+		\begin{tabular}{|c|}
+			
+			\hline
+			Attributs principaux \\
+			\hline
+			$8 \le Force \le 15$ \\
+			\hline
+			$8 \le Adresse \le 15$ \\
+			\hline
+			$8 \le Endurance \le 15$ \\
+			\hline
+			$8 \le Courage \le 15$ \\
+			\hline
+			$8 \le Intelligence \le 15$ \\
+			\hline
+			$8 \le Arcane \le 15$ \\
+			\hline
+			
+		\end{tabular}
+	\end{center}
+	. \\ 
+	Tous les attributs principaux sont à 8 par défaut et le joueur dispose de 27 points pour améliorer les capacités de son choix, chaque capacité n'excédant pas 15. Si un attribut dépasse 13, il faut alors 2 pts pour passer à 14, puis à 15. \\
+	
+	\noindent Les points attribués aux attributs secondaires sont calculés automatiquement en fonction des attributs primaires de la manière suivante : \\
+	
+	\begin{tabular}{|c|c|}
+		\hline
+		\multicolumn{2}{|c|}{\textbf{Attributs secondaires}} \\
+		\hline
+		Points De Vie & 3 * Endurance + 2 * Force \\
+		\hline
+		Precision & (Adresse + Force + Intelligence + Arcane)/60 \\
+		\hline
+		Esquive & ((Adresse + Intelligence - 16 )$^2$/196) * 0,33 \\
+		\hline
+		Mouvement & 5 + $\lfloor$ 1/12 $\rfloor$ * endurance + $\lfloor$ 1/12 $\rfloor$ * Courage \\
+		\hline
+		Initiative & Courage + Intelligence + Arcane \\
+		\hline
+	\end{tabular}
+	
+	.\\ 
+	
+	
+	Il est aussi possible d'utiliser les compétences des personnages, établies comme suit : \\ 
+
+	\begin{tabular}{|c|c|c|} 
+		
+		\hline
+		\textbf{Corps-à-corps} & \textbf{A distance} & \textbf{Magie} \\
+		\hline
+		- 2 pt d'actions (ts ls 3 tours) & Pluie de projectiles (3) &Téléportation (3) \\
+		\textit{Le joueur adv ne joue pas} & \textit{Joueur adv essuie 3 attaques} &  \\
+		\hline
+		Pas de mouvement (2)& Rebonds (2) & Désarmement (2) \\
+		& \textit{L'attaque rebondit 2 fois} & \\
+		\hline
+	\end{tabular}
+	. \\
+	
+	Chaque compétence vaut 1 point d'action et ne dure qu'un tour. Ces compétences ont un temps de rechargement exprimé en nombre de tours (voir tableau ci-dessus). L'implémentation d'au moins une compétence par personnage sera notre objectif principal. \\ \\
+	
+
+	Voici quelques fonctionnalités qu'on pourra mettre en place si le joueur a accès à une interface graphique permettant le choix des personnages, des statistiques et de la sélection de la map.
+	
+	
+	\begin{enumerate}
+	    \item 	\textbf{Bonus thématique}\\
+	De plus, si un personnage joue dans la map de même thème (ex : Elfe dans la jungle), alors le personnage se voit attribuer un bonus de 5 points de vie.
+	    \item \textbf{Bonus Taxon} 
+	De même, chaque personnage a un bonus lié à son origine, selon le tableau ci-dessous: 
+	\end{enumerate}
+
+	
+	
+	\begin{tabular}{|c|c|}
+		\hline
+		\multicolumn{2}{|c|}{Bonus de Taxon} \\
+		\hline
+		Elfe &  +1 en Adresse \\
+		\hline
+		Indien & +1 en Arcane \\
+		\hline
+		Nain & +1 en Endurance \\
+		\hline
+		Bandit & +1 en  Intelligence\\
+		\hline
+		Troll & +1 en Force \\
+		\hline
+		Chevalier & +1 en Courage \\
+		\hline
+		Pirate & +1 au choix dans un attribut primaire (car c'est un voleur)\\
+		\hline
+	\end{tabular}
+    \\ \\
+	
+	
+	
+
+	\subsection{Le tour par tour} 
+	 \underline{Perspective du GamePlay:}
+	A chaque tour, le joueur dispose de 2 points d'action. Pour chaque point, il peut soit se déplacer, soit attaquer, soit utiliser une compétence. Pour chaque tour, il n'est pas possible de réaliser une attaque et une compétence ou deux attaques. \\ \\ \\
+	\textbf{\underline{Les attaques}}\\ \\
+	Trois types d'attaques sont disponibles: le corps-à-corps, attaque à distance, ou attaque magique. Pour chaque arme, une portée minimale et maximale est donnée dans le tableau ci dessous :\\ \\ 
+	
+	
+	
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\multicolumn{9}{|c|}{Types d'attaques} \\
+		\hline 
+		\multicolumn{3}{|c|}{ \textbf{Corps-à-corps}} & 
+		\multicolumn{3}{|c|}{ \textbf{A distance}}  & \multicolumn{3}{|c|}{\textbf{Magique}}\\
+		\hline
+		& \multicolumn{2}{|c|}{\textbf{Portée}} & & \multicolumn{2}{|c|}{\textbf{Portée}} & & \multicolumn{2}{|c|}{\textbf{Portée}} \\
+		\hline
+		\textbf{Arme} & Min & Max & \textbf{Arme}& Min & Max & \textbf{Arme}& Min & Max\\
+		\hline 
+		Epée & 1 & 2 & Arc & 2 & 8 & Baguette & 3 & 4,5 \\
+		\hline
+		Hache & 1 & 1,5 & Arbalette & 2 & 7 & Bâton & 3 & 4\\
+		\hline
+		Lance & 1 & 2,5 & Fronde & 2 & 6,5 &  Bracelets & 3 & 5 \\
+		\hline
+
+	\end{tabular}
+    \newpage
+	Les types d'arme ainsi que les dégâts associés sont présentès sur la liste\newline
+	suivant: \\ 
+	\begin{center}
+		\begin{tabular}{|c|c|}
+			
+			\hline
+			Arme & Dégâts \\
+			\hline
+			Epée & 13 \\
+			Hache & 14\\
+			Lance & 12\\
+			Arc & 6\\
+			Arbalette & 7 \\
+			Fronde & 8 \\
+			Baguette & 10 \\
+			Bâton & 11 \\
+			Bracelet & 9 \\
+			\hline
+		\end{tabular}
+	\end{center}
+	.\\ \\
+	\textbf{Les déplacements}\\
+	
+	Chaque personnage peut se déplacer de 5 unités de distance: selon la verticale et/ou horizontale pour une valeur de 1 unité par case. Le joueur peut également avoir un bonus de 1 ou 2 unité de distance s'il choisit de maximiser les attributs tels que l'endurance et courage.\\
+	\begin{figure*}[h]
+		\centering
+		\begin{subfigure}[b]{0.4\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{hv.png}
+			\caption{4 cases de distance} 
+		\end{subfigure}
+	\end{figure*}
+	
+	\newpage
+	\section{Conception Logiciel}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width = 0.6\columnwidth]{texture_perso.png}
+		\caption{Texture des personnages}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width = 1\columnwidth]{texture_text.png}
+		\caption{Texture de la police}
+	\end{figure}
+	\begin{figure}[h]
+		\begin{subfigure}[b]{0.5\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{map_tileset.png}
+			\caption*{Textures de Fond} 
+		\end{subfigure}
+		\begin{subfigure}[b]{0.5\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{Cursor_tileset.png} 
+			\caption*{Textures des curseurs} 
+		\end{subfigure}
+	\end{figure}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width = 1\columnwidth]{characters_tileset.png}
+		\caption{Textures des personnages}
+	\end{figure}
+	
+	
+	
+	
+	
+	\chapter{Description et conception des états}
+	
+	
+	
+	
+	\section{Etat du jeu}
+	Un état du jeu est formée par deux équipes de personnage (entre 3 et 6 personnages par équipe) et une map. Tous les éléments (map et personnages) sont représentés par des carrés composants la map. Ces carrés possèdent : \\
+— Une coordonnée (x,y) \\
+— Un identifiant \\ 
+	
+	
+	
+	Les map sont au nombre de 7, rectangulaires et de tailles identiques. \\ 
+	\indent \textbf{Le fond} \\
+	Il y a toutes sortes de texture qui s'adaptent aux décors voulu; texture de forêt dense pour la jungle, de l'herbe pour les plaines, des rochers pour les montagnes, des arbres pour la forêt, des pierres pour le château fort, de la terre pour la grotte, et des planche de bois pour le sol du bateau. La map constitue le premier layer du rendu.\\
+	
+	
+	
+	\indent \textbf{Les décors} \\ Par ailleurs, des décors seront apposé sur cette texture de fond (comme des tonneaux, des trons d'arbres ou des rochers imposants. Ces décors seront infranchissable par les personnages et bloqueront la portée de leur arme. Les décors contituent le deuxième layer du rendu. \\ 
+	
+	
+	\indent \textbf{Les personnages} \\ Les différents personnages n'intéragissent pas avec la texture de fond. Ils constituent le 3ème layer du rendu.\\ \\
+	
+
+
+
+
+
+	
+	
+	
+
+
+
+	
+	
+	
+	
+	\section{Diagramme de classes}
+	
+	Le diagramme des classes est représenté ci-dessous. Voici les classes qui le compose: \\ 
+	
+	\textit{(Dans chaque classe, on retrouve un constructeur et un destructeur ainsi que les setters et les getters, car nos attributs sont privés)} \\ \\  
+	
+	
+	
+	\textbf{Classe Player} \\
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.8\columnwidth]{class_player.png}
+		\caption{Class Player}
+	\end{figure}
+	
+	
+	
+	\indent La classe Player permet de créer les joueurs du jeu (qui sont au nombre de 2). Chaque joueur à un \textit{name}, un \textit{Id} et une \textit{ListCharacters} qui contient entre 3 et 6 personnages. Ces attributs sont privés. Nous avons ajouté les accesseurs pour ces attributs (le fait qu'ils soient privés nous implique de creer des getters pour récupérer la valeur de ces attributs). \\
+	\indent La fonction \textit{addCharacter} prend en paramètres un \textit{unique$\_$ptr}. cette fonction vient ajouter une valeur dans \textit{listCharacters}, qui est un vecteur redimensionnable composé de \textit{unique\_ptr}.\\
+	A l'inverse, \textit{deleteCharacter} permet de supprimer un personnage, si le joueur s'est trompé dans la selection d'un ou plusieurs personnage(s).\\
+	
+	
+	
+	\textbf{Classe Character}\\
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.5\columnwidth]{class_character.png}
+		\caption{Class Character}
+	\end{figure}
+	Chaque personnage possède :	un \textit{TypeID}, dont les valeur sont données grâce à une énumération. On utilise les énumération pour optimiser le code. Il en est de même pour les attributs \textit{Status} \textit{stats} et \textit{direction}. \\
+	Un personnage possède également un \textit{Name}, un \textit{Movement} pour donner son nombre de case de déplacement maximal, un \textit{Health} pour ses points de vie, des attributs \textit{Dogde} et \textit{Precision} pour la capacité d'esquive et de présicion lors d'un attaque, un \textit{effect} qui dépend de la classe Effect, et pour finir un \textit{charWeap} qui permet à chaque personnage de porter une arme. \\
+	
+	\textbf{Classe Weapon} \\
+
+	La classe character dépend de la classe Weapon. Weapon possède les attributs \textit{Owner}, un \textit{typeWeapon} qui utilise l'énumération WeaponID, qui elle-même est en charge de déterminer le type d'arme utilisé (Sword, axe, spear ...).\\
+	
+	Pour la classe Weapon, on aurait pu faire une interface et faire hériter chaque arme de la classe mère, et utiliser le polymorphisme, mais l'énumération était plus rapide et tout aussi performante.\\ 
+	
+
+    \textbf{Classe Effect} \\ 
+    
+    Lorsqu'un personnage subit une attaque, celui-ci passe dans un état qui peut être étourdit, brulé... Cet état est représenté dans la classe Effect.\\
+    Il y a une image qui va être supperposée à l'image du personnage. Voir figure 3.1.\\
+    
+    \textbf{Classe Element}
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.5\columnwidth]{class_element.png}
+		\caption{Class Element}
+	\end{figure}
+	La classe Element implémente la classe \textit{Cursor} et \textit{MapCell}.  \textit{Element} possède plusieurs instances de la classe \textit{Position}. \\
+	
+    \textbf{Classe State}
+    
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.5\columnwidth]{class_state.png}
+		\caption{Class State}
+	\end{figure}
+	
+	La classe State représente l'état du jeu. State possède toutes les données nécéssaires à l'éxecution d'un état : \textit{listCharacter} pour la liste de personnages par joueur, le \textit{cursor}, la \textit{map}, le numéro du \textit{round}, l'ID du joueur actuel \textit{curPlayerID}, un \textit{GameEnd} qui retourne False tout le long du jeu, et qui passe à True une fois le jeu terminé. Le \textit{mode} permet de choisir le mode de jeu, c'est-à-dire mode 2 joueurs, mode solo contre une IA, mode IA contre IA.\\
+	On a ajouté tout les accesseurs pour toutes les variables (puisqu'elles sont privées).\\
+	De plus, on a créer des fonctions d'initialisation de Map (\textit{initMap}) de Character (\textit{initCharacter}) et de Player (\textit{initPlayer}). Nous avons le constructeurs de state et son destructeur. 
+	
+    
+    
+    \begin{landscape}
+    	\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width = 0.7\columnwidth]{diaetat.png}
+    		\caption{Diagramme de classe state}
+    	\end{figure}
+	\end{landscape}
+    
+    
+    
+	
+
+    	
+ 
+
+
+
+
+
+
+	\chapter{Rendu}
+	\section{Stratégie et Conception}
+	
+	Pour le rendu de l'application: nous avons utilisé Adobe Illustrator pour réaliser les personnages, les états des personnages (étourdissement, immobilité, désarmement), ainsi que le logo Zorglub et l'initialisation du jeu. \\
+	Pour les autres décors et les bouttons nous avons utilisé la bibliothèque SFML. \\
+	
+	Pour le rendu d’un état, nous avons utilisé 3 layers : un plan pour le sol, selon les différentes map ; un plan pour les différents obstacles que les personnages peuvent rencontrer ; et un plan pour les personnages. \\
+	
+	\textbf{Classe TextureArea}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.8\columnwidth]{class_textureArea.png}
+		\caption{Class TextureArea}
+	\end{figure}
+	
+	La classe \textit{TextureArea} permet de sélectionner, choisir et appliquer les textures pour les différentes tuiles. Ses méthodes de type \textit{load} servent à les charger et la méthode \textit{draw} les applique.
+	\\ 
+	\\
+	
+	\textbf{TileSet}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.6\columnwidth]{class_TileSet.png}
+		\caption{Class TileSet}
+	\end{figure}
+	
+	La classe TileSet permet de récuperer des tuiles et de les instancier. Cette classe associe la tuile à sa texture liée à \textit{sf}. Elle n'a pour méthodes que les accesseurs et constructeurs classiques. 
+	\\ \\
+	\textbf{TileSetID}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.4\columnwidth]{class_TileSetID.png}
+		\caption{Class TileSetID}
+	\end{figure}
+	\\ 
+	La classe \textit{TileSetID} est une simple énumération des différents types de tuiles : carte, personnage ou curseur.\\ \\ 
+	
+	\textbf{Classe StateLayer}
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.8\columnwidth]{class_StateLayer.png}
+		\caption{Class StateLayer}
+	\end{figure}
+	La classe \textit{StateLayer} permet de concaténer les rendus et de gérer l'affichage complet une fois que ceux-ci ont été générés.\\ \\ 
+	
+	
+	
+	
+	
+	Pour chaque état, on met à jour la position du personnage et son état (effet des compétences). On met également à jour les points de vie des personnages et les points d'action.\\ \\
+	
+	
+	
+	
+	
+	
+	
+	\begin{figure*}[h]
+		\centering
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{elfe.png}
+			\caption{Elfe sans effets} 
+		\end{subfigure}
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{elfe_immobilisee.png}
+			\caption{Elfe immobilisée}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{elfe_desarmee.png}
+			\caption{Elfe désarmée}
+		\end{subfigure}
+		
+		
+		\begin{subfigure}[b]{0.2\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{elfe_etourdie.png}
+			\caption{Elfe étourdie} 
+		\end{subfigure}
+	
+
+		\caption{Liste des effets possibles sur les personnages}
+	\end{figure*}
+
+	
+	\begin{landscape}
+    	\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width = 1\columnwidth]{render.png}
+    		\caption{Diagramme de rendu du jeu}
+    	\end{figure}
+    \end{landscape}
+	
+	
+	
+	
+	
+	
+	
+
+	\chapter{Moteur de Jeu}
+	
+    \section{Action de l'utilisateur}
+    
+    \indent Le joueur dispose d'un menu, sur lequel il peut choisir (avec un clic de souris sur un boutton) d'attaquer, d'utiliser une compétence, ou de se déplacer. Il peut :\\
+    - Attaquer et se déplacer\\
+    - Se déplacer et attaquer\\
+    - Utiliser sa compétence et se déplacer \\
+    - Se déplacer et utiliser sa compétence\\
+    - Se déplacer deux fois
+    
+    \indent S'il attaque ou s'il utilise sa compétence, le joueur clique sur le boutton associé et il doit choisir la case sur laquelle il veut l'utiliser avec un clic de souris.  
+    
+    \indent De même, s'il choisit de se déplacer, il clique sur le boutton associé et il doit choisir sur quelle case il veut aller, dans la limite des cases dont il a le droit.
+    
+
+
+
+    \section{Actions internes}
+    \indent Chaque point d'action est immédiatement exécuté. Lors d'un déplacement, la position du joueur est immédiatement actualisée; lors d'une attaque, les Points de vie de l'adversaire sont diminués, de même pour les compétences.\\
+    Un compteur est incrémenté à chaque point de vie. C'est utile pour les compétences; certaines ne peuvent être utilisées que tout les 2 ou 3 tours.
+    
+    
+
+    \indent Enfin on vérifie que chaque joueur possède au moins encore un personnage capable de se battre, c’est à dire avec des Points de vie non nuls. Ceci est vérifié avec la fonction Check\_Win.
+
+    \section{Conception du logiciel}
+
+    \textbf{Classe Command} \\
+    \indent Cette classe est une classe abstraite qui décrit toutes les commandes. Elle ne possède qu'un attribut, l'identifiant de la classe de commande spécifique qui sera instanciée. Elle implémente les accesseurs pour toutes les classes qui en héritent puisqu'aucune n'a besion de changer l'attribut. En revanche la méthode \textit{exec} est virtuelle car chaque classe fille l'implémentera spécifiquement en fonction des actions qu'elle doit effectuer.\\ \\
+    
+    
+    \textbf{CommandID}\\
+    \indent La classe commandID est une simple énumération des différentes commandes. C'est une table de correspondance entre les commandes et leur identifiant. \\ \\
+    
+    \textbf{Move\_Command}\\
+    \indent Cette classe commande le déplacement des personnages. Elle hérite de la classe commande. Ses attributs spécifiques sont \textit{targetedChar} qui représente le personnage qui va se déplacer et \textit{targetedPos}, la position qu'il veut atteindre. La méthode \textit{exec} vérifie que le personnage est sélectionné, qu'il n'est pas immobilisé et qu'il lui reste des mouvements en réserve. Puis, elle s'assure que la position visée est atteignable. Si oui, elle déplace le personnage et affiche sa position. Sinon, elle prévient que le déplacement est impossible.\\ \\
+        
+    \textbf{Attack\_Command}\\
+    \indent La classe Attack\_Command est la classe qui permet d'attaquer un personnage adverse. Elle hérite de la classe commande. Ses attributs spécifiques sont \textit{attacker} qui identifie le personnage attaquant et \textit{target} qui identifie sa cible. La méthode \textit{exec} vérifie que le personnage est sélectionné, que la cible peut être attaquée et qu'il ne s'agit pas d'un tir allié. Puis, en fonction de la précision de l'attaquant et de l'esquive de la cible, la fonction modifie les dégats reçus.\\ \\
+    
+    \textbf{Capab\_Command}\\
+    \indent La classe Capab\_Command est la classe qui permet d'utiliser ses capacités spéciales. Elle hérite de la classe commande. Ses attributs spécifiques sont \textit{user} qui identifie le personnage actif, \textit{target} sa cible éventuelle et \textit{targetedPos} sa nouvelle position éventuelle. La méthode \textit{exec} vérifie que le personnage est sélectionné, qu'il peut utiliser ses pouvoirs (compteur de 3 tours) et effectue l'actuion correspondant à sa capacité. La méthode peut immobiliser un adversaire en influant sur la classe \textit{Effect} ou bien réaliser une attaque triple selon le mécanisme d'\textit{Attack\_Command} ou bien encore téléporter l'utilisateur vers la position souhaitée.\\ \\
+    
+    \textbf{Sel\_Char\_Command}\\
+    \indent La classe Sel\_Char\_Command est la classe qui permet de sélectionner un personnage. Elle hérite de la classe commande. Son attribut spécifique est \textit{targetedChar} qui identifie le personnage sélectionné. La méthode \textit{exec} vérifie que le personnage ciblé est bien celui à sélectionner dans l'état actuel du jeu.\\ \\
+    
+    \textbf{Finish\_Turn\_Command}\\
+    \indent La classe Finish\_Turn\_Command est la classe qui permet de terminer un tour. Elle hérite de la classe commande. La méthode \textit{exec} vérifie que toutes les étapes du tour ont été effectuées, elle passe au tour du joueur suivant et update le render. \\ \\
+    
+    \textbf{Check\_Win\_Command}\\
+    \indent La classe Check\_Win\_Command est la classe qui permet de vérifier s'il y a un gagnant. Elle hérite de la classe commande. La méthode \textit{exec} vérifie si un joueur n'a plus de personnages et si oui, déclare l'autre vainqueur. \\ \\
+    
+    \textbf{Classe Engine}\\
+    \indent Cette classe gère les états successifs du jeu et les commandes à executer. Elle possède les attributs \textit{currState}, qui est l'état actuel du jeu et \textit{currCommands}, une liste de pointeurs vers les commandes à exécuter. Outre les accesseurs de ces attributs, cette classe possède la méthode \textit{update} qui met à jour l'état du jeu en fonction des commandes précitées\\ \\
+    
+    \textbf{Classe engineObservable}\\
+    \indent Cette classe est la classe qui rend compte des diverses commandes effectuées. Elle est similaire à l'\textit{Observable} présent dans le package \textit{State} (cf. Supra). De même, l'interface \textit{engineObserver} est identique à son alter ego de \textit{State} (cf. Supra). \\
+
+    \begin{landscape}
+    \begin{figure}[ht]
+        \begin{minipage}{0.5\linewidth}
+        \includegraphics[scale=.35]{etat_engine.png}
+        \caption{Etat MOVING engine}
+        \end{minipage} \hfill
+        \hspace{2cm}
+        \begin{minipage}{0.5\linewidth}
+        \includegraphics[scale=.5]{engine_attack.PNG}
+        \caption{Etat ATTACKING engine}
+        \end{minipage}
+    \end{figure}
+    \end{landscape}
+
+    \begin{landscape}
+    	\begin{figure}[h!]
+    		\centering
+    		\includegraphics[width = 1\columnwidth]{engine.png}
+    		\caption{Diagramme engine}
+    	\end{figure}
+    \end{landscape}
+
+
+
+
+
+
+    
+    \chapter{Intelligence artificielle}
+    \section{Intelligence artificielle aléatoire}
+    \indent La stratégie de notre intelligence aléatoire suit simplement le diagramme de flux suivant :
+    \begin{figure}[h]
+		\centering
+		\includegraphics[width = 0.8\columnwidth]{Flowchart_RAI.png}
+		\caption{Diagramme de flux de RAI}
+	\end{figure}
+    \begin{enumerate}
+        \item L'IA va aléatoirement sélectionner un personnage jouable de son équipe.
+        \item Elle va ensuite regarder si elle peut effectuer une attaque. Dans ce cas elle choisit aléatoirement une cible parmi celles disponibles.
+        \item Sinon elle bougera sur une case adjacente de manière répétée jusqu'à ce qu'elle est dépensé tout ses points de mouvement ou qu'une opportunité d'attaque se présente.
+        \item Si elle a d'abord attaqué elle va ensuite choisir entre finir son tour immédiatement ou se déplacer avec une probabilité uniforme.
+    \end{enumerate}
+    
+    On a implémenté deux cas de figure pour l'application de l'intelligence artificielle aléatoire :
+    \begin{enumerate}
+        \item  \textbf{RandomAI vs RandomAI}: Les deux joueurs sont des intelligences artificielle aléatoire.
+        \item  \textbf{Player vs RandomAI}: Le premier joueur est joué par un utilisateur et le deuxième par une intelligence artificielle aléatoire.
+    \end{enumerate}
+    
+    
+    
+    
+    \section{Intelligence artificielle heuristique}
+
+\indent Nous proposons ensuite une IA heuristique qui va permettre d'améliorer le comportement de l'IA random. Ainsi, on donne quelque règles simples pour permettre à l'IA d'être plus « intelligente » et de ne pas seulement compter sur le hasard. \\
+\indent On va orienté les mouvement de l'IA, et choisir judicieusement quel adversaire attaquer. \\
+\begin{enumerate}
+    \item On commence par regarder si un des personnage ennemis est a portée de l'un de nos personnage.
+    \item Si c'est le cas, on sélectionne le personnage qui est capable d'attaquer l'ennemi avec le moins de Points de Vie. 
+    \item Ce personnage attaque.
+    \item Si aucun ennemis ne peut être attaqué directement, on sélectionne le personnage allié le plus proche d'un adversaire.
+    
+    
+    Pour cela, on utilise un algorithme de parcours en largeur (BFS). Cet algorithme permet à notre IA de trouver le plus court chemin jusqu'à l'ennemi, sachant que sur notre Map, il y a des obstacles, et des trous. C'est la fonction \textit{FindPath} qui effectue cette recherche, en explorant tous les chemins possibles.
+\end{enumerate} 
+
+\begin{landscape}
+    \begin{figure}[h!]
+		\centering
+		\includegraphics[width = 1.1\columnwidth]{ai_H.png}
+		\caption{Diagramme de classe IA}
+	\end{figure}
+\end{landscape}
+
+
+    
+    
+    
+\section{Intelligence artificielle avancée}
+\subsection{Rollback}
+Pour faire le rollback,nous avons décidé d'opter pour la première méthode où on clone les états du jeu. Cette méthode nécessitait néanmoins l'implémentation d'autre classe en raison des "unique_ptr" qu'on a instancié dans notre State et qui ne peuvent être copié.
+
+D'ou on a crée deux classes \textbf{CopyState} qui garde une copie du State et \textbf{MemoryStates} qui est la mémoire des états sauvegardé.
+
+	
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[width = 0.8\columnwidth]{MemoryState.PNG}
+		\caption{Class StateLayer}
+	\end{figure}
+
+Ensuite il suffisait d'implémenter deux fonctions \textbf{save et load} afin de sauvegarder l'état courant et charger l'état sauvegardé dans l'état courant.
+
+
+\subsection{Deep AI}
+
+
+
+    
+\chapter{Modularisation}
+    \section{Threads} 
+    \subsection{Stratégie : Répartition des Threads}
+        L'objectif de l'utilisation de threads est l'optimisation et parallélisation des calculs. Nous avons donc choisi de séparer les calculs du moteur de jeu, qui se charge de notifier les observeurs pour mettre à jour le rendu, et les calculs lié aux AIs "Heuristic". En effet notre jeu étant au tour par tour, il ne nécessite pas de mettre à jour le rendu aussi souvent qu'un jeu en temps réel. Nous avons implémenté les commandes à exécuter, pour mettre à jour le moteur du jeu, de telle manière que lorsque la méthode "run" de "HeuristicAI" appelle la méthode "update" de "Engine" : la liste de commandes à exécuter est vide, rien ne sera donc exécuté. Ainsi le thread de calcul des AIs n'est pas en charge du moteur ou rendu. Les calculs seront plus rapides
+    \subsection{Conception}
+    \begin{figure}[h]
+		\centering
+		\includegraphics[width = 0.8\columnwidth]{Client_client.png}
+		\caption{Classe Client}
+		\label{fig:Dia_Client}
+	\end{figure}
+	Nous avons commencé par créé une classe "Client" (voir figure ~\ref{fig:Dia_Client}), qui nous servira de base lors de la modularisation Réseau. L'utilisation d'un client local permet ici de contenir la création des threads ainsi que certaines variables locales, utile lors de la communication entre threads.
+	\\
+	\\
+    La principale méthode de la classe "Client", héritant de "engineObserver", est "run", qui permet d'exécuter les 2 threads mentionnés précédemment. En plus nous avons inclus des booléens pour que le thread de calcul des AIs notifie le thread principal que l'état a été mis à jour.
+    
+    
+    
+    
+    
+\section{Record}
+L'objectif de la commande $record$ est de sauvegarder toutes les commandes pendant une minute de jeu. Pour cela, on initialise le jeu (c'est-à-dire les joueurs, leurs personnages et les maps). On utilise deux IA heuristiques pour le Test . On modifie notre classe engine.cpp comme indiqué en figure~\ref{fig:engine} 
+
+    \begin{figure}[h]
+		\centering
+		\includegraphics[width = 0.7\columnwidth]{Engine.cpp.png}
+		\caption{Classe Engine}
+		\label{fig:engine}
+	\end{figure}
+
+Les étapes de l'enregistrement se font par l'intermédiaire de la libraire json qui va stocker les donnés des commandes sous formt json pour pouvoir les réutiliser lors de la commande play.
+ On crée un fichier $res/Record/replay.txt$ et pour chaque commande utilisée dans le jeu, on l'ajoute dans le fichier. En figure~\ref{term12} sont représenté les capture d'écran du terminal et du fichier $replay.txt$.
+
+
+
+\begin{figure*}[h]
+		\centering
+		\begin{subfigure}[b]{0.7\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{term1.png}
+			\caption{Texte associé aux actions dans le terminal} 
+		\end{subfigure}
+		\begin{subfigure}[b]{0.7\linewidth}
+			\centering
+			\includegraphics[width=\textwidth]{term2.png}
+			\caption{Texte inscrit dans le fichier replay.txt}
+			\label{term12}
+		\end{subfigure}
+
+		\caption{Test du record}
+	\end{figure*}
+
+On a bien une correspondance : le pirate a bougé en case de coordonnées (2,11). Dans le fichier $replay.txt$, on sauvegarde l'$id$, le $player$, La $target$ ainsi que la position en $x$ et en $y$. Ce fichier va nous permettre de reconstituer la partie dans le play.
+
+\section{play}
+L'objectif de la commande play est de récupérer les commandes de $replay.txt$ et de les rejouer. On commence par initialiser le jeu, avec les joueurs, les personnages et la map puis on vérifie que le fichier Json $replay.txt$ existe bien, sinon on renvoie une erreur. Pour chaque action, on regarde l'$ID$ de la commande :
+\begin{enumerate}
+    \item Sélection de personnage ($SELECT\_CHAR$)
+    \item Choix de bouger ($MOVE$)
+    \item Choix d'attaquer ($ATTACK$)
+    \item Choix d'utiliser une capacité ($CAPAB$)
+\end{enumerate} 
+Pour chacune de ses actions, des informations différentes ont été enregistrée dans le fichier Json. 
+Par exemple, lorsque la commande $MOVE$ est appelée, le jeu demande la position en $x$ et en $y$, et ordonne une commande de déplacement.
+Ceci permet de rejouer la minute de jeu enregistrée. 
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
+

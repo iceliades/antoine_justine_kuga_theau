@@ -16,11 +16,13 @@ Sel_Char_Command::~Sel_Char_Command(){};
 
 void Sel_Char_Command::exec(state::State &state)
 {
+    
     for( auto & charac : state.getListCharacters(state.getCurPlayerID()-1)){
         if(charac->getStatus() != DEATH && state.getCurPlayerID() == charac->getPlayerID())
-            charac->setStatus(AVAILABLE);
+            if(charac->getStatus()==SELECTED) return;
+            
+            //charac->setStatus(AVAILABLE);
     }
-    
     targetedChar.setStatus(SELECTED);
     cout << endl << "THE SELECTED CHARACTER IS "<<targetedChar.getName() << endl;
     cout << "\n";
