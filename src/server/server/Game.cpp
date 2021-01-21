@@ -10,7 +10,8 @@ using std::unique_ptr;
 using std::map;
 using std::vector;
 
-Game::Game(){}
+Game::Game (){}
+
 
 
 Game::~Game() {}
