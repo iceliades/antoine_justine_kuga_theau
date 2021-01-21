@@ -49,7 +49,7 @@ int main(int argc,char* argv[])
     MethodMap["deep_ai"] = (ICommand_Client*)new Command_Client_DAI();
     MethodMap["thread"] = (ICommand_Client*)new Command_Client_Thread();
     MethodMap["network"] = (ICommand_Client*)new Command_Client_Network();
-    //MethodMap["player_vs_player"] = (ICommand_Client*)new Command_Client_PvP();
+    MethodMap["player_vs_player"] = (ICommand_Client*)new Command_Client_PvP();
 
 
 

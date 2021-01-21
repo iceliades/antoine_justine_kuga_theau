@@ -10,7 +10,7 @@ Command_Client_Autre::Command_Client_Autre() {
 Command_Client_Autre::~Command_Client_Autre(){
 }
 void Command_Client_Autre::execute(){
-    cout <<"Veuillez utilisez un des paramètres suivants :\nhello\nrender\nrandom_ai\nplayer_vs_rai\nengine"<<
+    cout <<"Veuillez utilisez un des paramètres suivants :\nhello\nrender\nplayer_vs_player\nrandom_ai\nplayer_vs_rai\nengine"<<
     "\nheuristic_ai\nplayer_vs_hai\nhai_vs_rai\nrollback\nplay\nthread\n"<<endl;
     //cout << "Veillez utiliser les commandes make unittest et make code-coverage depuis le dossier build" << endl;
 }
